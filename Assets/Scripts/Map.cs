@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,7 +9,6 @@ public class Map : MonoBehaviour
     public int width = 10;
     public int height = 10;
     public GameObject tilePrefab;
-    public GameObject enemyPrefab;
     public float tileSize = 1f;
 
     [Header("Tile Pool (Read-Only)")]
@@ -17,93 +17,23 @@ public class Map : MonoBehaviour
     private int[,] mapData;
     private Tile[,] tiles;
 
-    private bool found = false;
-
-    private float timerGenerateEnemy = 0.0f;
-
-    [Header("Mobs spawn & Path")]
-    public List<Vector2Int> path = new List<Vector2Int>();
-    [SerializeField] private float mobSpawnInterval = 2f;
-    private List<Unit> enemies = new List<Unit>();
+    [SerializeField] private TowerManager towerManager;
+    [SerializeField] private UnitManager unitManager;
 
     private void Start()
     {
         LoadMapData();
         GenerateHexMapWithPooling();
-        timerGenerateEnemy = mobSpawnInterval + 0.5f;
     }
 
     private void Update()
     {
-        if (!found)
-        {
-            FindPath();
-            found = true;
-        }
-        else
-        {
-            timerGenerateEnemy += Time.deltaTime;
-            if (timerGenerateEnemy >= mobSpawnInterval && path.Count > 0)
-            {
-                GameObject enemy = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity);
-                Unit unit = enemy.GetComponent<Unit>();
-                unit.map = this;
-                unit.SetCoord(path[0]);
-                unit.MoveByPath(path);
-                Debug.Log($"Move by path {path.Count}");
-                enemies.Add(unit);
-                timerGenerateEnemy = 0.0f;
-                enemy.transform.SetParent(this.transform); // Ensure parent is Map even when pooled
-            }
-        }
+
     }
 
-    private void FindPath()
+    public TileType GetMapDataAt(int x, int y)
     {
-        bool foundStart = false;
-        (int x, int y) start = (0, 0);
-        if (mapData == null)
-        {
-            Debug.LogError("mapData is not initialized!");
-            return;
-        }
-        Debug.Log("Start Find Path");
-        // Reset old path
-        for (int i = 0; i < mapData.GetLength(0); i++)
-        {
-            for (int j = 0; j < mapData.GetLength(1); j++)
-            {
-                if (!foundStart && (TileType)mapData[i, j] == TileType.SPAWN)
-                {
-                    start = new(i, j);
-                    foundStart = true;
-                }
-                if (tiles[i, j].type == TileType.PATH)
-                {
-                    tiles[i, j].SetType(TileType.GROUND);
-                }
-            }
-        }
-        this.path.Clear();
-        var path = AStar.FindPath(mapData, (start.x, start.y));
-        if (path != null)
-        {
-            foreach (var node in path)
-            {
-                var type = (TileType)mapData[node.x, node.y];
-                if (type == TileType.GOAL || type == TileType.SPAWN)
-                {
-                    this.path.Add(new Vector2Int(node.x, node.y));
-                    continue;
-                }
-                tiles[node.x, node.y].SetType(TileType.PATH);
-                this.path.Add(new Vector2Int(node.x, node.y));
-            }
-        }
-        //this.enemies.ForEach(enemy =>
-        //{
-        //    enemy.MoveByPath(this.path);
-        //});
+        return (TileType) mapData[x, y];
     }
 
     private void LoadMapData()
@@ -145,8 +75,17 @@ public class Map : MonoBehaviour
         {
             Debug.Log("Left Clicked");
 
-            tile.SetType(TileType.TOWER);
-            mapData[tile.x, tile.y] = (int)TileType.TOWER;
+            var center = new Vector2Int(tile.x, tile.y);
+            if (towerManager != null && towerManager.CanTowerBePlaced(center, 2))
+            {
+                var coords = towerManager.GetNeighborCoordOfCenter(center, 2);
+                foreach (var coord in coords)
+                {
+                    var curTile = tiles[coord.x, coord.y];
+                    curTile.SetType(TileType.TOWER);
+                    mapData[curTile.x, curTile.y] = (int)TileType.TOWER;
+                }
+            }
         }
         else if (Input.GetMouseButtonDown(1)) // Right mouse button
         {
@@ -156,8 +95,10 @@ public class Map : MonoBehaviour
             mapData[tile.x, tile.y] = (int)TileType.GROUND;
         }
 
-        FindPath();
+        unitManager.UpdateUnitPaths();
     }
+
+    public int[,] GetMapData() { return mapData; }
 
     private void OnEnable()
     {
@@ -255,6 +196,21 @@ public class Map : MonoBehaviour
                 Gizmos.DrawWireSphere(pos, tileSize * 0.1f);
             }
         }
+    }
+
+    public Vector2Int GetStartCoord()
+    {
+        for (int i = 0; i < mapData.GetLength(0); i++)
+        {
+            for (int j = 0; j < mapData.GetLength(1); j++)
+            {
+                if ((TileType)mapData[i, j] == TileType.SPAWN)
+                {
+                    return new Vector2Int(i, j);
+                }
+            }
+        }
+        return new Vector2Int(-1, -1);
     }
 #endif
 }

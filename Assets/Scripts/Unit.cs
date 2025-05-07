@@ -33,7 +33,7 @@ public class Unit : Entity {
         float distance = Vector3.Distance(startWorldPos, targetWorldPos);
         float step = speed * Time.deltaTime;
         moveProgress += step / distance;
-        Debug.Log($"Move step from {position} to {targetTile} with progress {moveProgress}");
+        //Debug.Log($"Move step from {position} to {targetTile} with progress {moveProgress}");
 
         while (moveProgress >= 1f)
         {
@@ -57,6 +57,14 @@ public class Unit : Entity {
         }
 
         transform.localPosition = Vector3.Lerp(startWorldPos, targetWorldPos, moveProgress);
+    }
+
+    public void StopMoving()
+    {
+        isMoving = false;
+        moveProgress = 0f;
+        transform.localPosition = Tile.GetTilePosition(map.tileSize, position, map.width, map.height);
+        this.path.Clear();
     }
 
     public void MoveByPath(List<Vector2Int> path)
