@@ -288,8 +288,10 @@ MonoBehaviour:
   width: 100
   height: 75
   tilePrefab: {fileID: 7082056169692855549, guid: 94b3991904319aa4f814723b568278ca, type: 3}
+  enemyPrefab: {fileID: 7893466408605065793, guid: 80a2edc748f4b5e49861eb923b9d2ee8, type: 3}
   tileSize: 0.08
   tilePool: []
+  path: []
 --- !u!4 &531260003
 Transform:
   m_ObjectHideFlags: 0

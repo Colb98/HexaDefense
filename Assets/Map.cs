@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Map : MonoBehaviour
@@ -7,6 +8,7 @@ public class Map : MonoBehaviour
     public int width = 10;
     public int height = 10;
     public GameObject tilePrefab;
+    public GameObject enemyPrefab;
     public float tileSize = 1f;
 
     [Header("Tile Pool (Read-Only)")]
@@ -17,10 +19,18 @@ public class Map : MonoBehaviour
 
     private bool found = false;
 
+    private float timerGenerateEnemy = 0.0f;
+
+    [Header("Mobs spawn & Path")]
+    public List<Vector2Int> path = new List<Vector2Int>();
+    [SerializeField] private float mobSpawnInterval = 2f;
+    private List<Unit> enemies = new List<Unit>();
+
     private void Start()
     {
         LoadMapData();
         GenerateHexMapWithPooling();
+        timerGenerateEnemy = mobSpawnInterval + 0.5f;
     }
 
     private void Update()
@@ -29,6 +39,22 @@ public class Map : MonoBehaviour
         {
             FindPath();
             found = true;
+        }
+        else
+        {
+            timerGenerateEnemy += Time.deltaTime;
+            if (timerGenerateEnemy >= mobSpawnInterval && path.Count > 0)
+            {
+                GameObject enemy = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity);
+                Unit unit = enemy.GetComponent<Unit>();
+                unit.map = this;
+                unit.SetCoord(path[0]);
+                unit.MoveByPath(path);
+                Debug.Log($"Move by path {path.Count}");
+                enemies.Add(unit);
+                timerGenerateEnemy = 0.0f;
+                enemy.transform.SetParent(this.transform); // Ensure parent is Map even when pooled
+            }
         }
     }
 
@@ -58,6 +84,7 @@ public class Map : MonoBehaviour
                 }
             }
         }
+        this.path.Clear();
         var path = AStar.FindPath(mapData, (start.x, start.y));
         if (path != null)
         {
@@ -66,11 +93,17 @@ public class Map : MonoBehaviour
                 var type = (TileType)mapData[node.x, node.y];
                 if (type == TileType.GOAL || type == TileType.SPAWN)
                 {
+                    this.path.Add(new Vector2Int(node.x, node.y));
                     continue;
                 }
                 tiles[node.x, node.y].SetType(TileType.PATH);
+                this.path.Add(new Vector2Int(node.x, node.y));
             }
         }
+        //this.enemies.ForEach(enemy =>
+        //{
+        //    enemy.MoveByPath(this.path);
+        //});
     }
 
     private void LoadMapData()

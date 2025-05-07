@@ -64,4 +64,44 @@ public class Tile : MonoBehaviour
             OnTileClicked?.Invoke(this); // Notify listeners
         }
     }
+
+    private static readonly (int dx, int dy)[] EvenNeighbors = {
+        (-1,  0), (1,  0),
+        (-1, -1), (0, -1),
+        (-1,  1), (0,  1)
+    };
+
+    private static readonly (int dx, int dy)[] OddNeighbors = {
+        (-1,  0), (1,  0),
+        (0, -1), (1, -1),
+        (0,  1), (1,  1)
+    };
+    public static bool AreNeighbors(Vector2Int a, Vector2Int b)
+    {
+        (int x, int y)[] directions = a.y % 2 == 0 ? EvenNeighbors : OddNeighbors;
+
+        foreach (var dir in directions)
+        {
+            if (a.x + dir.x == b.x && a.y + dir.y == b.y) return true;
+        }
+        return false;
+    }
+
+    public static Vector3 GetTilePosition(float tileSize, Vector2Int coord, int width, int height)
+    {
+        float xOffset = tileSize * Mathf.Sqrt(3);
+        float yOffset = tileSize * 1.5f;
+        float yPos = coord.y * yOffset;
+        float xPos = coord.x * xOffset;
+        // Compute map's total size in world units
+        float mapWidth = (width - 1) * xOffset + xOffset;
+        float mapHeight = (height - 1) * yOffset + yOffset;
+        Vector2 mapCenterOffset = new Vector2(mapWidth / 2f, mapHeight / 2f);
+        if (coord.y % 2 == 1)
+            xPos += xOffset / 2f;
+
+        Vector3 tilePos = new Vector3(xPos, yPos, 0);
+        tilePos -= (Vector3)mapCenterOffset; // Shift to center
+        return tilePos;
+    }
 }
