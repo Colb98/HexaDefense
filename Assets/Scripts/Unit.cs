@@ -53,10 +53,19 @@ public class Unit : Entity {
                 isMoving = false;
                 moveProgress = 0f;
                 startWorldPos = targetWorldPos;
+                OnStopMoving();
             }
         }
 
         transform.localPosition = Vector3.Lerp(startWorldPos, targetWorldPos, moveProgress);
+    }
+
+    public void OnStopMoving()
+    {
+        if (map.GetMapDataAt(position.x, position.y) == TileType.GOAL)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void StopMoving()

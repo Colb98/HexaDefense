@@ -69,16 +69,13 @@ public class TowerManager : MonoBehaviour
         var neighbors = size == 2 ? (center.y % 2 == 0 ? EvenOccupied2 : OddOccupied2) : (center.y % 2 == 0 ? EvenOccupied3 : OddOccupied3);
         foreach (var neighbor in neighbors)
         {
-            Debug.Log($"Neighbor {neighbor}");
             if (center.x + neighbor.dx < 0 || center.x + neighbor.dx >= map.width || center.y + neighbor.dy < 0 || center.y + neighbor.dy >= map.height)
             {
-                Debug.Log("1");
                 return false;
             }
             var curType = map.GetMapDataAt(center.x + neighbor.dx, center.y + neighbor.dy);
             if (!IsSameType(curType, centerType))
             {
-                Debug.Log("2");
                 return false; 
             }
         }
