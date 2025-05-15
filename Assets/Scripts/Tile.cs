@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Tile : MonoBehaviour
 {
@@ -61,8 +62,22 @@ public class Tile : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) // Left mouse button
         {
-            OnTileClicked?.Invoke(this); // Notify listeners
+            if (!IsPointerOverUI()) // Check if the pointer is over a UI element
+            {
+                OnTileClicked?.Invoke(this); // Notify listeners
+            }
         }
+    }    
+    
+    // Method to check if the pointer is over a UI element
+    private bool IsPointerOverUI()
+    {
+        // Check if the pointer is over a UI element
+        if (EventSystem.current != null)
+        {
+            return EventSystem.current.IsPointerOverGameObject();
+        }
+        return false;
     }
 
     private static readonly (int dx, int dy)[] EvenNeighbors = {
@@ -103,5 +118,10 @@ public class Tile : MonoBehaviour
         Vector3 tilePos = new Vector3(xPos, yPos, 0);
         tilePos -= (Vector3)mapCenterOffset; // Shift to center
         return tilePos;
+    }
+
+    public static float GetUnitDistance(float tileSize = 0.08f)
+    {
+        return tileSize * Mathf.Sqrt(3);
     }
 }

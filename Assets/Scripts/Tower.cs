@@ -3,17 +3,79 @@ using UnityEngine;
 public class Tower : Entity
 {
     [SerializeField] TowerType towerType;
-    [SerializeField] int size;
+    [SerializeField] int size = 2;
+
+    [SerializeField] private Color originalColor;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     public override void Update()
     {
-        
+        UpdateAttack();
+        if (isAttackCooledDown())
+        {
+            GetComponent<SpriteRenderer>().color = originalColor;
+        }
+        else
+        {
+           GetComponent<SpriteRenderer>().color = Color.red;
+        }
+    }
+
+    /// <summary>
+    /// Initializes the tower with the given parameters.
+    /// </summary>
+    /// <param name="size">The size of the tower footprint.</param>
+    /// <param name="position">The grid position of the tower.</param>
+    public virtual void Initialize(int size, Vector2Int position, string type, TowerLevelData data, TowerConfig config)
+    {
+        this.size = size;
+        this.position = position;
+
+        // Additional initialization logic here
+        entityType = type;
+
+        hp = data.health;
+        physicalDamage = data.physicalDamage;
+        magicalDamage = data.magicalDamage;
+
+        attackRange = config.range;
+        attackCooldown = config.attackSpeed;
+
+        timeSinceLastAttack = 0f;
+        Debug.Log($"Tower initialized: {gameObject.name}, size: {size}, position: {position}, type: {type}, data: {data}, config: {config}");
+
+        originalColor = GetComponent<SpriteRenderer>().color;
+        UpdateAttackRangeSprite();
+    }
+
+    private void UpdateAttackRangeSprite()
+    {
+        const float defaultAttackRange = 0.5f;
+        // Calculate the attack range based on the tower type
+        Transform childTransform = transform.Find("AttackRange");
+
+        if (childTransform != null)
+        {
+            var scale = attackRange * childTransform.localScale / defaultAttackRange / transform.localScale.x;
+            Debug.Log($"Attack Range {scale}, {attackRange}, {childTransform.localScale}, {transform.localScale}");
+
+            // Set the local scale
+            childTransform.localScale = scale;
+        }
+        else
+        {
+            Debug.LogWarning("Child sprite not found: Attack range");
+        }
+    }
+
+    protected override void ReturnToPool()
+    {
+        _map.GetTowerManager().ReturnTowerToPool(this);
     }
 }

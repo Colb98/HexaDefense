@@ -110,4 +110,5 @@ MonoBehaviour:
   attackCooldown: 0
   timeSinceLastAttack: 0
   target: {fileID: 0}
-  map: {fileID: 0}
+  isDefense: 1
+  speed: 2

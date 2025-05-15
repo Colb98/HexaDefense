@@ -2,14 +2,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : Entity {
-    float speed = 3.0f;
+    [SerializeField] float speed = 3.0f;
     List<Vector2Int> path = new List<Vector2Int>();
     bool isAirborne;
 
     bool isMoving = false;
     float moveProgress = 0.0f;
 
-    public Map map;
+    public virtual void Initialize(string type, EnemyLevelData data)
+    {
+        entityType = type;
+
+        hp = data.health;
+        physicalDamage = data.physicalDamage;
+        magicalDamage = data.magicalDamage;
+
+        physicalDefense = data.resistances.physical;
+        magicalDefense = data.resistances.magical;
+
+        attackRange = 1.5f;       // Still default unless you want per-type
+        attackCooldown = 1.0f;
+
+        timeSinceLastAttack = 0f;
+        speed = data.moveSpeed;
+    }
 
     public override void Update()
     {
@@ -17,10 +33,15 @@ public class Unit : Entity {
         UpdateMoving();
     }
 
+    public void Reset()
+    {
+        hp = 10;
+    }
+
     public void SetCoord(Vector2Int pos)
     {
         position = pos;
-        transform.position = Tile.GetTilePosition(map.tileSize, position, map.width, map.height);
+        transform.position = Tile.GetTilePosition(_map.tileSize, position, _map.width, _map.height);
     }
 
     public void UpdateMoving() {
@@ -28,8 +49,8 @@ public class Unit : Entity {
 
         var targetTile = path[0];
 
-        var startWorldPos = Tile.GetTilePosition(map.tileSize, position, map.width, map.height);
-        var targetWorldPos = Tile.GetTilePosition(map.tileSize, targetTile, map.width, map.height);
+        var startWorldPos = Tile.GetTilePosition(_map.tileSize, position, _map.width, _map.height);
+        var targetWorldPos = Tile.GetTilePosition(_map.tileSize, targetTile, _map.width, _map.height);
         float distance = Vector3.Distance(startWorldPos, targetWorldPos);
         float step = speed * Time.deltaTime;
         moveProgress += step / distance;
@@ -46,7 +67,7 @@ public class Unit : Entity {
             {
                 targetTile = path[0];
                 startWorldPos = targetWorldPos;
-                targetWorldPos = Tile.GetTilePosition(map.tileSize, targetTile, map.width, map.height);
+                targetWorldPos = Tile.GetTilePosition(_map.tileSize, targetTile, _map.width, _map.height);
             }
             else
             {
@@ -62,9 +83,9 @@ public class Unit : Entity {
 
     public void OnStopMoving()
     {
-        if (map.GetMapDataAt(position.x, position.y) == TileType.GOAL)
+        if (_map.GetMapDataAt(position.x, position.y) == TileType.GOAL)
         {
-            Destroy(gameObject);
+            this._map.GetUnitManager().RemoveUnit(this);
         }
     }
 
@@ -72,7 +93,7 @@ public class Unit : Entity {
     {
         isMoving = false;
         moveProgress = 0f;
-        transform.localPosition = Tile.GetTilePosition(map.tileSize, position, map.width, map.height);
+        transform.localPosition = Tile.GetTilePosition(_map.tileSize, position, _map.width, _map.height);
         this.path.Clear();
     }
 
@@ -98,5 +119,10 @@ public class Unit : Entity {
                 break;
             }
         }
+    }
+
+    protected override void ReturnToPool()
+    {
+        _map.GetUnitManager().ReturnUnitToPool(this);
     }
 }

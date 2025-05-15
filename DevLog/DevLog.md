@@ -11,7 +11,7 @@
 Đã hiện được map theo file text có sẵn
 ![Map Gen tạm](./day1_map_generated.png)
 
-## Day 2
+## Day 2 
 - Tìm đường đi ngắn nhất có random 
     - Mapping giữa toạ độ ô hex và toạ độ lập phương: 
         - (0, 0) => (0, 0, 0)
@@ -24,8 +24,29 @@
 ## Day 3
 - Đặt trụ (real)
 - Quái di chuyển
+## Day 4
 - Trụ bắn quái
 - Quái tới đích thì biến mất
+## Day 5
+- 2 Loại trụ và 2 loại đạn basic
+    - Trụ đa mục tiêu (phép)
+    - Trụ đơn mục tiêu (vật lý)
+- Đạn: 
+    - AOE
+    - Đuổi
+- Pool projectile
+## Day 6
+- Tower & Enemy Config
+- Initialize with stats
+- Fix lỗi đạn Fireball bị ẩn do không reset sau khi bỏ vào pool
+## Day 7
+- Tower selection UI
+- Fixed Bug: Touch xuyên UI
+
 
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
+- Tower upgrade
+- Enemy type
+- Delete Tower
+- Chuyển sang flow field (có vẻ hợp lý hơn vì địa hình ít thay đổi?) - Consider vì đang định làm trụ chặn đường, trụ có thể thay đổi khá nhiều?

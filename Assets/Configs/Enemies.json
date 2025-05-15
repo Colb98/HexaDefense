@@ -1,0 +1,131 @@
+{
+  "GraveWalker": {
+    "type": "Undead",
+    "baseDescription": "A mindless undead risen from the grave. Balanced in all stats. Deals physical damage.",
+    "damageType": "physical",
+    "levels": [
+      {
+        "level": 1,
+        "health": 100,
+        "physicalDamage": 10,
+        "magicalDamage": 0,
+        "moveSpeed": 1.0,
+        "reward": 10,
+        "resistances": {
+          "physical": 0.1,
+          "magical": 0.1
+        }
+      },
+      {
+        "level": 2,
+        "health": 140,
+        "physicalDamage": 14,
+        "magicalDamage": 0,
+        "moveSpeed": 1.0,
+        "reward": 15,
+        "resistances": {
+          "physical": 0.15,
+          "magical": 0.15
+        }
+      },
+      {
+        "level": 3,
+        "health": 180,
+        "physicalDamage": 18,
+        "magicalDamage": 0,
+        "moveSpeed": 1.0,
+        "reward": 20,
+        "resistances": {
+          "physical": 0.2,
+          "magical": 0.2
+        }
+      }
+    ]
+  },
+  "BoneRunner": {
+    "type": "Skeleton",
+    "baseDescription": "A nimble skeleton scout. Weak but fast. Deals magical damage.",
+    "damageType": "magical",
+    "levels": [
+      {
+        "level": 1,
+        "health": 60,
+        "physicalDamage": 0,
+        "magicalDamage": 8,
+        "moveSpeed": 1.8,
+        "reward": 12,
+        "resistances": {
+          "physical": 0.2,
+          "magical": 0.0
+        }
+      },
+      {
+        "level": 2,
+        "health": 90,
+        "physicalDamage": 0,
+        "magicalDamage": 11,
+        "moveSpeed": 1.8,
+        "reward": 16,
+        "resistances": {
+          "physical": 0.25,
+          "magical": 0.05
+        }
+      },
+      {
+        "level": 3,
+        "health": 120,
+        "physicalDamage": 0,
+        "magicalDamage": 14,
+        "moveSpeed": 1.8,
+        "reward": 20,
+        "resistances": {
+          "physical": 0.3,
+          "magical": 0.1
+        }
+      }
+    ]
+  },
+  "RottingBrute": {
+    "type": "Undead Orc",
+    "baseDescription": "A bloated corpse of a fallen orc. Extremely tough but slow. Deals physical damage.",
+    "damageType": "physical",
+    "levels": [
+      {
+        "level": 1,
+        "health": 200,
+        "physicalDamage": 12,
+        "magicalDamage": 0,
+        "moveSpeed": 0.6,
+        "reward": 15,
+        "resistances": {
+          "physical": 0.4,
+          "magical": 0.2
+        }
+      },
+      {
+        "level": 2,
+        "health": 280,
+        "physicalDamage": 17,
+        "magicalDamage": 0,
+        "moveSpeed": 0.6,
+        "reward": 20,
+        "resistances": {
+          "physical": 0.45,
+          "magical": 0.25
+        }
+      },
+      {
+        "level": 3,
+        "health": 360,
+        "physicalDamage": 22,
+        "magicalDamage": 0,
+        "moveSpeed": 0.6,
+        "reward": 25,
+        "resistances": {
+          "physical": 0.5,
+          "magical": 0.3
+        }
+      }
+    ]
+  }
+}

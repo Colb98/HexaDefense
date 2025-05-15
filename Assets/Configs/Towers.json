@@ -1,0 +1,65 @@
+{
+  "FireballTower": {
+    "type": "AOE",
+    "damageType": "magical",
+    "range": 10,
+    "attackSpeed": 1.2,
+    "damageRadius": 2.5,
+    "attackProjectileSpeed": 15,
+    "levels": [
+      {
+        "level": 1,
+        "physicalDamage": 0,
+        "magicalDamage": 25,
+        "health": 100,
+        "cost": 50,
+        "upgradeCost": 40
+      },
+      {
+        "level": 2,
+        "physicalDamage": 0,
+        "magicalDamage": 40,
+        "health": 140,
+        "upgradeCost": 60
+      },
+      {
+        "level": 3,
+        "physicalDamage": 0,
+        "magicalDamage": 60,
+        "health": 180,
+        "upgradeCost": 80
+      }
+    ]
+  },
+  "ArrowTower": {
+    "type": "SingleTarget",
+    "damageType": "physical",
+    "range": 15,
+    "attackSpeed": 0.7,
+    "attackProjectileSpeed": 30,
+    "levels": [
+      {
+        "level": 1,
+        "physicalDamage": 35,
+        "magicalDamage": 0,
+        "health": 90,
+        "cost": 60,
+        "upgradeCost": 45
+      },
+      {
+        "level": 2,
+        "physicalDamage": 55,
+        "magicalDamage": 0,
+        "health": 130,
+        "upgradeCost": 65
+      },
+      {
+        "level": 3,
+        "physicalDamage": 80,
+        "magicalDamage": 0,
+        "health": 170,
+        "upgradeCost": 85
+      }
+    ]
+  }
+}

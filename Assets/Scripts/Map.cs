@@ -16,9 +16,35 @@ public class Map : MonoBehaviour
 
     private int[,] mapData;
     private Tile[,] tiles;
-
     [SerializeField] private TowerManager towerManager;
+
     [SerializeField] private UnitManager unitManager;
+
+    [SerializeField] private ProjectileManager projectileManager;
+
+    public TowerManager TowerManager => towerManager;   
+    public UnitManager UnitManager => unitManager;
+    public ProjectileManager ProjectileManager => projectileManager;
+
+    public TowerManager GetTowerManager()
+    {
+        return towerManager;
+    }
+
+    public void SetTowerManager(TowerManager value)
+    {
+        towerManager = value;
+    }
+
+    public UnitManager GetUnitManager()
+    {
+        return unitManager;
+    }
+
+    public void SetUnitManager(UnitManager value)
+    {
+        unitManager = value;
+    }
 
     private void Start()
     {
@@ -74,10 +100,9 @@ public class Map : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) // Left mouse button
         {
             Debug.Log("Left Clicked");
-
-            var center = new Vector2Int(tile.x, tile.y);
-            if (towerManager != null && towerManager.CanTowerBePlaced(center, 2))
+            if (TowerPlacementManager.Instance.PlaceTower(tile))
             {
+                var center = new Vector2Int(tile.x, tile.y);
                 var coords = towerManager.GetNeighborCoordOfCenter(center, 2);
                 foreach (var coord in coords)
                 {
@@ -95,10 +120,20 @@ public class Map : MonoBehaviour
             mapData[tile.x, tile.y] = (int)TileType.GROUND;
         }
 
-        unitManager.UpdateUnitPaths();
+        GetUnitManager().UpdateUnitPaths();
     }
 
     public int[,] GetMapData() { return mapData; }
+
+    public Entity[] GetAllEntities()
+    {
+        Unit[] units = GetUnitManager().GetEntities();
+        Tower[] towers = GetTowerManager().GetTowers();
+        Entity[] entities = new Entity[units.Length + towers.Length];
+        Array.Copy(units, 0, entities, 0, units.Length);
+        Array.Copy(towers, 0, entities, units.Length, towers.Length);
+        return entities;
+    }
 
     private void OnEnable()
     {
