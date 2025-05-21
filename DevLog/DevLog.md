@@ -60,6 +60,11 @@ Trục r thì sao?
 Từ công thức |q + r| <= range ta sẽ => q + r <= range && q + r >= -range. (Do range >= 0)
 => r <= -q + range && r >= -q - range;
 Do đó ta cần duyệt r từ -q - range đến -q + range
+
+## Day 9 
+- Unit có thể target vào trụ (giới hạn tuỳ vào sức "khiêu khích" của trụ);
+- BUG: Unit gần tới đích thì quay lại đánh trụ, unit gần thì không đánh
+
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
 - Tower upgrade
