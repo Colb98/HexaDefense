@@ -119,7 +119,12 @@ public class TowerManager : MonoBehaviour
     /// <returns>A tower instance from the pool.</returns>
     private Tower GetTowerFromPool(string type)
     {
-        if (_towerPool.Count == 0)
+        if (!_towerPool.ContainsKey(type))
+        {
+            Debug.LogError($"Tower type {type} not found in pool!");
+            return null;
+        }
+        if (_towerPool[type].Count == 0)
         {
             if (_expandPoolWhenEmpty)
             {
@@ -151,6 +156,18 @@ public class TowerManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Attempted to return a tower that isn't tracked as active!");
+        }
+    }
+
+    public void OnTowerDead(Tower tower)
+    {
+        // This part only need to handle logic, not the pool
+        var coords = GetNeighborCoordOfCenter(tower.position, tower.GetSize());
+        foreach (var coord in coords)
+        {
+            var curTile = _map.GetTileAt(coord.x, coord.y);
+            curTile.SetType(TileType.GROUND);
+            _map.SetMapDataAt(coord.x, coord.y, TileType.GROUND);
         }
     }
 
@@ -211,6 +228,10 @@ public class TowerManager : MonoBehaviour
     public Tower PlaceTower(Vector2Int center, int size, string type, int level)
     {
         Tower tower = GetTowerFromPool(type);
+        if (tower == null)
+        {
+            return null;
+        }
         tower.transform.localPosition = Tile.GetTilePosition(_map.tileSize, center, _map.width, _map.height);
 
         var towerConfig = GameConfigManager.Instance.Towers[type];

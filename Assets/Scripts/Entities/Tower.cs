@@ -27,6 +27,24 @@ public class Tower : Entity
         }
     }
 
+    public override int GetSize()
+    {
+        return size;
+    }
+
+    protected override void OnDead()
+    {
+        base.OnDead();
+        // Update map data & find path
+        _map.OnTowerDead(this);
+    }
+
+    protected override void OnNoValidTarget()
+    {
+        // Find a new target, could be null
+        SetTarget(GetTargetEntity());
+    }
+
     /// <summary>
     /// Initializes the tower with the given parameters.
     /// </summary>
@@ -72,6 +90,11 @@ public class Tower : Entity
         {
             Debug.LogWarning("Child sprite not found: Attack range");
         }
+    }
+
+    public override bool IsMovable()
+    {
+        return false;
     }
 
     protected override void ReturnToPool()

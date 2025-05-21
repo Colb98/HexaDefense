@@ -123,6 +123,12 @@ public class Map : MonoBehaviour
         GetUnitManager().UpdateUnitPaths();
     }
 
+    public void OnTowerDead(Tower tower)
+    {
+        towerManager.OnTowerDead(tower);
+        //unitManager.UpdateUnitPaths();
+    }
+
     public int[,] GetMapData() { return mapData; }
 
     public Entity[] GetAllEntities()
@@ -200,6 +206,30 @@ public class Map : MonoBehaviour
         }
     }
 
+    public Vector2Int GetStartCoord()
+    {
+        for (int i = 0; i < mapData.GetLength(0); i++)
+        {
+            for (int j = 0; j < mapData.GetLength(1); j++)
+            {
+                if ((TileType)mapData[i, j] == TileType.SPAWN)
+                {
+                    return new Vector2Int(i, j);
+                }
+            }
+        }
+        return new Vector2Int(-1, -1);
+    }
+
+    public void SetMapDataAt(int x, int y, TileType type)
+    {
+        mapData[x, y] = (int)type;
+    }
+
+    public Tile GetTileAt(int x, int y)
+    {
+        return tiles[x, y];
+    }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -231,21 +261,6 @@ public class Map : MonoBehaviour
                 Gizmos.DrawWireSphere(pos, tileSize * 0.1f);
             }
         }
-    }
-
-    public Vector2Int GetStartCoord()
-    {
-        for (int i = 0; i < mapData.GetLength(0); i++)
-        {
-            for (int j = 0; j < mapData.GetLength(1); j++)
-            {
-                if ((TileType)mapData[i, j] == TileType.SPAWN)
-                {
-                    return new Vector2Int(i, j);
-                }
-            }
-        }
-        return new Vector2Int(-1, -1);
     }
 #endif
 }

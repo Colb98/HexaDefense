@@ -110,13 +110,16 @@ MonoBehaviour:
   attackRange: 15
   attackCooldown: 0.1
   timeSinceLastAttack: 0
+  entityType: 
   target: {fileID: 0}
   isDefense: 1
+  aggroLimit: 4
+  aggroLevel: 1
+  aggroEntities: []
   towerType: 0
   size: 2
   originalColor: {r: 0, g: 0, b: 0, a: 0}
-  arrowDamage: 3.5
-  arrowSpeed: 40
+  arrowSpeed: 50
   arrowPrefab: {fileID: 3061888243048580070, guid: df91d20ef33b6084e8429d2f6ae92604, type: 3}
 --- !u!1001 &3122453853049757437
 PrefabInstance:

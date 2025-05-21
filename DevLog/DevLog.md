@@ -43,7 +43,23 @@
 - Tower selection UI
 - Fixed Bug: Touch xuyên UI
 
+## Day 8
+- Entity có thể thu hút target
+- Cần làm hàm lấy target cho kẻ thù -> tính khoảng cách
+https://www.redblobgames.com/grids/hexagons/
 
+Duyệt trên toạ độ cube 
+Ta có q + r + s = 0
+không xét tới s vì s = -q -r;
+1 ô cách ô hiện tại range -> nghĩa là ta di chuyển trên 1 trục (q hoặc r hoặc s) range ô, tổng 2 trục còn lại phải là -range và không có trục nào được cùng chiều (âm hoặc dương) với trục đã chọn.
+VD: cách 5 ô, thì khi đi trên trục -q 5 ô, trục r và s (chiều dương) phải đi dy và dz ô sao cho dy + dz = 5. 
+Nói cách khác, |q + r| <= range (đúng với tất cả các cặp khác).
+
+Khi đó, muốn duyệt tất cả ô trong tầm range ta sẽ duyệt từ -range -> +range của trục q
+Trục r thì sao? 
+Từ công thức |q + r| <= range ta sẽ => q + r <= range && q + r >= -range. (Do range >= 0)
+=> r <= -q + range && r >= -q - range;
+Do đó ta cần duyệt r từ -q - range đến -q + range
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
 - Tower upgrade

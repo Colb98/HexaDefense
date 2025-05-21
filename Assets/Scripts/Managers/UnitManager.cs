@@ -190,11 +190,58 @@ public class UnitManager : MonoBehaviour
 
     public void UpdateUnitPaths()
     {
+        Debug.Log("Update unit paths");
+        var entities = map.GetAllEntities();
+        Entity[] attackableEntities = entities.Where(e => e.isDefense).ToArray();
         foreach (var unit in activeEnemies)
         {
-            unit.StopMoving();
-            var path = FindPath(unit.position);
-            unit.MoveByPath(path);
+            FindTargetAndPath(unit, attackableEntities);
+        }
+    }
+
+    public void FindTargetAndPath(Unit unit)
+    {
+        var entities = map.GetAllEntities();
+        Entity[] attackableEntities = entities.Where(e => e.isDefense).ToArray();
+        FindTargetAndPath(unit, attackableEntities);
+    }
+
+    public void FindTargetAndPath(Unit unit, Entity[] attackableEntities)
+    {
+        unit.StopMoving();
+        Debug.Log($"Stop movement for unit: {unit.name}, unit target == null {unit.target == null}");
+        // If unit cannot attack any tower or defense entity, find the path to target
+        if (unit.target == null)
+        {
+            // TODO: use strategy base on unit type (e.g., prioritize towers)
+            Entity target = null;
+            float min = float.MaxValue;
+            float attackRangeSqr = unit.attackRange * unit.attackRange;
+            foreach (var entity in attackableEntities)
+            {
+                var distSqr = unit.GetDistanceSqr(entity.position);
+                var onValidTileType = unit.CanFly() ||
+                                      map.GetMapDataAt(entity.position.x, entity.position.y) != TileType.WALL;
+                if (entity.CanBeAttacked(unit.aggroLevel) && distSqr < min && onValidTileType)
+                {
+                    min = distSqr;
+                    target = entity;
+                }
+            }
+            unit.SetTarget(target);
+
+            if (unit.target == null)
+            {
+                var path = FindPath(unit.position);
+                unit.MoveByPath(path);
+            }
+            else
+            {
+                var tiles = Tile.GetHexesInRange(unit.target.position, (int)unit.attackRange + unit.target.GetSize() - 1);
+                var path = AStar.FindPath(map.GetMapData(), tiles.ToArray(), unit.position);
+                path.Reverse();
+                unit.MoveByPath(path);
+            }
         }
     }
 

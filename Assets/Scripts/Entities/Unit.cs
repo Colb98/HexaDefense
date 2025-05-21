@@ -97,6 +97,11 @@ public class Unit : Entity {
         this.path.Clear();
     }
 
+    public override bool IsMoving()
+    {
+        return isMoving;
+    }
+
     public void MoveByPath(List<Vector2Int> path)
     {
         this.path.Clear();
@@ -119,6 +124,10 @@ public class Unit : Entity {
                 break;
             }
         }
+    }
+    protected override void OnNoValidTarget()
+    {
+        _map.UnitManager.FindTargetAndPath(this);
     }
 
     protected override void ReturnToPool()

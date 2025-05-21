@@ -146,7 +146,7 @@ public class ProjectileManager : MonoBehaviour
     {
         projectile.gameObject.SetActive(false);
         areaProjectilePools[prefab].Enqueue(projectile);
-        Debug.Log("Returned area projectile to pool: " + prefab.name + " | Pool size: " + areaProjectilePools[prefab].Count);
+        //Debug.Log("Returned area projectile to pool: " + prefab.name + " | Pool size: " + areaProjectilePools[prefab].Count);
     }
 
     // Return a homing projectile to its pool
@@ -154,6 +154,6 @@ public class ProjectileManager : MonoBehaviour
     {
         projectile.gameObject.SetActive(false);
         homingProjectilePools[prefab].Enqueue(projectile);
-        Debug.Log("Returned homing projectile to pool: " + prefab.name + " | Pool size: " + homingProjectilePools[prefab].Count);
+        //Debug.Log("Returned homing projectile to pool: " + prefab.name + " | Pool size: " + homingProjectilePools[prefab].Count);
     }
 }

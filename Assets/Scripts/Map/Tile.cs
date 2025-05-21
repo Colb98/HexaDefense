@@ -1,6 +1,8 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class Tile : MonoBehaviour
 {
@@ -19,7 +21,7 @@ public class Tile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void UpdateTileType()
@@ -52,7 +54,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void SetType (TileType type)
+    public void SetType(TileType type)
     {
         this.type = type;
         UpdateTileType();
@@ -67,8 +69,8 @@ public class Tile : MonoBehaviour
                 OnTileClicked?.Invoke(this); // Notify listeners
             }
         }
-    }    
-    
+    }
+
     // Method to check if the pointer is over a UI element
     private bool IsPointerOverUI()
     {
@@ -123,5 +125,69 @@ public class Tile : MonoBehaviour
     public static float GetUnitDistance(float tileSize = 0.08f)
     {
         return tileSize * Mathf.Sqrt(3);
+    }
+
+    // Chuyển offset (col, row) -> cube (x, y, z) cho layout odd-r
+    public static Vector3Int OffsetToCube_OddR(int col, int row)
+    {
+        int x = col - (row - (row & 1)) / 2;
+        int z = row;
+        int y = -x - z;
+        return new Vector3Int(x, y, z); // tương ứng (q, r, s)
+    }
+
+    public static Vector2Int CubeToOffset_OddR(int x, int y, int z)
+    {
+        int col = x + (z - (z & 1)) / 2;
+        int row = z;
+        return new Vector2Int(col, row); // tương ứng (col, row)
+    }
+
+    // Trả về danh sách các ô offset (col, row) nằm trong bán kính range
+    public static List<Vector2Int> GetHexesInRange(Vector2Int centerOffset, int range)
+    {
+        var results = new List<Vector2Int>();
+
+        // Bước 1: chuyển offset về cube
+        Vector3Int centerCube = OffsetToCube_OddR(centerOffset.x, centerOffset.y);
+
+        // Bước 2: duyệt cube coordinate xung quanh
+        for (int dx = -range; dx <= range; dx++)
+        {
+            //Duyệt trên toạ độ cube
+            //Ta có q +r + s = 0
+            //không xét tới s vì s = -q - r;
+            //            1 ô cách ô hiện tại range -> nghĩa là ta di chuyển trên 1 trục(q hoặc r hoặc s) range ô, tổng 2 trục còn lại phải là - range và không có trục nào được cùng chiều(âm hoặc dương) với trục đã chọn.
+            //VD: cách 5 ô, thì khi đi trên trục - q 5 ô, trục r và s(chiều dương) phải đi dy và dz ô sao cho dy + dz = 5.
+            //Nói cách khác, | q + r | <= range(đúng với tất cả các cặp khác).
+
+            //Khi đó, muốn duyệt tất cả ô trong tầm range ta sẽ duyệt từ - range-> + range của trục q
+            //Trục r thì sao?
+            //Từ công thức | q + r | <= range ta sẽ => q + r <= range && q + r >= -range. (Do range >= 0)
+            //=> r <= -q + range && r >= -q - range;
+            //            Do đó ta cần duyệt r từ - q - range đến - q + range
+            for (int dy = Mathf.Max(-range, -dx - range); dy <= Mathf.Min(range, -dx + range); dy++)
+            {
+                int dz = -dx - dy;
+                Vector3Int cube = new Vector3Int(
+                    centerCube.x + dx,
+                    centerCube.y + dy,
+                    centerCube.z + dz
+                );
+
+                // Bước 3: chuyển về offset (col, row)
+                Vector2Int offset = CubeToOffset_OddR(cube.x, cube.y, cube.z);
+                results.Add(offset);
+            }
+        }
+
+        return results;
+    }
+
+    public static int GetHexManhattanDistance(Vector2Int tile1, Vector2Int tile2)
+    {
+        var cube1 = OffsetToCube_OddR(tile1.x, tile1.y);
+        var cube2 = OffsetToCube_OddR(tile2.x, tile2.y);
+        return (Math.Abs(cube1.x - cube2.x) + Math.Abs(cube1.y - cube2.y) + Math.Abs(cube1.z - cube2.z)) / 2;
     }
 }

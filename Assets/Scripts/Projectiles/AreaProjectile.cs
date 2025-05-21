@@ -95,6 +95,7 @@ public class AreaProjectile : Projectile
             // If no explosion sprite, destroy immediately
             owner.GetMap().ProjectileManager.ReturnAreaProjectileToPool(this, prefab);
         }
+        hasExploded = true;
     }
 
     private IEnumerator DestroyAfterExplosion()

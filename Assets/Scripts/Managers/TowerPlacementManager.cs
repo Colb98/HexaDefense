@@ -46,8 +46,7 @@ public class TowerPlacementManager : MonoBehaviour
         var center = new Vector2Int(tile.x, tile.y);
         if (towerManager != null && towerManager.CanTowerBePlaced(center, 2))
         {
-            towerManager.PlaceTower(center, 2, selectedTowerType, selectedTowerLevel);
-            return true;
+            return towerManager.PlaceTower(center, 2, selectedTowerType, selectedTowerLevel) != null;
         }
         return false;
     }

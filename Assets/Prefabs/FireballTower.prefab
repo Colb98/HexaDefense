@@ -110,15 +110,18 @@ MonoBehaviour:
   attackRange: 15
   attackCooldown: 0.5
   timeSinceLastAttack: 0
+  entityType: 
   target: {fileID: 0}
   isDefense: 1
+  aggroLimit: 4
+  aggroLevel: 1
+  aggroEntities: []
   towerType: 0
   size: 2
   originalColor: {r: 0, g: 0, b: 0, a: 0}
-  fireballSpeed: 5
-  fireballDamage: 10
+  fireballSpeed: 10
   fireballRange: 3
-  bigFireballDamage: 30
+  bigFireballDamage: 3
   fireballPrefab: {fileID: 4075454055614979472, guid: fcf44aa906a9927479675148d57e8d18, type: 3}
 --- !u!1001 &3122453853049757437
 PrefabInstance:
