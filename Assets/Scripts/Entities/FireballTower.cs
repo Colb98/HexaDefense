@@ -24,7 +24,7 @@ public class FireballTower : Tower
             fireballCount++;
             AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.position, target.transform.position, fireballRange, physicalDamage, magicalDamage, fireballSpeed);
             fireball.SetOwner(this);
-            Debug.Log($"Throw normal fireball with magic damage {magicalDamage}");
+            //Debug.Log($"Throw normal fireball with magic damage {magicalDamage}");
         }
         else
         {
@@ -32,7 +32,7 @@ public class FireballTower : Tower
             fireball.SetOwner(this);
             // Reset the count for the next attack
             fireballCount = 0;
-            Debug.Log($"Throw big fireball with magic damage {bigFireballDamage * magicalDamage}");
+            //Debug.Log($"Throw big fireball with magic damage {bigFireballDamage * magicalDamage}");
         }
     }
 }

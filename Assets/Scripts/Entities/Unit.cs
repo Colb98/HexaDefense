@@ -38,10 +38,26 @@ public class Unit : Entity {
         hp = 10;
     }
 
+    protected override void OnDead()
+    {
+        _map.UnitManager.OnUnitDead(this);
+        base.OnDead();
+    }
+
     public void SetCoord(Vector2Int pos)
     {
         position = pos;
         transform.position = Tile.GetTilePosition(_map.tileSize, position, _map.width, _map.height);
+    }
+
+    public Vector2Int GetNextPosition()
+    {
+        if (path.Count > 0)
+        {
+            return path[0];
+        }
+        Debug.LogError("Cannot get next position, path is empty.");
+        return Vector2Int.zero;
     }
 
     public void UpdateMoving() {
@@ -106,8 +122,14 @@ public class Unit : Entity {
     {
         this.path.Clear();
         this.path.AddRange(path);
-        isMoving = true;
+        isMoving = path.Count > 0;
         processPathNextMove();
+    }
+
+    public void MoveByPathAfterFinish(List<Vector2Int> path)
+    {
+        this.path.RemoveRange(1, this.path.Count - 1); 
+        this.path.AddRange(path);
     }
 
     private void processPathNextMove()
@@ -124,6 +146,10 @@ public class Unit : Entity {
                 break;
             }
         }
+        if (path.Count == 0)
+        {
+            isMoving = false;
+        }
     }
     protected override void OnNoValidTarget()
     {
@@ -134,4 +160,26 @@ public class Unit : Entity {
     {
         _map.GetUnitManager().ReturnUnitToPool(this);
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if (path == null || path.Count < 2)
+            return;
+
+        Gizmos.color = Color.cyan;
+
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            Vector3 from = Tile.GetTilePosition(_map.tileSize, path[i], _map.width, _map.height);
+            Vector3 to   = Tile.GetTilePosition(_map.tileSize, path[i + 1], _map.width, _map.height);
+            Gizmos.DrawLine(from, to);
+            Gizmos.DrawWireSphere(from, 0.05f);
+        }
+
+        // Draw last point
+        Vector3 last = Tile.GetTilePosition(_map.tileSize, path[path.Count - 1], _map.width, _map.height);
+        Gizmos.DrawWireSphere(last, 0.05f);
+    }
+#endif
 }

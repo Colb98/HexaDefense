@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
     [SerializeField] private Map map;
+    private int unitCount = 0;
 
     [Header("Mobs spawn & Path")]
     public GameObject enemyPrefab;
@@ -74,6 +75,7 @@ public class UnitManager : MonoBehaviour
         }
         var unit = pooledEnemies.Dequeue();
         unit.Reset();
+        unit.name = $"Enemy_{unitCount++}";
 
         return unit;
     }
@@ -93,6 +95,14 @@ public class UnitManager : MonoBehaviour
 
         // Add back to pool
         pooledEnemies.Enqueue(unit);
+    }
+
+    public void OnUnitDead(Unit unit)
+    {
+        if (unit.target != null)
+        {
+            FindUnitToAttack(unit.target); // Find another unit to attack this
+        }
     }
 
     void Update()
@@ -169,8 +179,7 @@ public class UnitManager : MonoBehaviour
             enemyObject.SetActive(true);
 
             // Set up path and movement
-            var path = FindPath(unit.position);
-            unit.MoveByPath(path);
+            FindTargetAndPath(unit);
 
             // Add to active units list
             activeEnemies.Add(unit);
@@ -193,9 +202,55 @@ public class UnitManager : MonoBehaviour
         Debug.Log("Update unit paths");
         var entities = map.GetAllEntities();
         Entity[] attackableEntities = entities.Where(e => e.isDefense).ToArray();
-        foreach (var unit in activeEnemies)
+        //foreach (var unit in activeEnemies)
+        //{
+        //    FindTargetAndPath(unit, attackableEntities);
+        //}
+        foreach (var entity in attackableEntities)
         {
-            FindTargetAndPath(unit, attackableEntities);
+            FindUnitToAttack(entity);
+        }
+    }
+
+    public void FindUnitToAttack(Entity attackableEntity)
+    {
+        var distanceToEnd = map.GetDistanceToEnd(attackableEntity.position);
+        if (distanceToEnd < 0)
+        {
+            return;
+        }
+        List<Unit> units = activeEnemies.Where(u => {
+            var uToEnd = map.GetDistanceToEnd(u.position);
+            return u.target == null && attackableEntity.CanBeAttacked(u.aggroLevel) && distanceToEnd - uToEnd < 10;
+        }).ToList();
+        units.Sort((u1, u2) =>
+        {
+            return Tile.GetHexManhattanDistance(u1.position, attackableEntity.position).CompareTo(Tile.GetHexManhattanDistance(u2.position, attackableEntity.position));
+        });
+        // Debug.Log($"Units found to attack {attackableEntity.name}: {string.Join(", ", units.Select(u => u.name))}");
+
+        while (units.Count > 0 && attackableEntity.CanBeAttacked(units[0].aggroLevel))
+        {
+            Unit unit = units[0];
+
+            unit.SetTarget(attackableEntity);
+
+            var tiles = Tile.GetHexesInRange(unit.target.position, (int)unit.attackRange + unit.target.GetSize() - 1);
+
+            // If unit is moving, use next position, otherwise use current position
+            var isMoving = unit.IsMoving();
+            var unitPosition = isMoving ? unit.GetNextPosition() : unit.position;
+            var path = AStar.FindPath(map.GetMapData(), tiles.ToArray(), unitPosition);
+            path.Reverse();
+            if (isMoving)
+            {
+                unit.MoveByPathAfterFinish(path);
+            }
+            else
+            {
+                unit.MoveByPath(path);
+            }
+            units.RemoveAt(0);
         }
     }
 
@@ -208,8 +263,7 @@ public class UnitManager : MonoBehaviour
 
     public void FindTargetAndPath(Unit unit, Entity[] attackableEntities)
     {
-        unit.StopMoving();
-        Debug.Log($"Stop movement for unit: {unit.name}, unit target == null {unit.target == null}");
+        var unitDistToEnd = map.GetDistanceToEnd(unit.position.x, unit.position.y);
         // If unit cannot attack any tower or defense entity, find the path to target
         if (unit.target == null)
         {
@@ -219,29 +273,61 @@ public class UnitManager : MonoBehaviour
             float attackRangeSqr = unit.attackRange * unit.attackRange;
             foreach (var entity in attackableEntities)
             {
-                var distSqr = unit.GetDistanceSqr(entity.position);
-                var onValidTileType = unit.CanFly() ||
-                                      map.GetMapDataAt(entity.position.x, entity.position.y) != TileType.WALL;
-                if (entity.CanBeAttacked(unit.aggroLevel) && distSqr < min && onValidTileType)
+                if (entity.CanBeAttacked(unit.aggroLevel))
                 {
-                    min = distSqr;
-                    target = entity;
+                    var entityDistToEnd = map.GetDistanceToEnd(entity.position.x, entity.position.y);
+                    var distSqr = unit.GetDistanceSqr(entity.position);
+                    var onValidTileType = unit.CanFly() ||
+                                          map.GetMapDataAt(entity.position.x, entity.position.y) != TileType.WALL;
+                    if (distSqr < min && entityDistToEnd - unitDistToEnd < 10 && onValidTileType)
+                    {
+                        min = distSqr;
+                        target = entity;
+                    }
                 }
             }
-            unit.SetTarget(target);
 
+            // Nếu có target thì phải tìm thử đường (nếu không có đường thì không setTarget)
+            if (target != null)
+            {
+                var tiles = Tile.GetHexesInRange(target.position, (int)unit.attackRange + target.GetSize() - 1);
+                var isMoving = unit.IsMoving();
+                var unitPosition = isMoving ? unit.GetNextPosition() : unit.position;
+                var path = AStar.FindPath(map.GetMapData(), tiles.ToArray(), unitPosition);
+                if (path != null && path.Count > 0)
+                {
+                    path.Reverse();
+                    if (isMoving)
+                    {
+                        unit.MoveByPathAfterFinish(path);
+                    }
+                    else
+                    {
+                        unit.MoveByPath(path);
+                    }
+                    unit.SetTarget(target);
+                }
+            }
+
+            // Nếu không có target thì tìm đường tới ô mục tiêu như bình thường
             if (unit.target == null)
             {
-                var path = FindPath(unit.position);
-                unit.MoveByPath(path);
+                FindPathAndMoveUnitToGoal(unit);
             }
-            else
-            {
-                var tiles = Tile.GetHexesInRange(unit.target.position, (int)unit.attackRange + unit.target.GetSize() - 1);
-                var path = AStar.FindPath(map.GetMapData(), tiles.ToArray(), unit.position);
-                path.Reverse();
-                unit.MoveByPath(path);
-            }
+        }
+    }
+
+    private void FindPathAndMoveUnitToGoal(Unit unit)
+    {
+        if (unit.IsMoving())
+        {
+            var path = FindPath(unit.GetNextPosition());
+            unit.MoveByPathAfterFinish(path);
+        }
+        else
+        {
+            var path = FindPath(unit.position);
+            unit.MoveByPath(path);
         }
     }
 

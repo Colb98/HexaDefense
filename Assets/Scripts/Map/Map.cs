@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class Map : MonoBehaviour
     public int height = 10;
     public GameObject tilePrefab;
     public float tileSize = 1f;
+    public Transform mapTransform;
 
     [Header("Tile Pool (Read-Only)")]
     [SerializeField] private List<GameObject> tilePool = new List<GameObject>();
@@ -25,6 +27,9 @@ public class Map : MonoBehaviour
     public TowerManager TowerManager => towerManager;   
     public UnitManager UnitManager => unitManager;
     public ProjectileManager ProjectileManager => projectileManager;
+
+    private int[,] distanceToEnd;
+    private List<Vector2Int> endTiles = new List<Vector2Int>();
 
     public TowerManager GetTowerManager()
     {
@@ -49,12 +54,22 @@ public class Map : MonoBehaviour
     private void Start()
     {
         LoadMapData();
+        InitDistanceToEnd();
         GenerateHexMapWithPooling();
+        ComputeDistanceToEnd();
     }
 
     private void Update()
     {
 
+    }
+
+    private void InitDistanceToEnd()
+    {
+        distanceToEnd = new int[width, height];
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                distanceToEnd[x, y] = -1;
     }
 
     public TileType GetMapDataAt(int x, int y)
@@ -80,6 +95,10 @@ public class Map : MonoBehaviour
                 for (int x = 0; x < width; x++)
                 {
                     mapData[x, y] = Mathf.Clamp(line[x] - '0', 0, 4); // Ensure value stays within [0, 4]
+                    if (mapData[x, y] == (int)TileType.GOAL)
+                    {
+                        endTiles.Add(new Vector2Int(x, y));
+                    }
                 }
             }
         }
@@ -95,13 +114,15 @@ public class Map : MonoBehaviour
 
     private void HandleTileClicked(Tile tile)
     {
-        Debug.Log($"Map received tile click: {tile.name} at position {tile.transform.position}");
+        //Debug.Log($"Map received tile click: {tile.name} at position {tile.transform.position}");
+        bool mapChanged = false;
+        bool needUpdatePaths = false;
 
         if (Input.GetMouseButtonDown(0)) // Left mouse button
         {
-            Debug.Log("Left Clicked");
             if (TowerPlacementManager.Instance.PlaceTower(tile))
             {
+                needUpdatePaths = true;
                 var center = new Vector2Int(tile.x, tile.y);
                 var coords = towerManager.GetNeighborCoordOfCenter(center, 2);
                 foreach (var coord in coords)
@@ -114,13 +135,19 @@ public class Map : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(1)) // Right mouse button
         {
-            Debug.Log("Right Clicked");
-
+            mapChanged = true;
+            needUpdatePaths = true;
             tile.SetType(TileType.GROUND);
             mapData[tile.x, tile.y] = (int)TileType.GROUND;
         }
 
-        GetUnitManager().UpdateUnitPaths();
+        if (mapChanged) {
+            ComputeDistanceToEnd();
+        }
+        if (needUpdatePaths)
+        {
+            GetUnitManager().UpdateUnitPaths();
+        }
     }
 
     public void OnTowerDead(Tower tower)
@@ -187,7 +214,7 @@ public class Map : MonoBehaviour
                     tilePool.Add(tile);
                 }
 
-                tile.transform.SetParent(this.transform); // Ensure parent is Map even when pooled
+                tile.transform.SetParent(mapTransform); // Ensure parent is Map even when pooled
                 tile.transform.localPosition = tilePos;
                 tile.name = $"Tile_{x}_{y}";
 
@@ -229,6 +256,71 @@ public class Map : MonoBehaviour
     public Tile GetTileAt(int x, int y)
     {
         return tiles[x, y];
+    }
+
+    public int GetDistanceToEnd(Vector2Int coord)
+    {
+        return GetDistanceToEnd(coord.x, coord.y);
+    }
+
+    public int GetDistanceToEnd(int x, int y)
+    {
+        if (x < 0 || x >= width || y < 0 || y >= height)
+            return -1; // Out of bounds
+
+        return distanceToEnd[x, y];
+    }
+
+    private void ComputeDistanceToEnd()
+    {
+        Debug.Log($"Computing distance to end for {endTiles.Count} end tiles.");
+        Queue<Vector2Int> queue = new Queue<Vector2Int>();
+        HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+   
+        foreach (var end in endTiles)
+        {
+            queue.Enqueue(end);
+            distanceToEnd[end.x, end.y] = 0;
+        }
+        var count = 0;
+
+        while (queue.Count > 0)
+        {
+            if (count > 2000)
+            {
+                Debug.LogWarning("Distance computation exceeded 2000 iterations, stopping to prevent infinite loop.");
+                break;
+            }
+            var tile = queue.Dequeue();
+            int currentCost = distanceToEnd[tile.x, tile.y];
+            visited.Add(tile);
+            count++;
+
+            // Get neighbors
+            var directions = tile.y % 2 == 0 ? Tile.EvenNeighbors : Tile.OddNeighbors;
+            List<Vector2Int> neighbors = new List<Vector2Int>();
+            foreach (var dir in directions)
+            {
+                Vector2Int neighbor = new Vector2Int(tile.x + dir.x, tile.y + dir.y);
+                neighbors.Add(neighbor);
+            }
+
+            foreach (var neighbor in neighbors)
+            {
+
+                if (visited.Contains(neighbor)) continue; // Skip already visited tiles
+                if (neighbor.x < 0 || neighbor.x >= width || neighbor.y < 0 || neighbor.y >= height)
+                    continue; // Out of bounds
+                if (mapData[neighbor.x, neighbor.y] == (int)TileType.WALL) 
+                    continue; // Skip walls
+
+                if (distanceToEnd[neighbor.x, neighbor.y] < currentCost + 1)
+                {
+                    distanceToEnd[neighbor.x, neighbor.y] = currentCost + 1;
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
     }
 
 #if UNITY_EDITOR

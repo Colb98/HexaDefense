@@ -65,9 +65,18 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 - Unit có thể target vào trụ (giới hạn tuỳ vào sức "khiêu khích" của trụ);
 - BUG: Unit gần tới đích thì quay lại đánh trụ, unit gần thì không đánh
 
+# Day 10
+- Dùng BFS tạo 1 map "tạm" để biết được khoảng cách tới đích: nếu lính gần đích hơn trụ thì lính sẽ đi tiếp thay vì quay đầu tìm đường đánh trụ
+- Các vấn đề gặp phải trong suốt quá trình:
+ - Nhiều case do không muốn tìm đường mỗi ô lính đi (TFT làm như này thì phải) vì có nhiều đơn vị, map to. Các case gồm: đơn vị chết (tìm con khác bù vào để tấn công), trụ chết (các con đang đi tới phải tìm lại), đặt trụ (tìm đường cho tất cả lính - chọn con "phù hợp" nhất). Phù hợp là gần nhưng không nên quay đầu.
+ - Các bug xảy ra khi pooling: lính chết mang theo target cũ, trụ chết mang theo các loại lính cũ => Cần reset đúng thời điểm. Vì lưu cả mục tiêu và cả các lính chọn mình làm mục tiêu (2 chiều).
+ - Một số bug kì lạ: Đạn bắn không di chuyển (AreaProjectile)
+
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
 - Tower upgrade
 - Enemy type
 - Delete Tower
 - Chuyển sang flow field (có vẻ hợp lý hơn vì địa hình ít thay đổi?) - Consider vì đang định làm trụ chặn đường, trụ có thể thay đổi khá nhiều?
+- Kiểm tra ô đặt trụ có hợp lệ không (nếu chặn hết đường đi từ Start tới Goal thì không) - Low Priority
+- Cost của ô trụ nên là 10 hay gì đó, nếu đường đi có đi qua ô trụ thì sẽ đánh trụ bất chấp có bị thu hút hay không? - Low Priority

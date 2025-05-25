@@ -47,6 +47,10 @@ public abstract class Entity : MonoBehaviour
 
     protected virtual void OnDead()
     {
+        if (target)
+        {
+            target.aggroEntities.Remove(this);
+        }
         target = null;
         aggroEntities.Clear();
         ReturnToPool();
@@ -87,12 +91,17 @@ public abstract class Entity : MonoBehaviour
     public void UpdateAttack()
     {
         timeSinceLastAttack += Time.deltaTime;
-        if (IsMoving()) return;
 
         if (target != null && target.IsDead())
         {
             ResetTarget();
+            if (IsMoving())
+            {
+                _map.UnitManager.FindTargetAndPath((Unit)this);
+            }
         }
+
+        if (IsMoving()) return;
 
         if (target != null)
         {
@@ -170,6 +179,7 @@ public abstract class Entity : MonoBehaviour
 
     public void SetTarget(Entity target)
     {
+        Debug.Log($"Set target for entity {name} ({entityType}) to {target?.name} ({target?.entityType})");
         ResetTarget();
         this.target = target;
         if (target != null)

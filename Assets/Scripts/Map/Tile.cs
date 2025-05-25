@@ -6,6 +6,18 @@ using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class Tile : MonoBehaviour
 {
+    public static readonly Vector2Int[] EvenNeighbors = {
+        new Vector2Int(-1, 0), new Vector2Int(1, 0),
+        new Vector2Int(-1, -1), new Vector2Int(0, -1),
+        new Vector2Int(-1, 1), new Vector2Int(0, 1)
+    };
+
+    public static readonly Vector2Int[] OddNeighbors = {
+        new Vector2Int(-1,  0), new Vector2Int(1,  0),
+        new Vector2Int(0, -1), new Vector2Int(1, -1),
+        new Vector2Int(0, 1), new Vector2Int(1, 1)
+    };
+
     public static event Action<Tile> OnTileClicked; // Static if you want global tile clicks
 
     public TileType type;
@@ -82,20 +94,9 @@ public class Tile : MonoBehaviour
         return false;
     }
 
-    private static readonly (int dx, int dy)[] EvenNeighbors = {
-        (-1,  0), (1,  0),
-        (-1, -1), (0, -1),
-        (-1,  1), (0,  1)
-    };
-
-    private static readonly (int dx, int dy)[] OddNeighbors = {
-        (-1,  0), (1,  0),
-        (0, -1), (1, -1),
-        (0,  1), (1,  1)
-    };
     public static bool AreNeighbors(Vector2Int a, Vector2Int b)
     {
-        (int x, int y)[] directions = a.y % 2 == 0 ? EvenNeighbors : OddNeighbors;
+        Vector2Int[] directions = a.y % 2 == 0 ? EvenNeighbors : OddNeighbors;
 
         foreach (var dir in directions)
         {

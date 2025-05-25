@@ -5,13 +5,13 @@ using System.Linq;
 
 public class AStar
 {
-    private static readonly (int dx, int dy)[] EvenNeighbors = {
+    public static readonly (int dx, int dy)[] EvenNeighbors = {
         (-1,  0), (1,  0),
         (-1, -1), (0, -1),
         (-1,  1), (0,  1)
     };
 
-    private static readonly (int dx, int dy)[] OddNeighbors = {
+    public static readonly (int dx, int dy)[] OddNeighbors = {
         (-1,  0), (1,  0),
         (0, -1), (1, -1),
         (0,  1), (1,  1)
@@ -214,7 +214,7 @@ public class AStar
         // Không tìm thấy đường
         if (current == null || (current.X != end.x || current.Y != end.y))
         {
-            Debug.Log($"Path not found from {starts[0]} to {end}. Current {current}");
+            //Debug.Log($"Path not found from {starts[0]} to {end}. Current {current}");
             return null;
         }
 

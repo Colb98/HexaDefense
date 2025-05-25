@@ -80,8 +80,8 @@ public class Tower : Entity
 
         if (childTransform != null)
         {
-            var scale = attackRange * childTransform.localScale / defaultAttackRange / transform.localScale.x;
-            Debug.Log($"Attack Range {scale}, {attackRange}, {childTransform.localScale}, {transform.localScale}");
+            var scale = attackRange * new Vector3(0.14f, 0.14f, 0.14f) / defaultAttackRange / transform.localScale.x;
+            Debug.Log($"Attack Range {scale}, {attackRange}, {transform.localScale}");
 
             // Set the local scale
             childTransform.localScale = scale;

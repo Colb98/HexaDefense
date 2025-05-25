@@ -20,6 +20,7 @@ public class TowerManager : MonoBehaviour
     [Header("Pool Settings")]
     [SerializeField] private int _initialPoolSize = 10;
     [SerializeField] private bool _expandPoolWhenEmpty = true;
+    private int towerCount = 0;
 
     #region Grid Offsets
 
@@ -139,6 +140,7 @@ public class TowerManager : MonoBehaviour
         Tower tower = _towerPool[type].Dequeue();
         _activeTowers.Add(tower);
         tower.gameObject.SetActive(true);
+        tower.name = $"{type}_{towerCount++}";
         return tower;
     }
 
