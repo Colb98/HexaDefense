@@ -17,11 +17,12 @@ public class AreaProjectile : Projectile
     [SerializeField] private float explosionDuration = 0.4f;
 
     // Flag to prevent multiple explosions
-    private bool hasExploded = false;
+    [SerializeField] private bool hasExploded = false;
 
     // Initialize the projectile with target position and configuration
     public void Initialize(Vector3 target, float radius, float physDamage, float magDamage, float projSpeed)
     {
+        hasExploded = false;
         targetPosition = target;
         explosionRadius = radius;
         physicalDamage = physDamage;
