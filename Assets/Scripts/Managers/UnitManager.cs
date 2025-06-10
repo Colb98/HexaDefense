@@ -103,6 +103,7 @@ public class UnitManager : MonoBehaviour
         {
             FindUnitToAttack(unit.target); // Find another unit to attack this
         }
+        GameManager.Instance.AddGold(unit.GetGoldReward());
     }
 
     void Update()
@@ -140,7 +141,7 @@ public class UnitManager : MonoBehaviour
     {
         spawningWaves = true;
         waveTimer = 0.0f;
-
+        GameManager.Instance.IncrementWave();
     }
     private void HandleWaveSpawning()
     {

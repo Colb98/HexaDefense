@@ -78,6 +78,9 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 [Bug unit xuất hiện giữa đường](./bug_reset_units.mp4)
 - Registry - Centralize các managers và không cần ref tùm lum nữa (TODO) - Cân nhắc có thể không làm, cái này để thay đổi manager tuỳ ý -> dễ test hơn
 
+# Day 12
+- Đã pause được, button Pause
+- Game Manager -> Gold, Wave & HP
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
 - Tower upgrade

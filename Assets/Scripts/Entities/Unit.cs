@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Unit : Entity {
 
     bool isMoving = false;
     float moveProgress = 0.0f;
+    int reward = 0;
 
     public virtual void Initialize(string type, EnemyLevelData data)
     {
@@ -19,6 +21,8 @@ public class Unit : Entity {
 
         physicalDefense = data.resistances.physical;
         magicalDefense = data.resistances.magical;
+
+        reward = data.reward;
 
         attackRange = 1.5f;       // Still default unless you want per-type
         attackCooldown = 1.0f;
@@ -164,6 +168,11 @@ public class Unit : Entity {
     protected override void ReturnToPool()
     {
         _map.GetUnitManager().ReturnUnitToPool(this);
+    }
+
+    public int GetGoldReward()
+    {
+        return reward;
     }
 
 #if UNITY_EDITOR
