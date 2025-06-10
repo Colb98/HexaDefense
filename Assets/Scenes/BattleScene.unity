@@ -459,6 +459,7 @@ GameObject:
   - component: {fileID: 531260003}
   - component: {fileID: 531260002}
   - component: {fileID: 531260004}
+  - component: {fileID: 531260005}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -515,6 +516,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc1c0624980c364e9f399c089ccc9a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &531260005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531260001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1100b3347a9a74fb22411e9ae55b5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    gold: 0
+    wave: 1
+    score: 0
+    baseHealth: 100
 --- !u!1 &613549634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,6 +1088,7 @@ GameObject:
   - component: {fileID: 1112293438}
   - component: {fileID: 1112293437}
   - component: {fileID: 1112293436}
+  - component: {fileID: 1112293440}
   m_Layer: 5
   m_Name: GameUI
   m_TagString: Untagged
@@ -1161,6 +1180,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1112293440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112293435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964a7b6084f9dba4398e779df357239d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labelGold: {fileID: 1952988713}
+  labelWave: {fileID: 1961051893}
 --- !u!1 &1236260578
 GameObject:
   m_ObjectHideFlags: 0
