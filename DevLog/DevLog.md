@@ -72,6 +72,12 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
  - Các bug xảy ra khi pooling: lính chết mang theo target cũ, trụ chết mang theo các loại lính cũ => Cần reset đúng thời điểm. Vì lưu cả mục tiêu và cả các lính chọn mình làm mục tiêu (2 chiều).
  - Một số bug kì lạ: Đạn bắn không di chuyển (AreaProjectile)
 
+# Day 11
+- Refactoring: Pausable system (dừng objects) - Manager để quản lý ticks
+- Fix bug Unit tự dưng xuất hiện giữa không khí? Do không reset cẩn thận: reset path, vị trí, progress...
+[Bug unit xuất hiện giữa đường](./bug_reset_units.mp4)
+- Registry - Centralize các managers và không cần ref tùm lum nữa (TODO) - Cân nhắc có thể không làm, cái này để thay đổi manager tuỳ ý -> dễ test hơn
+
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
 - Tower upgrade

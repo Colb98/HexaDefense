@@ -7,14 +7,7 @@ public class Tower : Entity
 
     [SerializeField] private Color originalColor;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    public override void Update()
+    public override void Tick()
     {
         UpdateAttack();
         if (isAttackCooledDown())
@@ -23,7 +16,7 @@ public class Tower : Entity
         }
         else
         {
-           GetComponent<SpriteRenderer>().color = Color.red;
+            GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
 

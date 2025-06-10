@@ -107,6 +107,11 @@ public class UnitManager : MonoBehaviour
 
     void Update()
     {
+        if (PausableUpdateManager.instance.IsPaused())
+        {
+            return;
+        }
+
         if (start.x < 0)
         {
             start = map.GetStartCoord();
@@ -322,6 +327,7 @@ public class UnitManager : MonoBehaviour
         if (unit.IsMoving())
         {
             var path = FindPath(unit.GetNextPosition());
+            Debug.Log($"Finding path for unit {unit.name} to goal. From position {unit.GetNextPosition()}. Path length {path.Count}");
             unit.MoveByPathAfterFinish(path);
         }
         else

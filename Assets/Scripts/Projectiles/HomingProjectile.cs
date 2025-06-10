@@ -15,12 +15,13 @@ public class HomingProjectile : Projectile
         speed = projSpeed * Tile.GetUnitDistance();
     }
 
-    public override void Update()
+    public override void Tick()
     {
         // If target is destroyed or null, self-destruct
         if (targetEntity == null || targetEntity.IsDead())
         {
             owner.GetMap().ProjectileManager.ReturnHomingProjectileToPool(this, prefab);
+            targetEntity = null;
             return;
         }
 

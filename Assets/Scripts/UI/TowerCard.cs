@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System.Text.RegularExpressions;
+using UnityEngine.Windows;
 
 public class TowerCard : MonoBehaviour, IPointerClickHandler
 {
@@ -20,7 +22,7 @@ public class TowerCard : MonoBehaviour, IPointerClickHandler
         selectedImage.enabled = false;
 
         // Set the tower name text
-        towerNameText.text = towerType;
+        towerNameText.text = Regex.Replace(towerType, "(?<!^)([A-Z])", " $1"); ;
     }
 
     public void OnPointerClick(PointerEventData eventData)

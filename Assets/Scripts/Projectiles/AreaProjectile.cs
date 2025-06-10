@@ -43,7 +43,7 @@ public class AreaProjectile : Projectile
         }
     }
 
-    public override void Update()
+    public override void Tick()
     {
         // Only move if not exploded
         if (!hasExploded)

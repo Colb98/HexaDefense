@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 // Base class for all projectiles
-public abstract class Projectile : MonoBehaviour
+public abstract class Projectile : MonoBehaviour, IPausableTick
 {
     protected Entity owner; // The entity that fired the projectile
 
@@ -14,11 +14,11 @@ public abstract class Projectile : MonoBehaviour
 
     protected virtual void Start()
     {
-
+        PausableUpdateManager.instance.Register(this);
     }
 
     // Abstract method to be implemented by specific projectile types
-    public abstract void Update();
+    public abstract void Tick();
 
     // Method to set the owner of the projectile
     public void SetOwner(Entity entity)

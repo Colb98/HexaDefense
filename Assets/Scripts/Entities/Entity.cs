@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour, IPausableTick
 {
     public Vector2Int position;
 
@@ -28,6 +28,7 @@ public abstract class Entity : MonoBehaviour
     void Start()
     {
         timeSinceLastAttack = attackCooldown;
+        PausableUpdateManager.instance.Register(this);
     }
 
     public void TakeDamage(float physDmg, float magDmg) {
@@ -83,7 +84,12 @@ public abstract class Entity : MonoBehaviour
 
     protected abstract void ReturnToPool();
 
-    public virtual void Update()
+    void Update()
+    {
+        // UpdateAttack();
+    }
+
+    public virtual void Tick()
     {
         UpdateAttack();
     }
