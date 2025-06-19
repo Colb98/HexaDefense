@@ -14,7 +14,7 @@ public abstract class Projectile : MonoBehaviour, IPausableTick
 
     protected virtual void Start()
     {
-        PausableUpdateManager.instance.Register(this);
+
     }
 
     // Abstract method to be implemented by specific projectile types

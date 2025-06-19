@@ -41,6 +41,7 @@ public class AreaProjectile : Projectile
             explosionSprite.SetActive(false);
             explosionSprite.transform.localScale = new Vector3(scale, scale, scale);
         }
+        PausableUpdateManager.instance.Register(this);
     }
 
     public override void Tick()

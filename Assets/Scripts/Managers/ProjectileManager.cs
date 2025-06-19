@@ -146,6 +146,7 @@ public class ProjectileManager : MonoBehaviour
     {
         projectile.gameObject.SetActive(false);
         areaProjectilePools[prefab].Enqueue(projectile);
+        PausableUpdateManager.instance.Unregister(projectile);
         //Debug.Log("Returned area projectile to pool: " + prefab.name + " | Pool size: " + areaProjectilePools[prefab].Count);
     }
 
@@ -154,6 +155,7 @@ public class ProjectileManager : MonoBehaviour
     {
         projectile.gameObject.SetActive(false);
         homingProjectilePools[prefab].Enqueue(projectile);
+        PausableUpdateManager.instance.Unregister(projectile);
         //Debug.Log("Returned homing projectile to pool: " + prefab.name + " | Pool size: " + homingProjectilePools[prefab].Count);
     }
 }

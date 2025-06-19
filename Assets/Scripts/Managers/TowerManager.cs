@@ -141,6 +141,7 @@ public class TowerManager : MonoBehaviour
         _activeTowers.Add(tower);
         tower.gameObject.SetActive(true);
         tower.name = $"{type}_{towerCount++}";
+        tower.OnSpawn();
         return tower;
     }
 

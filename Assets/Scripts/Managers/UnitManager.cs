@@ -76,6 +76,7 @@ public class UnitManager : MonoBehaviour
         var unit = pooledEnemies.Dequeue();
         unit.Reset();
         unit.name = $"Enemy_{unitCount++}";
+        unit.OnSpawn();
 
         return unit;
     }

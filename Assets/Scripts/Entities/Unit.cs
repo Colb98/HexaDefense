@@ -2,19 +2,22 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : Entity {
+public class Unit : Entity
+{
+    [Header("Unit Stats")]
     [SerializeField] float speed = 3.0f;
     List<Vector2Int> path = new List<Vector2Int>();
     bool isAirborne;
 
-    bool isMoving = false;
-    float moveProgress = 0.0f;
+    [SerializeField] bool isMoving = false;
+    [SerializeField] float moveProgress = 0.0f;
     int reward = 0;
 
     public virtual void Initialize(string type, EnemyLevelData data)
     {
         entityType = type;
 
+        maxHP = data.health;
         hp = data.health;
         physicalDamage = data.physicalDamage;
         magicalDamage = data.magicalDamage;
@@ -68,6 +71,7 @@ public class Unit : Entity {
     }
 
     public void UpdateMoving() {
+        if (IsDead()) return;
         if (!isMoving || path.Count == 0) return;
 
         var targetTile = path[0];
@@ -109,6 +113,7 @@ public class Unit : Entity {
         if (_map.GetMapDataAt(position.x, position.y) == TileType.GOAL)
         {
             this._map.GetUnitManager().RemoveUnit(this);
+            PausableUpdateManager.instance.Unregister(this);
         }
     }
 

@@ -9,6 +9,7 @@ public class Tower : Entity
 
     public override void Tick()
     {
+        if (IsDead()) return;
         UpdateAttack();
         if (isAttackCooledDown())
         {
@@ -51,6 +52,7 @@ public class Tower : Entity
         // Additional initialization logic here
         entityType = type;
 
+        maxHP = data.health;
         hp = data.health;
         physicalDamage = data.physicalDamage;
         magicalDamage = data.magicalDamage;

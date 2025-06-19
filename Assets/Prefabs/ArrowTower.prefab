@@ -31,6 +31,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 8602063284079937616}
   - {fileID: 4593643015154436858}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -102,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
+  maxHP: 0
   hp: 10
   physicalDamage: 0
   magicalDamage: 0
@@ -116,11 +118,44 @@ MonoBehaviour:
   aggroLimit: 4
   aggroLevel: 1
   aggroEntities: []
+  healthBarPrefab: {fileID: 7831689583315693273, guid: d03f4bb6d7c2c6846bb6931a7ff2a545, type: 3}
+  healthBarPivot: {fileID: 8602063284079937616}
   towerType: 0
   size: 2
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   arrowSpeed: 50
   arrowPrefab: {fileID: 3061888243048580070, guid: df91d20ef33b6084e8429d2f6ae92604, type: 3}
+--- !u!1 &4984472210863283896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8602063284079937616}
+  m_Layer: 0
+  m_Name: HealthBarPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8602063284079937616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984472210863283896}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.789, z: 0}
+  m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 4186818470684533302}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3122453853049757437
 PrefabInstance:
   m_ObjectHideFlags: 0

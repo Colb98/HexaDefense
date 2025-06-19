@@ -5,8 +5,10 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour, IPausableTick
 {
+    [Header("Entity Stats")]
     public Vector2Int position;
 
+    public float maxHP;
     public float hp;
     public float physicalDamage;
     public float magicalDamage;
@@ -25,15 +27,31 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     public int aggroLevel = 1;
     public List<Entity> aggroEntities = new List<Entity>();
 
+
+    [Header("Health Bar")]
+    [SerializeField] private HealthBarUI healthBarPrefab;
+    [SerializeField] private Transform healthBarPivot; // assign HealthBarPivot in Inspector
+
+    private HealthBarUI healthBarUI;
+
     void Start()
     {
         timeSinceLastAttack = attackCooldown;
-        PausableUpdateManager.instance.Register(this);
+
+        if (healthBarPivot)
+        {
+            // Spawn and attach health bar
+            healthBarUI = Instantiate(healthBarPrefab, healthBarPivot.position, Quaternion.identity, healthBarPivot);
+            healthBarUI.gameObject.SetActive(false);
+        }
     }
 
     public void TakeDamage(float physDmg, float magDmg) {
         float totalDamage = Math.Max(0, physDmg - physicalDefense) + Math.Max(0, magDmg - magicalDefense);
         hp -= totalDamage;
+
+        if (healthBarUI != null)
+            healthBarUI.SetHealth(hp, maxHP);
         //Debug.Log($"Entity take damage {totalDamage}");
         if (IsDead())
         {
@@ -46,6 +64,11 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         return hp <= 0;
     }
 
+    public void OnSpawn()
+    {
+        PausableUpdateManager.instance.Register(this);
+    }
+
     protected virtual void OnDead()
     {
         if (target)
@@ -55,6 +78,12 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         target = null;
         aggroEntities.Clear();
         ReturnToPool();
+        PausableUpdateManager.instance.Unregister(this);
+
+        if (healthBarUI != null)
+        {
+            healthBarUI.gameObject.SetActive(false);
+        }
     }
 
     public virtual bool IsMovable()
@@ -91,6 +120,10 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     public virtual void Tick()
     {
+        if (IsDead())
+        {
+            return;
+        }
         UpdateAttack();
     }
 

@@ -81,6 +81,13 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 # Day 12
 - Đã pause được, button Pause
 - Game Manager -> Gold, Wave & HP
+
+# Day 13
+- Fix lỗi Tick vẫn được gọi khi trụ chết dẫn tới vẫn bắn đạn khi đã bị phá huỷ
+- Thanh máu cho trụ/enemy
+- Register và Unregister Entity khi lấy ra khỏi pool và khi trả về pool
+- Bug: Đang duyệt qua các tickables, rồi khi tick thì nó kill 1 đơn vị làm xoá mất đơn vị đó khi đang duyệt mảng -> duyệt ra ngoài mảng tickables. Fix bằng cách không xoá ngay mà chỉ cho vào mảng tạm. Khi hết tick mới xoá khỏi mảng tickables
+
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
 - Tower upgrade

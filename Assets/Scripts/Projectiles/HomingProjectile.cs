@@ -13,6 +13,7 @@ public class HomingProjectile : Projectile
         physicalDamage = physDamage;
         magicalDamage = magDamage;
         speed = projSpeed * Tile.GetUnitDistance();
+        PausableUpdateManager.instance.Register(this);
     }
 
     public override void Tick()
