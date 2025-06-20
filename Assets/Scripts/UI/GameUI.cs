@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI labelGold;
     [SerializeField] TextMeshProUGUI labelWave;
+    [SerializeField] TowerHudUI hud;
 
     void Start()
     {
@@ -37,5 +39,16 @@ public class GameUI : MonoBehaviour
     private void UpdateWaveLabel(int newWave)
     {
         labelWave.SetText($"Wave: {newWave}");
+    }
+
+    public void ShowTowerHud(Tower target, Vector3 worldPosition)
+    {
+        StartCoroutine(ShowHudNextFrame(target, worldPosition));
+    }
+
+    private IEnumerator ShowHudNextFrame(Tower targetTower, Vector3 worldPos)
+    {
+        yield return null; // Wait for the next frame
+        hud.Show(targetTower, worldPos);
     }
 }

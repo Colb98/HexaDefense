@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 public class Map : MonoBehaviour
 {
@@ -130,6 +131,16 @@ public class Map : MonoBehaviour
                     var curTile = tiles[coord.x, coord.y];
                     curTile.SetType(TileType.TOWER);
                     mapData[curTile.x, curTile.y] = (int)TileType.TOWER;
+                }
+            }
+            else if (tile.type == TileType.TOWER)
+            {
+                var ui = FindFirstObjectByType<GameUI>();
+                Tower tower = towerManager.GetTowerAt(tile.x, tile.y);
+                if (tower)
+                {
+                    Debug.Log($"Tower clicked: {tower.name} at position {tower.transform.position}");
+                    ui.ShowTowerHud(tower, tower.transform.position);
                 }
             }
         }

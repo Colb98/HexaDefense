@@ -5,6 +5,8 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour, IPausableTick
 {
+    public bool Registered { get; set; }
+
     [Header("Entity Stats")]
     public Vector2Int position;
 
@@ -66,6 +68,10 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     public void OnSpawn()
     {
+        if (PausableUpdateManager.instance.IsTickableRegistered(this))
+        {
+            Debug.Log("Entity already registered in PausableUpdateManager, not registering again." + name, this);
+        }
         PausableUpdateManager.instance.Register(this);
     }
 
@@ -218,7 +224,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     public void SetTarget(Entity target)
     {
-        Debug.Log($"Set target for entity {name} ({entityType}) to {target?.name} ({target?.entityType})");
+        //Debug.Log($"Set target for entity {name} ({entityType}) to {target?.name} ({target?.entityType})");
         ResetTarget();
         this.target = target;
         if (target != null)

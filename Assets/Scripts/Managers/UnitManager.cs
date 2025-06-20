@@ -65,7 +65,7 @@ public class UnitManager : MonoBehaviour
             if (expandPoolIfNeeded)
             {
                 Debug.Log("Expanding unit pool");
-                return CreatePooledUnit();
+                CreatePooledUnit();
             }
             else
             {
@@ -75,6 +75,7 @@ public class UnitManager : MonoBehaviour
         }
         var unit = pooledEnemies.Dequeue();
         unit.Reset();
+        //Debug.Log($"Unit {unit.name} retrieved from pool. New name Enemy_{unitCount + 1}");
         unit.name = $"Enemy_{unitCount++}";
         unit.OnSpawn();
 

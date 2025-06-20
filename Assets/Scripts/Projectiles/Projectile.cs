@@ -4,6 +4,8 @@ using System.Collections.Generic;
 // Base class for all projectiles
 public abstract class Projectile : MonoBehaviour, IPausableTick
 {
+    public bool Registered { get; set; }
+
     protected Entity owner; // The entity that fired the projectile
 
     [SerializeField] protected float speed = 10f;

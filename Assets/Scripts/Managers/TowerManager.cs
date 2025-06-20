@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -287,6 +288,22 @@ public class TowerManager : MonoBehaviour
     public Tower[] GetTowers()
     {
         return _activeTowers.ToArray();
+    }
+
+    public Tower GetTowerAt(int x, int y)
+    {
+        Debug.Log("Getting tower at coordinates: " + x + ", " + y);
+        foreach (var tower in _activeTowers)
+        {
+            var coords = GetNeighborCoordOfCenter(tower.position, 2);
+            Debug.Log("Checking tower at " + tower.position + " for coords: " + string.Join(", ", coords.Select(c => c.ToString())));
+            if (coords.Contains(new Vector2Int(x, y)))
+            {
+                return tower;
+            }
+        }
+        Debug.LogWarning($"No tower found at coordinates: {x}, {y}");
+        return null;
     }
     #endregion
 }

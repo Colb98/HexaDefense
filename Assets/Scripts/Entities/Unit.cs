@@ -132,7 +132,6 @@ public class Unit : Entity
 
     public void MoveByPath(List<Vector2Int> path)
     {
-        Debug.Log($"Unit {name} move by path {path.Count}");
         this.path.Clear();
         this.path.AddRange(path);
         isMoving = path.Count > 0;
@@ -141,7 +140,7 @@ public class Unit : Entity
 
     public void MoveByPathAfterFinish(List<Vector2Int> path)
     {
-        Debug.Log($"Unit {name} move by path after finish {path.Count}. Current position: {position}, {path[0]}");
+        //Debug.Log($"Unit {name} move by path after finish {path.Count}. Current position: {position}, {path[0]}");
         this.path.RemoveRange(1, this.path.Count - 1); 
         this.path.AddRange(path);
     }

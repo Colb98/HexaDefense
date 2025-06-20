@@ -88,6 +88,13 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 - Register và Unregister Entity khi lấy ra khỏi pool và khi trả về pool
 - Bug: Đang duyệt qua các tickables, rồi khi tick thì nó kill 1 đơn vị làm xoá mất đơn vị đó khi đang duyệt mảng -> duyệt ra ngoài mảng tickables. Fix bằng cách không xoá ngay mà chỉ cho vào mảng tạm. Khi hết tick mới xoá khỏi mảng tickables
 
+# Day 14
+- Fix Error: HealthBar có 1 coroutine để tự ẩn sau 5s, khi unit hết máu, nó ẩn đi, nên gọi hàm StartCoroutine trả về Error, khiến crash hết 1 đoạn phía sau lời gọi đó.
+- Menu upgrade and remove towers, HUD chỉ hiện khi click lên trụ. HUD Bugs: Click và hiện UI trong frame, nên khi kết thúc frame, cái nút thấy có event nên nó tự bấm luôn -> solution: hiện UI delay sau 1 frame.
+- Fix bug duyệt tickables 2 lần. Do khi pool của UnitManager hết phần tử, nó tạo ra 1 Unit mới và cũng cho vào pool, khiến unit đó bị lấy ra 2 lần, đăng ký với Manager 2 lần và update 2 lần trong 1 frame luôn. Good part: vì dùng TickManager nên nhìn tốc độ di chuyển sẽ biết được lỗi này, nếu không thì cũng khó mà nhận ra.
+- Blocker: Nâng cấp hàm của blocker. Blocker giờ sẽ bắn ra cho IBlockerListener biết khi nào nó được bấm, dùng để detect khi nào bấm ra bên ngoài 1 popup, tooltip... để ẩn chúng đi nếu cần.
+
+
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
 - Tower upgrade

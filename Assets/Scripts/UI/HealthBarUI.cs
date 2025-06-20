@@ -11,6 +11,8 @@ public class HealthBarUI : MonoBehaviour
     public void SetHealth(float current, float max)
     {
         fillImage.fillAmount = Mathf.Clamp01(current / max);
+        if (current <= 0f)
+            return;
         Show();
     }
 

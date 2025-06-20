@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Image))]
 public class UIClickBlocker : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
 {
+    IBlockerListener blockerListener;
+
     private void Start()
     {
         // Ensure the Image component exists and is set to raycast target
@@ -21,27 +23,42 @@ public class UIClickBlocker : MonoBehaviour, IPointerClickHandler, IPointerDownH
             Color color = image.color;
             if (color.a == 0)
             {
-                color.a = 0.01f;
+                color.a = 0.001f;
                 image.color = color;
             }
         }
+    }
+
+    public void SetBlockerListener(IBlockerListener listener)
+    {
+        blockerListener = listener;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         // Block the click event from propagating
         eventData.Use();
+        blockerListener?.OnBlockerClicked();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         // Block the pointer down event from propagating
         eventData.Use();
+        blockerListener?.OnBlockerPointerDown();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         // Block the pointer up event from propagating
         eventData.Use();
+        blockerListener?.OnBlockerPointerUp();
     }
+}
+
+public interface IBlockerListener
+{
+    void OnBlockerClicked() { }
+    void OnBlockerPointerDown() { }
+    void OnBlockerPointerUp() { }
 }

@@ -11,8 +11,16 @@ public class PausableUpdateManager : MonoBehaviour
 
     private void Awake() => instance = this;
 
-    public void Register(IPausableTick t) => tickables.Add(t);
-    public void Unregister(IPausableTick t) => toBeRemoved.Add(t);
+    public void Register(IPausableTick t) 
+    {
+        tickables.Add(t);
+        t.Registered = true;
+    }
+
+    public void Unregister(IPausableTick t)
+    {
+        toBeRemoved.Add(t);
+    }
 
     private void Update()
     {
@@ -27,8 +35,14 @@ public class PausableUpdateManager : MonoBehaviour
         for (int i = toBeRemoved.Count - 1; i >= 0; i--)
         {
             tickables.Remove(toBeRemoved[i]);
+            toBeRemoved[i].Registered = false; // Mark as unregistered
         }
         toBeRemoved.Clear();
+    }
+
+    public bool IsTickableRegistered(IPausableTick t)
+    {
+        return tickables.Contains(t);
     }
 
     public void PauseOrResume()

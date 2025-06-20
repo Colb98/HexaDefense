@@ -148,6 +148,8 @@ public class AStar
 
         foreach (var start in starts)
         {
+            if (start.x < 0 || start.y < 0 || start.x >= rows || start.y >= cols)
+                continue;
             var node = new Node(start.x, start.y)
             {
                 GCost = 0,
