@@ -165,6 +165,11 @@ public class TowerManager : MonoBehaviour
 
     public void OnTowerDead(Tower tower)
     {
+        RemoveTowerOccupied(tower);
+    }
+
+    public void RemoveTowerOccupied (Tower tower)
+    {
         // This part only need to handle logic, not the pool
         var coords = GetNeighborCoordOfCenter(tower.position, tower.GetSize());
         foreach (var coord in coords)
@@ -173,6 +178,18 @@ public class TowerManager : MonoBehaviour
             curTile.SetType(TileType.GROUND);
             _map.SetMapDataAt(coord.x, coord.y, TileType.GROUND);
         }
+    }
+
+    public void SellTower(Tower tower)
+    {
+        tower.OnRemoved();
+        RemoveTowerOccupied(tower);
+        GameManager.Instance.AddGold(tower.GetSellPrice());
+    }
+
+    public void UpgradeTower(Tower tower)
+    {
+        tower.Upgrade();
     }
 
     #endregion
@@ -241,6 +258,7 @@ public class TowerManager : MonoBehaviour
         var towerConfig = GameConfigManager.Instance.Towers[type];
         var levelConfig = towerConfig.levels.FirstOrDefault(lvl => lvl.level == level);
         tower.Initialize(size, center, type, levelConfig, towerConfig);
+        tower.SetLevel(level);
         tower.transform.SetParent(_map.transform);
         return tower;
     }

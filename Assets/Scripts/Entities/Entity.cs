@@ -75,7 +75,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         PausableUpdateManager.instance.Register(this);
     }
 
-    protected virtual void OnDead()
+    public void OnRemoved()
     {
         if (target)
         {
@@ -90,6 +90,11 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         {
             healthBarUI.gameObject.SetActive(false);
         }
+    }
+
+    protected virtual void OnDead()
+    {
+        OnRemoved();
     }
 
     public virtual bool IsMovable()

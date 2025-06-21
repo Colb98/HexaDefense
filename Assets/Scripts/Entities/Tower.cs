@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 public class Tower : Entity
@@ -6,6 +8,8 @@ public class Tower : Entity
     [SerializeField] int size = 2;
 
     [SerializeField] private Color originalColor;
+
+    [SerializeField] private int level;
 
     public override void Tick()
     {
@@ -28,6 +32,7 @@ public class Tower : Entity
 
     protected override void OnDead()
     {
+        // Return to pool and unregister from the update manager
         base.OnDead();
         // Update map data & find path
         _map.OnTowerDead(this);
@@ -94,5 +99,39 @@ public class Tower : Entity
     protected override void ReturnToPool()
     {
         _map.GetTowerManager().ReturnTowerToPool(this);
+    }
+
+    public int GetSellPrice()
+    {
+        return 50; // Temp, should be 50% of accumulated buy + upgrade price
+    }
+
+    public void Upgrade()
+    {
+        if (!CanUpgrade())
+        {
+            return;
+        }
+        var newLevel = level + 1;
+        var config = GameConfigManager.Instance.Towers[entityType];
+        var levelConfig = config.levels.FirstOrDefault(lvl => lvl.level == newLevel);
+        if (levelConfig == null)
+        {
+
+           Debug.LogError($"No level config found for tower {entityType} at level {newLevel}. Cannot upgrade.");
+            return;
+        }
+        Initialize(size, position, entityType, levelConfig, config);
+        SetLevel(newLevel);
+    }
+
+    public bool CanUpgrade()
+    {
+        return level < 3;
+    }
+
+    internal void SetLevel(int level)
+    {
+        this.level = level;
     }
 }

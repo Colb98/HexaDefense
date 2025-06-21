@@ -29,7 +29,8 @@ public class TowerHudUI : MonoBehaviour, IBlockerListener
         hudPanel.gameObject.SetActive(true);
         // Convert world position to screen point and set HUD position
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
-        hudPanel.position = screenPos;
+        hudPanel.position = screenPos + new Vector3(120, -40, 0);
+        upgradeButton.gameObject.SetActive(target.CanUpgrade());
 
         if (lockCoroutine != null)
         {
@@ -68,12 +69,14 @@ public class TowerHudUI : MonoBehaviour, IBlockerListener
     private void OnUpgrade()
     {
         Debug.Log($"Upgrading tower: {currentTarget.name}");
+        GameManager.Instance.GetMap().TowerManager.UpgradeTower(currentTarget);
         Hide();
     }
 
     private void OnRemove()
     {
-        Debug.Log($"Removing tower: {currentTarget.name}");
+        Debug.Log($"Sell tower: {currentTarget.name}");
+        GameManager.Instance.GetMap().TowerManager.SellTower(currentTarget);
         Hide();
     }
 }

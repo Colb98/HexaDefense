@@ -94,12 +94,13 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 - Fix bug duyệt tickables 2 lần. Do khi pool của UnitManager hết phần tử, nó tạo ra 1 Unit mới và cũng cho vào pool, khiến unit đó bị lấy ra 2 lần, đăng ký với Manager 2 lần và update 2 lần trong 1 frame luôn. Good part: vì dùng TickManager nên nhìn tốc độ di chuyển sẽ biết được lỗi này, nếu không thì cũng khó mà nhận ra.
 - Blocker: Nâng cấp hàm của blocker. Blocker giờ sẽ bắn ra cho IBlockerListener biết khi nào nó được bấm, dùng để detect khi nào bấm ra bên ngoài 1 popup, tooltip... để ẩn chúng đi nếu cần.
 
+# Day 15
+- Thử đổi kích thước map từ 100 x 75 -> 36 x 21 thì nổ khá nhiều. Lý do là do code (chủ yếu là các đoạn gen AI): không chú ý tới scale của map, map scale lại rồi vị trí khi set các unit/trụ/đạn bị lệch hết (do tính theo công thức rồi đặt position là world pos), hàm static tính vị trí của Tile bị hard code theo scale cũ (thật ra cũng chưa nghĩ ra cách để nó đọc được state của value gán trong Map), các sprite thể hiện tầm bắn, tầm ảnh hưởng cần phải chỉnh trong editor lại để scale đúng tỉ lệ.
+- Hàm upgrade và remove trụ. Đọc config level sau và init lại chỉ số. Cộng tiền khi sell và check điều kiện nếu upgrade thì UI sẽ có nút upgrade.
 
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
-- Tower upgrade
 - Enemy type
-- Delete Tower
 - Chuyển sang flow field (có vẻ hợp lý hơn vì địa hình ít thay đổi?) - Consider vì đang định làm trụ chặn đường, trụ có thể thay đổi khá nhiều?
 - Kiểm tra ô đặt trụ có hợp lệ không (nếu chặn hết đường đi từ Start tới Goal thì không) - Low Priority
 - Cost của ô trụ nên là 10 hay gì đó, nếu đường đi có đi qua ô trụ thì sẽ đánh trụ bất chấp có bị thu hút hay không? - Low Priority
