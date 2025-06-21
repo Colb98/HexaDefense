@@ -22,13 +22,13 @@ public class FireballTower : Tower
         if (fireballCount < bigFireballIndex)
         {
             fireballCount++;
-            AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.position, target.transform.position, fireballRange, physicalDamage, magicalDamage, fireballSpeed);
+            AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.localPosition, target.transform.localPosition, fireballRange, physicalDamage, magicalDamage, fireballSpeed);
             fireball.SetOwner(this);
             //Debug.Log($"Throw normal fireball with magic damage {magicalDamage}");
         }
         else
         {
-            AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.position, target.transform.position, fireballRange, bigFireballDamage * physicalDamage, bigFireballDamage * magicalDamage, fireballSpeed);
+            AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.localPosition, target.transform.localPosition, fireballRange, bigFireballDamage * physicalDamage, bigFireballDamage * magicalDamage, fireballSpeed);
             fireball.SetOwner(this);
             // Reset the count for the next attack
             fireballCount = 0;

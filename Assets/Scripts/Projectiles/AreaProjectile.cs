@@ -19,6 +19,13 @@ public class AreaProjectile : Projectile
     // Flag to prevent multiple explosions
     [SerializeField] private bool hasExploded = false;
 
+    private float initialAreaScale = 0.5f; // Default radius for explosion sprite scaling
+
+    void Awake()
+    {
+        initialAreaScale = explosionSprite.transform.localScale.x; // Store the initial radius for scaling
+    }
+
     // Initialize the projectile with target position and configuration
     public void Initialize(Vector3 target, float radius, float physDamage, float magDamage, float projSpeed)
     {
@@ -37,9 +44,10 @@ public class AreaProjectile : Projectile
         // Ensure explosion sprite is initially disabled
         if (explosionSprite != null)
         {
-            var scale = radius / 0.5f;
+            var scale = radius / 0.5f * initialAreaScale;
             explosionSprite.SetActive(false);
             explosionSprite.transform.localScale = new Vector3(scale, scale, scale);
+            Debug.Log("Explosion radius: " + explosionRadius + ", Scale: " + scale + ", initialScale" + initialAreaScale + ", world scale " + explosionSprite.transform.lossyScale);
         }
         PausableUpdateManager.instance.Register(this);
     }

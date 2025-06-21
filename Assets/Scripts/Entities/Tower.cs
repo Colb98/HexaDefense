@@ -69,13 +69,12 @@ public class Tower : Entity
 
     private void UpdateAttackRangeSprite()
     {
-        const float defaultAttackRange = 0.5f;
         // Calculate the attack range based on the tower type
         Transform childTransform = transform.Find("AttackRange");
 
         if (childTransform != null)
         {
-            var scale = attackRange * new Vector3(0.14f, 0.14f, 0.14f) / defaultAttackRange / transform.localScale.x;
+            var scale = attackRange * new Vector3(1.05f, 1.05f, 1.05f) / transform.localScale.x;
             //Debug.Log($"Attack Range {scale}, {attackRange}, {transform.localScale}");
 
             // Set the local scale

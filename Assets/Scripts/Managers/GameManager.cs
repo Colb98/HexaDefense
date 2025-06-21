@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public Map GetMap()
+    {
+        return map;
+    }
+
     public int GetGold()
     {
         // Placeholder for gold retrieval logic

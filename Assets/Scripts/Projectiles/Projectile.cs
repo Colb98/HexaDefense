@@ -14,11 +14,6 @@ public abstract class Projectile : MonoBehaviour, IPausableTick
 
     protected GameObject prefab; // Prefab reference for the projectile
 
-    protected virtual void Start()
-    {
-
-    }
-
     // Abstract method to be implemented by specific projectile types
     public abstract void Tick();
 

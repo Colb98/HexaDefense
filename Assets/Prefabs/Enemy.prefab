@@ -59,7 +59,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.12, y: 0.12, z: 0.12}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9140685405874516912}
@@ -151,3 +151,5 @@ MonoBehaviour:
   healthBarPrefab: {fileID: 7831689583315693273, guid: d03f4bb6d7c2c6846bb6931a7ff2a545, type: 3}
   healthBarPivot: {fileID: 9140685405874516912}
   speed: 2
+  isMoving: 0
+  moveProgress: 0

@@ -105,7 +105,7 @@ public class Unit : Entity
             }
         }
 
-        transform.localPosition = Vector3.Lerp(startWorldPos, targetWorldPos, moveProgress);
+        transform.position = Vector3.Lerp(startWorldPos, targetWorldPos, moveProgress);
     }
 
     public void OnStopMoving()

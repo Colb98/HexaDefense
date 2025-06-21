@@ -227,6 +227,7 @@ public class Map : MonoBehaviour
 
                 tile.transform.SetParent(mapTransform); // Ensure parent is Map even when pooled
                 tile.transform.localPosition = tilePos;
+                tile.transform.localScale = Vector3.one * tileSize * 2f;
                 tile.name = $"Tile_{x}_{y}";
 
                 var tileComponent = tile.GetComponent<Tile>();
@@ -358,10 +359,10 @@ public class Map : MonoBehaviour
                 if (y % 2 == 1)
                     xPos += xOffset / 2f;
 
-                Vector3 tilePos = new Vector3(xPos, yPos, 0);
+                Vector3 tilePos = new Vector3(xPos + transform.position.x, yPos + transform.position.y, 0);
                 tilePos -= (Vector3)mapCenterOffset; // Shift to center
                 Vector3 pos = tilePos;
-                Gizmos.DrawWireSphere(pos, tileSize * 0.1f);
+                Gizmos.DrawWireSphere(pos, tileSize * 1f);
             }
         }
     }

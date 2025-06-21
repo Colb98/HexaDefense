@@ -315,11 +315,11 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         // TODO: use strategy to find target
         float min = float.MaxValue;
         Entity target = null;
-        float attackRangeSqr = attackRange * attackRange;
+        float attackRangeSqr = attackRange * Tile.GetUnitDistance() * attackRange * Tile.GetUnitDistance();
         foreach (Entity entity in entities) {
             if (entity != null)
             {
-                float dist = (position - entity.position).sqrMagnitude;
+                float dist = (entity.transform.position - transform.position).sqrMagnitude;
                 if (dist < min && dist <= attackRangeSqr)
                 {
                     min = dist;

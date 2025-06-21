@@ -118,12 +118,12 @@ public class Tile : MonoBehaviour
         if (coord.y % 2 == 1)
             xPos += xOffset / 2f;
 
-        Vector3 tilePos = new Vector3(xPos, yPos, 0);
+        Vector3 tilePos = new Vector3(xPos, yPos, 0) + GameManager.Instance.GetMap().transform.position;
         tilePos -= (Vector3)mapCenterOffset; // Shift to center
         return tilePos;
     }
 
-    public static float GetUnitDistance(float tileSize = 0.08f)
+    public static float GetUnitDistance(float tileSize = 0.3f)
     {
         return tileSize * Mathf.Sqrt(3);
     }
