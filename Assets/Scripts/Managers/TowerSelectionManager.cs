@@ -5,6 +5,7 @@ using UnityEngine;
 public class TowerSelectionManager : MonoBehaviour
 {
     public List<TowerCard> towerCards = new List<TowerCard>();
+    public TowerCardUI cardUI;
     public TowerManager towerManager;
 
     private TowerCard selectedCard;
@@ -12,14 +13,11 @@ public class TowerSelectionManager : MonoBehaviour
 
     private void Start()
     {
-        // Find the TowerCardUI component
-        TowerCardUI cardUI = FindFirstObjectByType<TowerCardUI>();
-
         // Initialize the tower cards
         cardUI.InitializeTowerCards();
 
         // Find all tower cards in the UI
-        TowerCard[] cards = GetComponentsInChildren<TowerCard>();
+        TowerCard[] cards = cardUI.GetComponentsInChildren<TowerCard>();
         towerCards.AddRange(cards);
     }
 

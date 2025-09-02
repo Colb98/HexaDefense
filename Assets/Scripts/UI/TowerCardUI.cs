@@ -1,5 +1,6 @@
 // TowerCardUI.cs - Helper script to create tower cards programmatically
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerCardUI : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class TowerCardUI : MonoBehaviour
             card.towerImage.sprite = towerSprite;
             card.towerNameText.text = towerType;
         }
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardContainer);
     }
 
     // Call this from Start or Awake to initialize your tower cards
