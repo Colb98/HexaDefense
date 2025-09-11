@@ -9,6 +9,8 @@ public class TowerConfig
     public float attackSpeed;
     public float damageRadius;
     public float attackProjectileSpeed;
+    public float critChance;
+    public float critDamage;
     public List<TowerLevelData> levels;
 }
 
@@ -28,6 +30,8 @@ public class EnemyConfig
     public string type;
     public string baseDescription;
     public string damageType;
+    public float critChance;
+    public float critDamage;
     public List<EnemyLevelData> levels;
 }
 

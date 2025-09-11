@@ -19,16 +19,17 @@ public class FireballTower : Tower
 
     protected override void PerformAttack()
     {
+        bool isCrit = UnityEngine.Random.Range(0, 100) < critChance;
         if (fireballCount < bigFireballIndex)
         {
             fireballCount++;
-            AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.localPosition, target.transform.localPosition, fireballRange, physicalDamage, magicalDamage, fireballSpeed);
+            AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.localPosition, target.transform.localPosition, fireballRange, GetPhysicalDamage(isCrit), GetMagicalDamage(isCrit), fireballSpeed, isCrit);
             fireball.SetOwner(this);
             //Debug.Log($"Throw normal fireball with magic damage {magicalDamage}");
         }
         else
         {
-            AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.localPosition, target.transform.localPosition, fireballRange, bigFireballDamage * physicalDamage, bigFireballDamage * magicalDamage, fireballSpeed);
+            AreaProjectile fireball = _map.ProjectileManager.CreateAreaProjectile(fireballPrefab, transform.localPosition, target.transform.localPosition, fireballRange, bigFireballDamage * GetPhysicalDamage(isCrit), bigFireballDamage * GetMagicalDamage(isCrit), fireballSpeed, isCrit);
             fireball.SetOwner(this);
             // Reset the count for the next attack
             fireballCount = 0;

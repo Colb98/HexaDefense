@@ -11,6 +11,7 @@ public abstract class Projectile : MonoBehaviour, IPausableTick
     [SerializeField] protected float speed = 10f;
     [SerializeField] protected float physicalDamage = 10f;
     [SerializeField] protected float magicalDamage = 10f;
+    [SerializeField] protected bool isCrit = false;
 
     protected GameObject prefab; // Prefab reference for the projectile
 
@@ -28,12 +29,17 @@ public abstract class Projectile : MonoBehaviour, IPausableTick
     {
         foreach (var entity in affectedEntities)
         {
-            entity.TakeDamage(physicalDamage, magicalDamage);
+            entity.TakeDamage(physicalDamage, magicalDamage, isCrit);
         }
     }
 
     public void SetPrefab(GameObject pf)
     {
         prefab = pf;
+    }
+
+    public void SetIsCrit(bool isCrit)
+    {
+        this.isCrit = isCrit;
     }
 }

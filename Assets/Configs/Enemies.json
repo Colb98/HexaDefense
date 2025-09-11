@@ -3,6 +3,8 @@
     "type": "Undead",
     "baseDescription": "A mindless undead risen from the grave. Balanced in all stats. Deals physical damage.",
     "damageType": "physical",
+    "critChance": 30,
+    "critDamage": 0.5,
     "levels": [
       {
         "level": 1,
@@ -46,6 +48,8 @@
     "type": "Skeleton",
     "baseDescription": "A nimble skeleton scout. Weak but fast. Deals magical damage.",
     "damageType": "magical",
+    "critChance": 30,
+    "critDamage": 0.5,
     "levels": [
       {
         "level": 1,
@@ -89,6 +93,8 @@
     "type": "Undead Orc",
     "baseDescription": "A bloated corpse of a fallen orc. Extremely tough but slow. Deals physical damage.",
     "damageType": "physical",
+    "critChance": 30,
+    "critDamage": 0.5,
     "levels": [
       {
         "level": 1,

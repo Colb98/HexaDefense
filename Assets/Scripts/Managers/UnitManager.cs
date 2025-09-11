@@ -25,6 +25,7 @@ public class UnitManager : MonoBehaviour
     [SerializeField] private List<Unit> activeEnemies = new List<Unit>();
     private Queue<Unit> pooledEnemies = new Queue<Unit>();
     private Vector2Int start = new Vector2Int(-1, -1);
+    [SerializeField] CombatTextManager textManager;
 
     void Start()
     {
@@ -49,6 +50,7 @@ public class UnitManager : MonoBehaviour
         Unit unit = enemyObject.GetComponent<Unit>();
         unit.SetMap(map);
         unit.isDefense = false;
+        unit.combatText = textManager;
 
         // Deactivate the unit
         enemyObject.SetActive(false);
@@ -175,7 +177,7 @@ public class UnitManager : MonoBehaviour
             var enemyConfig = GameConfigManager.Instance.Enemies[enemyType];
             var levelData = enemyConfig.levels.FirstOrDefault(level => level.level == lvl);
 
-            unit.Initialize(enemyType, levelData);
+            unit.Initialize(enemyType, levelData, enemyConfig);
 
             // Configure the unit
             unit.SetCoord(start);

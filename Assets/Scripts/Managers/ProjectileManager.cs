@@ -62,7 +62,7 @@ public class ProjectileManager : MonoBehaviour
     }
 
     // Create an area projectile
-    public AreaProjectile CreateAreaProjectile(GameObject prefab, Vector3 origin, Vector3 target, float radius, float physDamage, float magDamage, float speed)
+    public AreaProjectile CreateAreaProjectile(GameObject prefab, Vector3 origin, Vector3 target, float radius, float physDamage, float magDamage, float speed, bool isCrit)
     {
         // Initialize pool if not exists
         InitializeAreaProjectilePool(prefab);
@@ -96,13 +96,14 @@ public class ProjectileManager : MonoBehaviour
         // Reset and activate the projectile
         projectile.transform.position = origin;
         projectile.gameObject.SetActive(true);
+        projectile.SetIsCrit(isCrit);
         projectile.Initialize(target, radius, physDamage, magDamage, speed);
 
         return projectile;
     }
 
     // Create a homing projectile
-    public HomingProjectile CreateHomingProjectile(GameObject prefab, Vector3 origin, Entity target, float physDamage, float magDamage, float speed)
+    public HomingProjectile CreateHomingProjectile(GameObject prefab, Vector3 origin, Entity target, float physDamage, float magDamage, float speed, bool isCrit)
     {
         // Initialize pool if not exists
         InitializeHomingProjectilePool(prefab);
@@ -136,6 +137,7 @@ public class ProjectileManager : MonoBehaviour
         // Reset and activate the projectile
         projectile.transform.position = origin;
         projectile.gameObject.SetActive(true);
+        projectile.SetIsCrit(isCrit);
         projectile.Initialize(target, physDamage, magDamage, speed);
 
         return projectile;

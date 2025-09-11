@@ -13,7 +13,7 @@ public class Unit : Entity
     [SerializeField] float moveProgress = 0.0f;
     int reward = 0;
 
-    public virtual void Initialize(string type, EnemyLevelData data)
+    public virtual void Initialize(string type, EnemyLevelData data, EnemyConfig config)
     {
         entityType = type;
 
@@ -24,6 +24,9 @@ public class Unit : Entity
 
         physicalDefense = data.resistances.physical;
         magicalDefense = data.resistances.magical;
+
+        critChance = config.critChance;
+        critDamage = config.critDamage;
 
         reward = data.reward;
 

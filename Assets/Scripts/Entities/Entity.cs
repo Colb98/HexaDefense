@@ -17,6 +17,9 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     public float physicalDefense;
     public float magicalDefense;
     public float attackRange;
+    public float critChance;
+    public float critDamage;
+
     public float attackCooldown;
     public float timeSinceLastAttack;
     public string entityType;
@@ -34,6 +37,8 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     [SerializeField] private HealthBarUI healthBarPrefab;
     [SerializeField] private Transform healthBarPivot; // assign HealthBarPivot in Inspector
 
+    public CombatTextManager combatText;
+
     private HealthBarUI healthBarUI;
 
     void Start()
@@ -48,9 +53,14 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         }
     }
 
-    public void TakeDamage(float physDmg, float magDmg) {
+    public void TakeDamage(float physDmg, float magDmg, bool isCrit = false) {
         float totalDamage = Math.Max(0, physDmg - physicalDefense) + Math.Max(0, magDmg - magicalDefense);
         hp -= totalDamage;
+
+        if (combatText != null)
+        {
+            combatText.ShowNumber(-((int)totalDamage), transform.position, transform, isCrit);
+        }
 
         if (healthBarUI != null)
             healthBarUI.SetHealth(hp, maxHP);
@@ -170,7 +180,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
         if (target != null && CanAttack())
         {
-            if (isAttackCooledDown())
+            if (IsAttackCooledDown())
             {
                 PerformAttack();
                 timeSinceLastAttack = 0;
@@ -278,14 +288,35 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     protected virtual void PerformAttack()
     {
+        bool isCrit = UnityEngine.Random.Range(0, 100) < critChance;
         // Perform attack
-        target.TakeDamage(physicalDamage, magicalDamage);
+        target.TakeDamage(GetPhysicalDamage(isCrit), GetMagicalDamage(isCrit), isCrit);
     }
 
-    protected bool isAttackCooledDown()
+
+    protected bool IsAttackCooledDown()
     {
         return timeSinceLastAttack >= attackCooldown;
     }
+
+    protected float GetPhysicalDamage(bool isCrit)
+    {
+        if (isCrit)
+        {
+            return physicalDamage * (1 + critDamage);
+        }
+        return physicalDamage;
+    }
+
+    protected float GetMagicalDamage(bool isCrit)
+    {
+        if (isCrit)
+        {
+            return magicalDamage * (1 + critDamage);
+        }
+        return magicalDamage;
+    }
+
 
     protected Entity[] GetEntitiesToAttack() {
         // Get all entities in the map

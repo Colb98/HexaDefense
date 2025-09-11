@@ -17,6 +17,7 @@ public class TowerManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private Map _map;
     [SerializeField] private List<TowerPrefabEntry> _towerPrefabs;
+    [SerializeField] CombatTextManager textManager;
 
     [Header("Pool Settings")]
     [SerializeField] private int _initialPoolSize = 10;
@@ -112,6 +113,7 @@ public class TowerManager : MonoBehaviour
         tower.gameObject.SetActive(false);
         _towerPool[name].Enqueue(tower);
         tower.SetMap(_map);
+        tower.combatText = textManager;
         return tower;
     }
 

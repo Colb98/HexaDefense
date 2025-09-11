@@ -5,6 +5,8 @@
     "range": 10,
     "attackSpeed": 1.2,
     "damageRadius": 2.5,
+    "critChance": 40,
+    "critDamage": 0.5,
     "attackProjectileSpeed": 15,
     "levels": [
       {
@@ -36,6 +38,8 @@
     "damageType": "physical",
     "range": 15,
     "attackSpeed": 0.7,
+    "critChance": 60,
+    "critDamage": 1.0,
     "attackProjectileSpeed": 30,
     "levels": [
       {

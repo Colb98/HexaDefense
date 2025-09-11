@@ -15,7 +15,7 @@ public class Tower : Entity
     {
         if (IsDead()) return;
         UpdateAttack();
-        if (isAttackCooledDown())
+        if (IsAttackCooledDown())
         {
             GetComponent<SpriteRenderer>().color = originalColor;
         }
@@ -61,6 +61,8 @@ public class Tower : Entity
         hp = data.health;
         physicalDamage = data.physicalDamage;
         magicalDamage = data.magicalDamage;
+        critChance = config.critChance;
+        critDamage = config.critDamage;
 
         attackRange = config.range;
         attackCooldown = config.attackSpeed;

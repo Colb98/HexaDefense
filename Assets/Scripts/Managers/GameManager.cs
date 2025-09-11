@@ -77,7 +77,6 @@ public class GameManager : MonoBehaviour
         if (ret >= 0)
         {
             OnGoldChanged?.Invoke(data.Gold); // Notify subscribers about gold change
-            Debug.Log("Invoke event with gold: " + data.Gold);
         }
         return ret;
     }

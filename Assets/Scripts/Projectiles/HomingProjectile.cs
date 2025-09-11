@@ -32,7 +32,7 @@ public class HomingProjectile : Projectile
         float distanceSqr = (targetEntity.transform.position - transform.position).sqrMagnitude;
         if (distanceSqr <= speed * Time.deltaTime * speed * Time.deltaTime) {
             transform.position = targetEntity.transform.position;
-            targetEntity.TakeDamage(physicalDamage, magicalDamage);
+            targetEntity.TakeDamage(physicalDamage, magicalDamage, isCrit);
             owner.GetMap().ProjectileManager.ReturnHomingProjectileToPool(this, prefab);
         }
         else
