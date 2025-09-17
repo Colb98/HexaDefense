@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileManager : MonoBehaviour
+public class AttackManager : MonoBehaviour
 {
     [SerializeField] private Map _map;
 
@@ -141,6 +141,22 @@ public class ProjectileManager : MonoBehaviour
         projectile.Initialize(target, physDamage, magDamage, speed);
 
         return projectile;
+    }
+
+    public void CreateInstantAttack(Entity target, float physDamage, float magDamage, bool isCrit)
+    {
+        InstantAttack attack = new InstantAttack();
+        attack.Initialize(new List<Entity> { target }, physDamage, magDamage, isCrit);
+        // deal damage immediately
+        attack.Trigger();
+    }
+
+    public void CreateInstantAttack(List<Entity> targets, float physDamage, float magDamage, bool isCrit)
+    {
+        InstantAttack attack = new InstantAttack();
+        attack.Initialize(targets, physDamage, magDamage, isCrit);
+        // deal damage immediately
+        attack.Trigger();
     }
 
     // Return an area projectile to its pool

@@ -23,11 +23,11 @@ public class Map : MonoBehaviour
 
     [SerializeField] private UnitManager unitManager;
 
-    [SerializeField] private ProjectileManager projectileManager;
+    [SerializeField] private AttackManager projectileManager;
 
     public TowerManager TowerManager => towerManager;   
     public UnitManager UnitManager => unitManager;
-    public ProjectileManager ProjectileManager => projectileManager;
+    public AttackManager ProjectileManager => projectileManager;
 
     private int[,] distanceToEnd;
     private List<Vector2Int> endTiles = new List<Vector2Int>();
@@ -141,6 +141,8 @@ public class Map : MonoBehaviour
                 {
                     Debug.Log($"Tower clicked: {tower.name} at position {tower.transform.position}");
                     ui.ShowTowerHud(tower, tower.transform.position);
+
+                    tower.ShowAttackRange();
                 }
             }
         }

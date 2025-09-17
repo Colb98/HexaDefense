@@ -245,7 +245,7 @@ public class UnitManager : MonoBehaviour
 
             unit.SetTarget(attackableEntity);
 
-            var tiles = Tile.GetHexesInRange(unit.target.position, (int)unit.attackRange + unit.target.GetSize() - 1);
+            var tiles = Tile.GetHexesInRange(unit.target.position, (int)unit.Stats.AttackRange.Value + unit.target.GetSize() - 1);
 
             // If unit is moving, use next position, otherwise use current position
             var isMoving = unit.IsMoving();
@@ -280,7 +280,7 @@ public class UnitManager : MonoBehaviour
             // TODO: use strategy base on unit type (e.g., prioritize towers)
             Entity target = null;
             float min = float.MaxValue;
-            float attackRangeSqr = unit.attackRange * unit.attackRange;
+            float attackRangeSqr = unit.Stats.AttackRange.Value * unit.Stats.AttackRange.Value;
             foreach (var entity in attackableEntities)
             {
                 if (entity.CanBeAttacked(unit.aggroLevel))
@@ -300,7 +300,7 @@ public class UnitManager : MonoBehaviour
             // Nếu có target thì phải tìm thử đường (nếu không có đường thì không setTarget)
             if (target != null)
             {
-                var tiles = Tile.GetHexesInRange(target.position, (int)unit.attackRange + target.GetSize() - 1);
+                var tiles = Tile.GetHexesInRange(target.position, (int)unit.Stats.AttackRange.Value + target.GetSize() - 1);
                 var isMoving = unit.IsMoving();
                 var unitPosition = isMoving ? unit.GetNextPosition() : unit.position;
                 var path = AStar.FindPath(map.GetMapData(), tiles.ToArray(), unitPosition);

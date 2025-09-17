@@ -19,7 +19,7 @@ public class FireballTower : Tower
 
     protected override void PerformAttack()
     {
-        bool isCrit = UnityEngine.Random.Range(0, 100) < critChance;
+        bool isCrit = UnityEngine.Random.Range(0, 100) < Stats.CritChance.Value;
         if (fireballCount < bigFireballIndex)
         {
             fireballCount++;

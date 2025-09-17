@@ -51,7 +51,6 @@ public class CombatTextManager : MonoBehaviour
         var s = styleMap[type];
         var ft = Get();
         var txt = crit ? $"<b>{-amount}</b>" : (-amount).ToString();
-        Debug.Log($"Show crit {crit} with style {s}");
         ft.Show(txt, worldPos, follow, s, RandomJitter());
         // Optional: schedule Return at end; here we let the item deactivate itself, then a small cleanup could re-enqueue
         StartCoroutine(ReturnWhenDisabled(ft));

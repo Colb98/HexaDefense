@@ -60,6 +60,7 @@ public class TowerHudUI : MonoBehaviour, IBlockerListener
 
     public void Hide()
     {
+        currentTarget.HideAttackRange();
         currentTarget = null;
         hudPanel.gameObject.SetActive(false);
         lockInteraction = false;

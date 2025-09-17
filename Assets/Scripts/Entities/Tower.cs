@@ -7,7 +7,7 @@ public class Tower : Entity
     [SerializeField] TowerType towerType;
     [SerializeField] int size = 2;
 
-    [SerializeField] private Color originalColor;
+    [SerializeField] protected Color originalColor;
 
     [SerializeField] private int level;
 
@@ -18,10 +18,6 @@ public class Tower : Entity
         if (IsAttackCooledDown())
         {
             GetComponent<SpriteRenderer>().color = originalColor;
-        }
-        else
-        {
-            GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
 
@@ -57,21 +53,22 @@ public class Tower : Entity
         // Additional initialization logic here
         entityType = type;
 
-        maxHP = data.health;
-        hp = data.health;
-        physicalDamage = data.physicalDamage;
-        magicalDamage = data.magicalDamage;
-        critChance = config.critChance;
-        critDamage = config.critDamage;
+        Stats.HealthPoint.Base = data.health;
+        Stats.CurrentHealth = data.health;
+        Stats.PhysicalDamage.Base = data.physicalDamage;
+        Stats.MagicalDamage.Base = data.magicalDamage;
+        Stats.CritChance.Base = config.critChance;
+        Stats.CritDamage.Base = config.critDamage;
 
-        attackRange = config.range;
-        attackCooldown = config.attackSpeed;
+        Stats.AttackRange.Base = config.range;
+        Stats.AttackSpeed.Base = config.attackSpeed;
 
         timeSinceLastAttack = 0f;
         Debug.Log($"Tower initialized: {gameObject.name}, size: {size}, position: {position}, type: {type}, data: {data}, config: {config}");
 
         originalColor = GetComponent<SpriteRenderer>().color;
         UpdateAttackRangeSprite();
+        HideAttackRange();
     }
 
     private void UpdateAttackRangeSprite()
@@ -81,7 +78,7 @@ public class Tower : Entity
 
         if (childTransform != null)
         {
-            var scale = attackRange * new Vector3(1.05f, 1.05f, 1.05f) / transform.localScale.x;
+            var scale = Stats.AttackRange.Value * new Vector3(1.05f, 1.05f, 1.05f) / transform.localScale.x;
             //Debug.Log($"Attack Range {scale}, {attackRange}, {transform.localScale}");
 
             // Set the local scale
@@ -135,5 +132,23 @@ public class Tower : Entity
     internal void SetLevel(int level)
     {
         this.level = level;
+    }
+
+    public void ShowAttackRange()
+    {
+        Transform childTransform = transform.Find("AttackRange");
+        if (childTransform != null)
+        {
+            childTransform.gameObject.SetActive(true);
+        }
+    }
+
+    public void HideAttackRange()
+    {
+        Transform childTransform = transform.Find("AttackRange");
+        if (childTransform != null)
+        {
+            childTransform.gameObject.SetActive(false);
+        }
     }
 }

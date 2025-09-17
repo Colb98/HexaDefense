@@ -65,5 +65,37 @@
         "upgradeCost": 85
       }
     ]
+  },
+  "FlashTower": {
+    "type": "SingleTarget",
+    "damageType": "magical",
+    "range": 10,
+    "attackSpeed": 0.8,
+    "critChance": 60,
+    "critDamage": 1.0,
+    "levels": [
+      {
+        "level": 1,
+        "physicalDamage": 0,
+        "magicalDamage": 40,
+        "health": 80,
+        "cost": 60,
+        "upgradeCost": 30
+      },
+      {
+        "level": 2,
+        "physicalDamage": 0,
+        "magicalDamage": 55,
+        "health": 110,
+        "upgradeCost": 45
+      },
+      {
+        "level": 3,
+        "physicalDamage": 0,
+        "magicalDamage": 70,
+        "health": 140,
+        "upgradeCost": 60
+      }
+    ]
   }
 }

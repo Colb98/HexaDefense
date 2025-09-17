@@ -5,7 +5,6 @@ using UnityEngine;
 public class Unit : Entity
 {
     [Header("Unit Stats")]
-    [SerializeField] float speed = 3.0f;
     List<Vector2Int> path = new List<Vector2Int>();
     bool isAirborne;
 
@@ -17,24 +16,23 @@ public class Unit : Entity
     {
         entityType = type;
 
-        maxHP = data.health;
-        hp = data.health;
-        physicalDamage = data.physicalDamage;
-        magicalDamage = data.magicalDamage;
+        Stats.HealthPoint.Base = Stats.CurrentHealth = data.health;
+        Stats.PhysicalDamage.Base = data.physicalDamage;
+        Stats.MagicalDamage.Base = data.magicalDamage;
 
-        physicalDefense = data.resistances.physical;
-        magicalDefense = data.resistances.magical;
+        Stats.PhysicResist.Base = data.resistances.physical;
+        Stats.MagicResist.Base = data.resistances.magical;
 
-        critChance = config.critChance;
-        critDamage = config.critDamage;
+        Stats.CritChance.Base = config.critChance;
+        Stats.CritDamage.Base = config.critDamage;
 
         reward = data.reward;
 
-        attackRange = 1.5f;       // Still default unless you want per-type
-        attackCooldown = 1.0f;
+        Stats.AttackRange.Base = 1.5f;       // Still default unless you want per-type
+        Stats.AttackSpeed.Base = 1.0f;
 
         timeSinceLastAttack = 0f;
-        speed = data.moveSpeed;
+        Stats.MovementSpeed.Base = data.moveSpeed;
     }
 
     public override void Tick()
@@ -45,7 +43,7 @@ public class Unit : Entity
 
     public void Reset()
     {
-        hp = 10;
+        Stats.CurrentHealth = 10;
         isMoving = false;
         path.Clear();
         moveProgress = 0f;
@@ -75,6 +73,7 @@ public class Unit : Entity
 
     public void UpdateMoving() {
         if (IsDead()) return;
+        if (!IsMovable()) return;
         if (!isMoving || path.Count == 0) return;
 
         var targetTile = path[0];
@@ -82,7 +81,7 @@ public class Unit : Entity
         var startWorldPos = Tile.GetTilePosition(_map.tileSize, position, _map.width, _map.height);
         var targetWorldPos = Tile.GetTilePosition(_map.tileSize, targetTile, _map.width, _map.height);
         float distance = Vector3.Distance(startWorldPos, targetWorldPos);
-        float step = speed * Time.deltaTime;
+        float step = Stats.MovementSpeed.Value * Time.deltaTime;
         moveProgress += step / distance;
         //Debug.Log($"Move step from {position} to {targetTile} with progress {moveProgress}");
 

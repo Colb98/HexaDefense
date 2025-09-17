@@ -10,17 +10,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     [Header("Entity Stats")]
     public Vector2Int position;
 
-    public float maxHP;
-    public float hp;
-    public float physicalDamage;
-    public float magicalDamage;
-    public float physicalDefense;
-    public float magicalDefense;
-    public float attackRange;
-    public float critChance;
-    public float critDamage;
-
-    public float attackCooldown;
+    public Stats Stats = new();
     public float timeSinceLastAttack;
     public string entityType;
 
@@ -30,7 +20,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     public int aggroLimit = 4;
     public int aggroLevel = 1;
-    public List<Entity> aggroEntities = new List<Entity>();
+    public List<Entity> aggroEntities = new();
 
 
     [Header("Health Bar")]
@@ -41,9 +31,11 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     private HealthBarUI healthBarUI;
 
+    private bool isStunned;
+
     void Start()
     {
-        timeSinceLastAttack = attackCooldown;
+        timeSinceLastAttack = Stats.GetSecondsPerAttack();
 
         if (healthBarPivot)
         {
@@ -54,8 +46,8 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     }
 
     public void TakeDamage(float physDmg, float magDmg, bool isCrit = false) {
-        float totalDamage = Math.Max(0, physDmg - physicalDefense) + Math.Max(0, magDmg - magicalDefense);
-        hp -= totalDamage;
+        float totalDamage = Math.Max(0, physDmg - Stats.PhysicResist.Value) + Math.Max(0, magDmg - Stats.MagicResist.Value);
+        Stats.CurrentHealth -= totalDamage;
 
         if (combatText != null)
         {
@@ -63,7 +55,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         }
 
         if (healthBarUI != null)
-            healthBarUI.SetHealth(hp, maxHP);
+            healthBarUI.SetHealth(Stats.CurrentHealth, Stats.HealthPoint.Value);
         //Debug.Log($"Entity take damage {totalDamage}");
         if (IsDead())
         {
@@ -73,7 +65,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     }
 
     public bool IsDead() {
-        return hp <= 0;
+        return Stats.CurrentHealth <= 0;
     }
 
     public void OnSpawn()
@@ -109,7 +101,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     public virtual bool IsMovable()
     {
-        return true;
+        return !isStunned;
     }
 
     public virtual bool IsMoving()
@@ -150,6 +142,11 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     public void UpdateAttack()
     {
+        if (!CanAttack())
+        {
+            timeSinceLastAttack = 0;
+            return;
+        }
         timeSinceLastAttack += Time.deltaTime;
 
         if (target != null && target.IsDead())
@@ -169,7 +166,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
             var targetPos = Tile.GetTilePosition(_map.tileSize, target.position, _map.width, _map.height);
             float distance = Vector3.Distance(pos, targetPos) / Tile.GetUnitDistance(_map.tileSize);
             
-            if (distance > attackRange)
+            if (distance > Stats.AttackRange.Value)
             {
                 if (!IsMovable())
                 {
@@ -270,7 +267,12 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     public bool CanAttack()
     {
         // Check for status/debuffs
-        return true;
+        return !isStunned;
+    }
+
+    public void SetStun(bool isStunned)
+    {
+        this.isStunned = isStunned;
     }
 
     public bool CanBeAttacked(int attackerAggroLevel)
@@ -288,7 +290,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     protected virtual void PerformAttack()
     {
-        bool isCrit = UnityEngine.Random.Range(0, 100) < critChance;
+        bool isCrit = UnityEngine.Random.Range(0, 1) < Stats.CritChance.Value;
         // Perform attack
         target.TakeDamage(GetPhysicalDamage(isCrit), GetMagicalDamage(isCrit), isCrit);
     }
@@ -296,25 +298,25 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     protected bool IsAttackCooledDown()
     {
-        return timeSinceLastAttack >= attackCooldown;
+        return timeSinceLastAttack >= Stats.GetSecondsPerAttack();
     }
 
     protected float GetPhysicalDamage(bool isCrit)
     {
         if (isCrit)
         {
-            return physicalDamage * (1 + critDamage);
+            return Stats.PhysicalDamage.Value * (1 + Stats.CritDamage.Value);
         }
-        return physicalDamage;
+        return Stats.PhysicalDamage.Value;
     }
 
     protected float GetMagicalDamage(bool isCrit)
     {
         if (isCrit)
         {
-            return magicalDamage * (1 + critDamage);
+            return Stats.MagicalDamage.Value * (1 + Stats.CritDamage.Value);
         }
-        return magicalDamage;
+        return Stats.MagicalDamage.Value;
     }
 
 
@@ -326,7 +328,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         var filteredEntities = new System.Collections.Generic.List<Entity>();
         foreach (Entity entity in allEntities)
         {
-            if (entity != null && entity.isDefense != this.isDefense && entity.hp > 0)
+            if (entity != null && entity.isDefense != this.isDefense && entity.Stats.CurrentHealth > 0)
             {
                 filteredEntities.Add(entity);
             }
@@ -351,7 +353,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         // TODO: use strategy to find target
         float min = float.MaxValue;
         Entity target = null;
-        float attackRangeSqr = attackRange * Tile.GetUnitDistance() * attackRange * Tile.GetUnitDistance();
+        float attackRangeSqr = Stats.AttackRange.Value * Tile.GetUnitDistance() * Stats.AttackRange.Value * Tile.GetUnitDistance();
         foreach (Entity entity in entities) {
             if (entity != null)
             {
@@ -368,7 +370,8 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     public bool IsInRange(Vector2 position)
     {
-        return (this.position - position).sqrMagnitude <= attackRange * attackRange;
+
+        return (this.position - position).sqrMagnitude <= Stats.AttackRange.Value * Stats.AttackRange.Value;
     }
 
     public float GetDistanceSqr(Vector2 position)

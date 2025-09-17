@@ -13,7 +13,7 @@ public class ArrowTower : Tower
 
     protected override void PerformAttack()
     {
-        bool isCrit = UnityEngine.Random.Range(0, 100) < critChance;
+        bool isCrit = UnityEngine.Random.Range(0, 100) < Stats.CritChance.Value;
         HomingProjectile arrow = _map.ProjectileManager.CreateHomingProjectile(arrowPrefab, transform.position, target, GetPhysicalDamage(isCrit), GetMagicalDamage(isCrit), arrowSpeed, isCrit);
         arrow.SetOwner(this);
     }

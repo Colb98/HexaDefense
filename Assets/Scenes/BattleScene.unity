@@ -1006,6 +1006,8 @@ MonoBehaviour:
     towerPrefab: {fileID: 7531131578234596728, guid: a6016c8e112075a4ca80683f11ccb56f, type: 3}
   - towerName: ArrowTower
     towerPrefab: {fileID: 1362813783334251922, guid: 350f7c470674f1d428f0f8c576a42d71, type: 3}
+  - towerName: FlashTower
+    towerPrefab: {fileID: 5066138983480868812, guid: 2fd7f1d9a89311b4d89f83c806423852, type: 3}
   textManager: {fileID: 1256372128}
   _initialPoolSize: 10
   _expandPoolWhenEmpty: 1
@@ -2165,7 +2167,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1929480246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 331bfedccebf6a542bbe55cbfd66b7d3, type: 3}
+  m_Script: {fileID: 11500000, guid: c47861522318ca64b8c87cf877d86a05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _map: {fileID: 531260002}

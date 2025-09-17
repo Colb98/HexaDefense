@@ -30,9 +30,11 @@ public class TowerCardUI : MonoBehaviour
         // Load tower sprites or use assigned sprites
         Sprite fireballTowerSprite = Resources.Load<Sprite>("Sprites/Avatars/fireball_tower");
         Sprite arrowTowerSprite = Resources.Load<Sprite>("Sprites/Avatars/arrow_tower");
+        Sprite flashTowerSprite = Resources.Load<Sprite>("Sprites/Avatars/flash_tower");
 
         // Create cards for different tower types
         CreateTowerCard("Fireball Tower", "FireballTower", fireballTowerSprite);
         CreateTowerCard("Arrow Tower", "ArrowTower", arrowTowerSprite);
+        CreateTowerCard("Flash Tower", "FlashTower", flashTowerSprite);
     }
 }
