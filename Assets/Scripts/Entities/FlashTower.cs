@@ -14,7 +14,19 @@ public class FlashTower : Tower
     {
         bool isCrit = UnityEngine.Random.Range(0, 100) < Stats.CritChance.Value;
         _map.ProjectileManager.CreateInstantAttack(target, GetPhysicalDamage(isCrit), GetMagicalDamage(isCrit), isCrit);
-        target.SetStun(isCrit);
+        if (isCrit)
+        {
+            Buff buff = new StunDebuff(target, this, 1f);
+            target.AddBuff(buff);
+
+            buff = new SlowDebuff(target, this, 2f);
+            target.AddBuff(buff);
+        }
+        else
+        {
+            Buff buff = new SlowDebuff(target, this, 2f);
+            target.AddBuff(buff);
+        }
         GetComponent<SpriteRenderer>().color = flashColor;
         StartCoroutine(BackToBaseColor());
     }
@@ -23,7 +35,6 @@ public class FlashTower : Tower
     {
         // Wait for explosion duration
         yield return new WaitForSeconds(0.05f);
-        Debug.Log($"Back to original color {originalColor}");
         GetComponent<SpriteRenderer>().color = originalColor;
     }
 }

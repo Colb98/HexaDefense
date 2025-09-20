@@ -81,7 +81,8 @@ public class Unit : Entity
         var startWorldPos = Tile.GetTilePosition(_map.tileSize, position, _map.width, _map.height);
         var targetWorldPos = Tile.GetTilePosition(_map.tileSize, targetTile, _map.width, _map.height);
         float distance = Vector3.Distance(startWorldPos, targetWorldPos);
-        float step = Stats.MovementSpeed.Value * Time.deltaTime;
+        float movementSpeed = Math.Max(0.0f, Stats.MovementSpeed.Value);
+        float step = movementSpeed * Time.deltaTime;
         moveProgress += step / distance;
         //Debug.Log($"Move step from {position} to {targetTile} with progress {moveProgress}");
 
@@ -112,8 +113,11 @@ public class Unit : Entity
 
     public void OnStopMoving()
     {
+        // Check if reached goal
         if (_map.GetMapDataAt(position.x, position.y) == TileType.GOAL)
         {
+            Debug.Log($"Unit {name} reached goal at {position}");
+            GameManager.Instance.DecreaseHealth(1);
             this._map.GetUnitManager().RemoveUnit(this);
             PausableUpdateManager.instance.Unregister(this);
         }

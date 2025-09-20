@@ -28,6 +28,11 @@ public class GameDataModel
         set => score = value;
     }
 
+    public int BaseHealth
+    {         
+        get => baseHealth;
+    }
+
     public void IncrementWave()
     {
         wave++;
@@ -56,5 +61,14 @@ public class GameDataModel
         }
         gold += amount;
         return gold;
+    }
+
+    public void DecreaseBaseHealth(int amount)
+    {
+        baseHealth -= amount;
+        if (baseHealth < 0)
+        {
+            baseHealth = 0;
+        }
     }
 }

@@ -80,4 +80,14 @@ public class GameManager : MonoBehaviour
         }
         return ret;
     }
+
+    public void DecreaseHealth(int amount)
+    {
+        data.DecreaseBaseHealth(amount);
+        if (data.BaseHealth <= 0)
+        {
+            // Handle game over logic here
+            Debug.Log("Game Over!");
+        }
+    }
 }

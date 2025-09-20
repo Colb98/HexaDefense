@@ -31,7 +31,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
 
     private HealthBarUI healthBarUI;
 
-    private bool isStunned;
+    [SerializeField] protected List<Buff> buffs = new();
 
     void Start()
     {
@@ -97,11 +97,12 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     protected virtual void OnDead()
     {
         OnRemoved();
+        RemoveAllBuffs();
     }
 
     public virtual bool IsMovable()
     {
-        return !isStunned;
+        return true;
     }
 
     public virtual bool IsMoving()
@@ -138,6 +139,15 @@ public abstract class Entity : MonoBehaviour, IPausableTick
             return;
         }
         UpdateAttack();
+        UpdateBuffs();
+    }
+
+    public void UpdateBuffs()
+    {
+        for (int i = buffs.Count - 1; i >= 0; i--)
+        {
+            buffs[i].Tick(Time.deltaTime);
+        }
     }
 
     public void UpdateAttack()
@@ -267,12 +277,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     public bool CanAttack()
     {
         // Check for status/debuffs
-        return !isStunned;
-    }
-
-    public void SetStun(bool isStunned)
-    {
-        this.isStunned = isStunned;
+        return true;
     }
 
     public bool CanBeAttacked(int attackerAggroLevel)
@@ -377,5 +382,38 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     public float GetDistanceSqr(Vector2 position)
     {
         return (this.position - position).sqrMagnitude;
+    }
+
+    public void AddBuff(Buff buff)
+    {
+        // Check if buff of the same name already exists
+        foreach (Buff existingBuff in buffs)
+        {
+            if (existingBuff.name == buff.name)
+            {
+                existingBuff.AddBuff(buff);
+                return;
+            }
+        }
+        buffs.Add(buff);
+    }
+
+    public void RemoveBuff(string name)
+    {
+        buffs.RemoveAll(b => b.name == name);
+    }
+
+    public void RemoveBuff(Buff buff)
+    {
+        buffs.Remove(buff);
+    }
+
+    public void RemoveAllBuffs()
+    {
+        foreach (Buff buff in buffs)
+        {
+            buff.entity.Stats.RemoveModifier(buff.modifier);
+        }
+        buffs.Clear();
     }
 }
