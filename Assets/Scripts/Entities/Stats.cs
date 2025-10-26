@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class Stats
@@ -6,7 +7,20 @@ public class Stats
     [System.Serializable]
     public class Stat
     {
-        public string Name;
+        [SerializeField] private string _name = "";
+        public string Name 
+        {
+            get => _name;
+            set => _name = value;
+        }
+
+        public Stat(string name)
+        {
+            Name = name;
+        }
+
+        public Stat() { }
+
         private bool IsDirty;
 
         private float _value;
@@ -127,19 +141,35 @@ public class Stats
         public StatModifier CritDamage = new();
     }
 
-    public Stat HealthPoint = new();
-    public float CurrentHealth = new();
-    public Stat PhysicalDamage = new();
-    public Stat MagicalDamage = new();
-    public Stat PhysicResist = new();
-    public Stat MagicResist = new();
-    public Stat MovementSpeed = new();
-    public Stat AttackSpeed = new();
-    public Stat AttackRange = new();
-    public Stat CritChance = new();
-    public Stat CritDamage = new();
+    public Stat HealthPoint;
+    public float CurrentHealth;
+    public Stat PhysicalDamage;
+    public Stat MagicalDamage;
+    public Stat PhysicResist;
+    public Stat MagicResist;
+    public Stat MovementSpeed;
+    public Stat AttackSpeed;
+    public Stat AttackRange;
+    public Stat CritChance;
+    public Stat CritDamage;
+    public Dictionary<string, Stat> CustomStats = new();
 
     private List<StatsModifier> Modifiers = new();
+
+    public Stats()
+    {
+        HealthPoint = new Stat("Health Point");
+        CurrentHealth = HealthPoint.Value;
+        PhysicalDamage = new Stat("Physical Damage");
+        MagicalDamage = new Stat("Magical Damage");
+        PhysicResist = new Stat("Physic Resist");
+        MagicResist = new Stat("Magic Resist");
+        MovementSpeed = new Stat("Movement Speed");
+        AttackSpeed = new Stat("Attack Speed");
+        AttackRange = new Stat("Attack Range");
+        CritChance = new Stat("Crit Chance");
+        CritDamage = new Stat("Crit Damage");
+    }
 
     public float GetSecondsPerAttack()
     {
@@ -193,5 +223,38 @@ public class Stats
             CritDamage.RemoveStatModifier(modifier.CritDamage);
         }
         Modifiers.Clear();
+    }
+
+    public void AddStat(Stat stat)
+    {
+        CustomStats[stat.Name] = stat;
+    }
+
+    public void RemoveStat(string statName)
+    {
+        if (CustomStats.ContainsKey(statName))
+        {
+            CustomStats.Remove(statName);
+        }
+    }
+
+    public List<Stat> GetStats()
+    {
+        var ret = new List<Stat>()
+        {
+            HealthPoint,
+            PhysicalDamage,
+            MagicalDamage,
+            PhysicResist,
+            MagicResist,
+            MovementSpeed,
+            AttackSpeed,
+            AttackRange,
+            CritChance,
+            CritDamage
+        };
+        ret.AddRange(CustomStats.Values);
+
+        return ret;
     }
 }

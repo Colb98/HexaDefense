@@ -3,11 +3,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Image))]
 public class UIClickBlocker : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
 {
-    IBlockerListener blockerListener;
+    List<IBlockerListener> blockerListener = new();
 
     private void Start()
     {
@@ -31,28 +32,47 @@ public class UIClickBlocker : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
     public void SetBlockerListener(IBlockerListener listener)
     {
-        blockerListener = listener;
+        blockerListener.Add(listener);
+        gameObject.SetActive(true);
+    }
+
+    public void removeListener(IBlockerListener listener)
+    {
+        blockerListener.Remove(listener);
+        if (blockerListener.Count == 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         // Block the click event from propagating
         eventData.Use();
-        blockerListener?.OnBlockerClicked();
+        for (int i = blockerListener.Count - 1; i >= 0; i--)
+        {
+            blockerListener[i]?.OnBlockerClicked();
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         // Block the pointer down event from propagating
         eventData.Use();
-        blockerListener?.OnBlockerPointerDown();
+        for (int i = blockerListener.Count - 1; i >= 0; i--)
+        {
+            blockerListener[i]?.OnBlockerPointerDown();
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         // Block the pointer up event from propagating
         eventData.Use();
-        blockerListener?.OnBlockerPointerUp();
+        for (int i = blockerListener.Count - 1; i >= 0; i--)
+        {
+            blockerListener[i]?.OnBlockerPointerUp();
+        }
     }
 }
 

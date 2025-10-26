@@ -141,6 +141,7 @@ public class Map : MonoBehaviour
                 {
                     Debug.Log($"Tower clicked: {tower.name} at position {tower.transform.position}");
                     ui.ShowTowerHud(tower, tower.transform.position);
+                    ui.ShowEntityHUD(tower);
 
                     tower.ShowAttackRange();
                 }

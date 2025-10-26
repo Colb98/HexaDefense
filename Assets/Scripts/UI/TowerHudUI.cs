@@ -38,7 +38,6 @@ public class TowerHudUI : MonoBehaviour, IBlockerListener
         }
 
         lockCoroutine = StartCoroutine(UnlockInteractionAfterDelay(0.1f));
-        blocker.gameObject.SetActive(true);
         blocker.SetBlockerListener(this);
     }
 
@@ -64,7 +63,7 @@ public class TowerHudUI : MonoBehaviour, IBlockerListener
         currentTarget = null;
         hudPanel.gameObject.SetActive(false);
         lockInteraction = false;
-        blocker.gameObject.SetActive(false);
+        blocker.removeListener(this);
     }
 
     private void OnUpgrade()

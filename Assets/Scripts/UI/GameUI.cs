@@ -1,12 +1,15 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.GraphicsBuffer;
 
 public class GameUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI labelGold;
     [SerializeField] TextMeshProUGUI labelWave;
     [SerializeField] TowerHudUI hud;
+    [SerializeField] EntityHUD entityHUD;
 
     void Start()
     {
@@ -50,5 +53,16 @@ public class GameUI : MonoBehaviour
     {
         yield return null; // Wait for the next frame
         hud.Show(targetTower, worldPos);
+    }
+
+    public void ShowEntityHUD(Entity entity)
+    {
+        StartCoroutine(ShowEntityHudNextFrame(entity));
+    }
+
+    private IEnumerator ShowEntityHudNextFrame(Entity entity)
+    {
+        yield return null; // Wait for the next frame
+        entityHUD.ShowEntity(entity);
     }
 }
