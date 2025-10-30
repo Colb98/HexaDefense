@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Unit : Entity
+public class Unit : Entity, IPointerClickHandler
 {
     [Header("Unit Stats")]
     List<Vector2Int> path = new List<Vector2Int>();
@@ -183,6 +184,11 @@ public class Unit : Entity
     public int GetGoldReward()
     {
         return reward;
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!_map.IsShowingEntityHUD())
+            _map.ShowEntityHUD(this);
     }
 
 #if UNITY_EDITOR

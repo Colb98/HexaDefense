@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class GameDataModel
 {
-    [SerializeField] private int gold = 0;
+    [SerializeField] private int gold = 100;
     [SerializeField] private int wave = 0;
 
     [SerializeField] private int score = 0;

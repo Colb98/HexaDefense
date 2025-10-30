@@ -268,6 +268,28 @@ MonoBehaviour:
   statNameText: {fileID: 4227103213094086125}
   baseValueText: {fileID: 7772926695452097749}
   bonusValueText: {fileID: 6829095389932398930}
+  statIcon: {fileID: 7925845470023664800}
+  sprites:
+  - name: Health Point
+    sprite: {fileID: -1674392479, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Physical Damage
+    sprite: {fileID: -1973923901, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Magical Damage
+    sprite: {fileID: 964253544, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Physic Resist
+    sprite: {fileID: 77174710, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Magic Resist
+    sprite: {fileID: 909804, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Movement Speed
+    sprite: {fileID: 454877075, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Attack Speed
+    sprite: {fileID: 1626599862, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Attack Range
+    sprite: {fileID: 86920574, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Crit Chance
+    sprite: {fileID: -1912828916, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
+  - name: Crit Damage
+    sprite: {fileID: -1089451201, guid: fe09cad47125f5646b4806ea32037b19, type: 3}
 --- !u!1 &7252413221622909789
 GameObject:
   m_ObjectHideFlags: 0

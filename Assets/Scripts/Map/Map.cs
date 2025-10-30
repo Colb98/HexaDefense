@@ -141,7 +141,7 @@ public class Map : MonoBehaviour
                 {
                     Debug.Log($"Tower clicked: {tower.name} at position {tower.transform.position}");
                     ui.ShowTowerHud(tower, tower.transform.position);
-                    ui.ShowEntityHUD(tower);
+                    ShowEntityHUD(tower);
 
                     tower.ShowAttackRange();
                 }
@@ -162,6 +162,18 @@ public class Map : MonoBehaviour
         {
             GetUnitManager().UpdateUnitPaths();
         }
+    }
+
+    public void ShowEntityHUD(Entity entity)
+    {
+        var ui = FindFirstObjectByType<GameUI>();
+        ui.ShowEntityHUD(entity);
+    }
+
+    public bool IsShowingEntityHUD()
+    {
+        var ui = FindFirstObjectByType<GameUI>();
+        return ui.IsShowingEntityHUD();
     }
 
     public void OnTowerDead(Tower tower)

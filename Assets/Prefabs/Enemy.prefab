@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9140685405874516912}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HealthBarPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,8 @@ GameObject:
   - component: {fileID: 1009735151582014791}
   - component: {fileID: 8625828108106685547}
   - component: {fileID: 7040906750126536006}
-  m_Layer: 0
+  - component: {fileID: 8832417208121165097}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,14 +134,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
-  maxHP: 0
-  hp: 0
-  physicalDamage: 0
-  magicalDamage: 0
-  physicalDefense: 0
-  magicalDefense: 0
-  attackRange: 0
-  attackCooldown: 0
+  Stats:
+    HealthPoint:
+      _name: Health Point
+    CurrentHealth: 0
+    PhysicalDamage:
+      _name: Physical Damage
+    MagicalDamage:
+      _name: Magical Damage
+    PhysicResist:
+      _name: Physic Resist
+    MagicResist:
+      _name: Magic Resist
+    MovementSpeed:
+      _name: Movement Speed
+    AttackSpeed:
+      _name: Attack Speed
+    AttackRange:
+      _name: Attack Range
+    CritChance:
+      _name: Crit Chance
+    CritDamage:
+      _name: Crit Damage
   timeSinceLastAttack: 0
   entityType: 
   target: {fileID: 0}
@@ -150,6 +165,43 @@ MonoBehaviour:
   aggroEntities: []
   healthBarPrefab: {fileID: 7831689583315693273, guid: d03f4bb6d7c2c6846bb6931a7ff2a545, type: 3}
   healthBarPivot: {fileID: 9140685405874516912}
-  speed: 2
+  combatText: {fileID: 0}
+  buffs: []
   isMoving: 0
   moveProgress: 0
+--- !u!58 &8832417208121165097
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893466408605065793}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5

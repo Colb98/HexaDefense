@@ -23,7 +23,6 @@ public class EntityHUD : MonoBehaviour, IBlockerListener
         entity.Stats.GetStats().ForEach(stat =>
         {
             StatLine statLine = Instantiate(statLinePrefab, statListPanel.transform);
-        Debug.Log($"Adding stat line for stat: {stat.Name} with value: {stat.Value}");
             statLine.Initialize(stat);
         });
         lockInteraction = true;
@@ -37,6 +36,14 @@ public class EntityHUD : MonoBehaviour, IBlockerListener
         blocker.SetBlockerListener(this);
     }
 
+    void Update()
+    {
+        if (entity.IsDead())
+        {
+            Hide();
+        }
+    }
+
     public void Hide()
     {
         this.entity = null;
@@ -48,6 +55,11 @@ public class EntityHUD : MonoBehaviour, IBlockerListener
     {
         yield return new WaitForSeconds(delay);
         lockInteraction = false;
+    }
+
+    public bool IsLocked()
+    {
+        return lockInteraction;
     }
 
     public void OnBlockerPointerDown()

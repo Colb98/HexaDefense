@@ -105,6 +105,7 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 - Menu chỉ số (hiện chỉ số, modifier và tên entity). Đã done cho trụ, có thể mở rộng cho xem quái và boss
 
 # Day 18
+- Menu cho Quái (Touch vào quái đã được), icon cho từng line menu
 - Dùng gold
 
 ## Day X (TODO):

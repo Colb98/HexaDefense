@@ -255,10 +255,17 @@ public class TowerManager : MonoBehaviour
         {
             return null;
         }
-        tower.transform.localPosition = Tile.GetTilePosition(_map.tileSize, center, _map.width, _map.height);
 
         var towerConfig = GameConfigManager.Instance.Towers[type];
         var levelConfig = towerConfig.levels.FirstOrDefault(lvl => lvl.level == level);
+        if (level == 1)
+        {
+            int price = levelConfig != null ? levelConfig.cost : 0;
+            GameManager.Instance.UseGold(price);
+        }
+
+        tower.transform.localPosition = Tile.GetTilePosition(_map.tileSize, center, _map.width, _map.height);
+
         tower.Initialize(size, center, type, levelConfig, towerConfig);
         tower.SetLevel(level);
         tower.transform.SetParent(_map.transform);

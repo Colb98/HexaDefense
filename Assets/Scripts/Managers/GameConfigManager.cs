@@ -32,4 +32,11 @@ public class GameConfigManager : MonoBehaviour
         Debug.Log("Tower Configs Loaded: " + Towers.Count + " with keys: " + Towers.Keys);
         Debug.Log("Enemies Configs Loaded: " + Enemies.Count + " with keys: " + Enemies.Keys);
     }
+
+    public int GetTowerPrice(string towerType, int level = 1)
+    {
+        var towerConfig = Towers[towerType];
+        var levelConfig = towerConfig.levels.Find(lvl => lvl.level == level);
+        return levelConfig != null ? levelConfig.cost : 0;
+    }
 }

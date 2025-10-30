@@ -47,7 +47,7 @@ public class AreaProjectile : Projectile
             var scale = radius / 0.5f * initialAreaScale;
             explosionSprite.SetActive(false);
             explosionSprite.transform.localScale = new Vector3(scale, scale, scale);
-            Debug.Log("Explosion radius: " + explosionRadius + ", Scale: " + scale + ", initialScale" + initialAreaScale + ", world scale " + explosionSprite.transform.lossyScale);
+            //Debug.Log("Explosion radius: " + explosionRadius + ", Scale: " + scale + ", initialScale" + initialAreaScale + ", world scale " + explosionSprite.transform.lossyScale);
         }
         PausableUpdateManager.instance.Register(this);
     }

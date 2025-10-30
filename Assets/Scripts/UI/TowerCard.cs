@@ -13,6 +13,7 @@ public class TowerCard : MonoBehaviour, IPointerClickHandler
     public Image towerImage;
     public Image selectedImage;
     public TextMeshProUGUI towerNameText;
+    public TextMeshProUGUI towerPrice;
 
     private TowerSelectionManager selectionManager;
 

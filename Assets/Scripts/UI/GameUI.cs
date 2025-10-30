@@ -65,4 +65,9 @@ public class GameUI : MonoBehaviour
         yield return null; // Wait for the next frame
         entityHUD.ShowEntity(entity);
     }
+
+    public bool IsShowingEntityHUD() 
+    {
+        return entityHUD.IsLocked();
+    }
 }
