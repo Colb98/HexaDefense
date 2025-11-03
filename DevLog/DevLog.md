@@ -98,7 +98,7 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 - Thử đổi kích thước map từ 100 x 75 -> 36 x 21 thì nổ khá nhiều. Lý do là do code (chủ yếu là các đoạn gen AI): không chú ý tới scale của map, map scale lại rồi vị trí khi set các unit/trụ/đạn bị lệch hết (do tính theo công thức rồi đặt position là world pos), hàm static tính vị trí của Tile bị hard code theo scale cũ (thật ra cũng chưa nghĩ ra cách để nó đọc được state của value gán trong Map), các sprite thể hiện tầm bắn, tầm ảnh hưởng cần phải chỉnh trong editor lại để scale đúng tỉ lệ.
 - Hàm upgrade và remove trụ. Đọc config level sau và init lại chỉ số. Cộng tiền khi sell và check điều kiện nếu upgrade thì UI sẽ có nút upgrade.
 
-# Day 16 TODO
+# Day 16
 - Điều kiện kết thúc màn.
 
 # Day 17 
@@ -107,6 +107,9 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 # Day 18
 - Menu cho Quái (Touch vào quái đã được), icon cho từng line menu
 - Dùng gold
+
+# Day 19
+- Fix bug Buff vẫn gây hiệu ứng lên Entity kể cả khi đã chết (đã remove buff). Do Buff khi chưa được add đã thay đổi Stat của entity
 
 ## Day X (TODO):
 Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn

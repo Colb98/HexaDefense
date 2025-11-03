@@ -385,6 +385,32 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -926,7 +952,7 @@ TextureImporter:
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 5, y: 5, z: 5, w: 5}
       customData: 
       outline: []
       physicsShape: []
@@ -1436,7 +1462,49 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      GUI_0: -7151958888795693489
+      GUI_1: 8105364098890919055
+      GUI_10: 9112046958845575407
+      GUI_11: 5772783901100147917
+      GUI_12: 3976019420461107629
+      GUI_13: 4137037144684975938
+      GUI_14: -7344508877482438339
+      GUI_15: -7568063341596875841
+      GUI_16: -6613218214482179272
+      GUI_17: 6118865108981898103
+      GUI_18: 944800511937124426
+      GUI_19: -5058847034674082712
+      GUI_2: -5376358965234703051
+      GUI_20: -8110373546920229927
+      GUI_21: -4972417160956389086
+      GUI_22: -550459873359513890
+      GUI_23: -3352333929547219395
+      GUI_24: 2020845106392875415
+      GUI_25: -3673437966201261359
+      GUI_26: -596989141680907126
+      GUI_27: -3398404699847443785
+      GUI_28: -4618709357139527197
       GUI_29: 157245269
+      GUI_3: 5740453210667488706
+      GUI_4: 2802904198054408972
+      GUI_5: -9168193397101357998
+      GUI_6: -3238813901825184631
+      GUI_7: 319298653339161350
+      GUI_79: 8185449766706435008
+      GUI_8: 6667725422741070258
+      GUI_80: -3159190157051824124
+      GUI_81: 7636540835840895106
+      GUI_82: -4159723560739317581
+      GUI_83: 4595562418833614322
+      GUI_85: -2787250455702954053
+      GUI_86: 4280183411502431006
+      GUI_87: 6921692175473761707
+      GUI_88: -3950770370805035295
+      GUI_89: -8772957550987248711
+      GUI_9: -66242598018789029
+      GUI_90: -1643840729487220428
+      GUI_91: 2257331611806052732
+      GUI_92: -4101303283269101149
       GUI_93: -913949377
       GUI_94: -231647501
       GUI_95: 1037993539

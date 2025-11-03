@@ -1,0 +1,25 @@
+Scene: Sau trận chiến — bụi mờ tan dần, không khí vẫn còn vương chút ma lực.
+Alish: (thở gấp) Cuối cùng... chúng cũng biến mất rồi.
+%name%: Cô chiến đấu giỏi đấy. Hầu hết người ta thấy mấy thứ đó là chạy mất dép rồi.
+Alish: Anh cũng đâu tệ hơn. Ít ai sống sót được sau lần đầu chạm trán bọn Osteon.
+%name%: Osteon?
+Alish: Lũ xác chết bị nguyền rủa, sống dậy từ xương cốt. Tay của Bóng Tối đấy.
+%name%: Không ngạc nhiên. Hắn vươn bóng đến tận nơi này rồi.
+Alish: Anh nói như thể từng gặp hắn vậy.
+%name%: Chưa. Nhưng hắn đã hủy diệt tất cả những gì tôi có. Gia đình... quê hương tôi.
+Alish: Dòng dõi hoàng tộc Eldenveil... anh là—
+%name%: Thứ còn sót lại của họ. Họ đã chết để bảo vệ tôi.
+Alish: Tôi... xin lỗi. Tôi không thể tưởng tượng nổi mất mát đó.
+%name%: Vì thế tôi mới đi săn hắn. Bóng Tối phải bị tiêu diệt — vì gia đình tôi, và vì cả vùng đất này.
+Alish: Anh định đối đầu hắn... một mình sao?
+%name%: Định thế. Cho đến khi gặp cô.
+Alish: (mỉm cười nhẹ) Ra vậy. Anh muốn tôi đi cùng.
+%name%: Tôi muốn cô chiến đấu cùng tôi. Tôi đã thấy sức mạnh — và lòng dũng cảm của cô.
+Alish: Anh tưởng nịnh bợ có tác dụng với pháp sư à?
+%name%: Chỉ với những người còn lương tri thôi.
+Alish: (ngập ngừng, suy nghĩ) Anh liều lĩnh thật... nhưng lý do của anh chính đáng.
+%name%: Vậy cô sẽ đi cùng tôi chứ?
+Alish: Tạm thời thôi. Cho đến khi tôi thấy lý do để rời đi.
+%name%: Vậy cũng đủ rồi. Chào mừng đến với cuộc chiến, Alish.
+Alish: Đừng cảm ơn vội, %name%. Anh chưa thấy tôi nổi nóng đâu đấy.
+%name%: (cười khẽ) Tôi sẽ chấp nhận rủi ro đó.

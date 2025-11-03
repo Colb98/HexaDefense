@@ -1,0 +1,23 @@
+Scene: The battlefield quiets. The last Osteon crumbles into dust. The air still hums faintly with magic.
+Alish: (catching her breath) They’re gone… finally. Those Osteons never stop coming at night.
+%name%: You fought well. Most people would’ve run the moment they saw bone and fire.
+Alish: I could say the same to you. Not many survive their first encounter with them.
+%name%: I’ve had worse. These things have been hunting me since the fall of the capital.
+Alish: The capital? You mean Eldenveil? You were there when it—
+%name%: Burned. Yes. My family… they died holding back the darkness so I could escape.
+Alish: I’m sorry… I didn’t know. The Dark One’s corruption spreads faster than we feared.
+%name%: That’s why I’m here. I’m going to end it. Him. Whatever he’s become.
+Alish: (quietly) You plan to face The Dark One… alone?
+%name%: Not anymore. You clearly know your way around magic—and survival.
+Alish: Heh. Flattery already? I’m still wiping ash off my cloak.
+%name%: I’m serious. I need someone who understands this kind of power. I can’t fight shadow with a sword alone.
+Alish: You think I’d just follow a stranger I met in the woods?
+%name%: Stranger or not, we share an enemy. And from what I saw, you’re not the type to stand by while the world burns.
+Alish: (pauses, thinking) You’re not wrong about that.
+%name%: Then come with me. We’ll bring light back to this land—or die trying.
+Alish: “Light and death.” Sounds like a fair bargain.
+%name%: Is that a yes?
+Alish: It’s a for now. Let’s see if your cause is worth the trouble.
+%name%: I’ll make it worth it. Welcome to the fight, Alish.
+Alish: Don’t thank me yet, %name%. You’ve seen my magic—but not my temper.
+%name%: (smirks) I’ll take my chances.

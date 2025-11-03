@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public event Action<int> OnHealthChanged;
     public event Action OnGameOverEvent;
 
+    public string CharacterName { get; set; } = "William";
+
     private void Awake()
     {
         if (Instance == null)
