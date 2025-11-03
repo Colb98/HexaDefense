@@ -20,7 +20,6 @@ public class Buff
         this.entity = entity;
 
         Initialize();
-        entity.Stats.AddModifier(modifier);
     }
 
     protected virtual void Initialize()
@@ -44,6 +43,10 @@ public class Buff
 
     public void Tick(float deltaTime)
     {
+        if (entity == null || entity.IsDead())
+        {
+            return;
+        }
         timeRemaining -= deltaTime;
         if (timeRemaining <= 0)
         {

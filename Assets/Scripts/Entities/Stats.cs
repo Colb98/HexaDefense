@@ -23,7 +23,7 @@ public class Stats
 
         private bool IsDirty;
 
-        private float _value;
+        [SerializeField] private float _value;
         public float Value
         {
             get

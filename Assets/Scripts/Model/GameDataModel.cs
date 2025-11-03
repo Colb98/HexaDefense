@@ -9,7 +9,7 @@ public class GameDataModel
     [SerializeField] private int wave = 0;
 
     [SerializeField] private int score = 0;
-    [SerializeField] private int baseHealth = 100;
+    [SerializeField] private int baseHealth = 10;
 
     public int Gold
     {

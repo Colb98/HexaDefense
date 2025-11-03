@@ -98,6 +98,12 @@ public class AttackManager : MonoBehaviour
         projectile.gameObject.SetActive(true);
         projectile.SetIsCrit(isCrit);
         projectile.Initialize(target, radius, physDamage, magDamage, speed);
+        System.Action gameOverHandler = null;
+        gameOverHandler = () => {
+            ReturnAreaProjectileToPool(projectile, prefab);
+            GameManager.Instance.OnGameOverEvent -= gameOverHandler;
+        };
+        GameManager.Instance.OnGameOverEvent += gameOverHandler;
 
         return projectile;
     }
@@ -139,6 +145,12 @@ public class AttackManager : MonoBehaviour
         projectile.gameObject.SetActive(true);
         projectile.SetIsCrit(isCrit);
         projectile.Initialize(target, physDamage, magDamage, speed);
+        System.Action gameOverHandler = null;
+        gameOverHandler = () => {
+            ReturnHomingProjectileToPool(projectile, prefab);
+            GameManager.Instance.OnGameOverEvent -= gameOverHandler;
+        };
+        GameManager.Instance.OnGameOverEvent += gameOverHandler;
 
         return projectile;
     }

@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public abstract class Entity : MonoBehaviour, IPausableTick
 {
@@ -97,7 +98,6 @@ public abstract class Entity : MonoBehaviour, IPausableTick
     protected virtual void OnDead()
     {
         OnRemoved();
-        RemoveAllBuffs();
     }
 
     public virtual bool IsMovable()
@@ -396,6 +396,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
             }
         }
         buffs.Add(buff);
+        Stats.AddModifier(buff.modifier);
     }
 
     public void RemoveBuff(string name)
@@ -413,6 +414,7 @@ public abstract class Entity : MonoBehaviour, IPausableTick
         foreach (Buff buff in buffs)
         {
             buff.entity.Stats.RemoveModifier(buff.modifier);
+            buff.entity = null;
         }
         buffs.Clear();
     }

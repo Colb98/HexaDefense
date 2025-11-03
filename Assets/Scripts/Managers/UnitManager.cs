@@ -110,6 +110,15 @@ public class UnitManager : MonoBehaviour
         GameManager.Instance.AddGold(unit.GetGoldReward());
     }
 
+    public void Reset()
+    {
+        spawningWaves = false;
+        waveTimer = waveInterval + 0.5f;
+        enemyTimer = enemyInterval + 0.5f;
+
+        activeEnemies.Clear();
+    }
+
     void Update()
     {
         if (PausableUpdateManager.instance.IsPaused())

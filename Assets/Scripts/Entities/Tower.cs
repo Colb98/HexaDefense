@@ -97,6 +97,7 @@ public class Tower : Entity
 
     protected override void ReturnToPool()
     {
+        RemoveAllBuffs();
         _map.GetTowerManager().ReturnTowerToPool(this);
     }
 

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     // these fire whenever gold or wave changes
     public event Action<int> OnGoldChanged;
     public event Action<int> OnWaveChanged;
+    public event Action<int> OnHealthChanged;
+    public event Action OnGameOverEvent;
 
     private void Awake()
     {
@@ -54,6 +56,12 @@ public class GameManager : MonoBehaviour
         return data.Wave;
     }
 
+    public int GetCurrentHealth()
+    {
+        // Placeholder for current health retrieval logic
+        return data.BaseHealth;
+    }
+
     public void IncrementWave()
     {
         data.IncrementWave();
@@ -84,10 +92,24 @@ public class GameManager : MonoBehaviour
     public void DecreaseHealth(int amount)
     {
         data.DecreaseBaseHealth(amount);
+        OnHealthChanged?.Invoke(data.BaseHealth); // Notify subscribers about health change
         if (data.BaseHealth <= 0)
         {
             // Handle game over logic here
-            Debug.Log("Game Over!");
+            OnGameOver();
         }
+    }
+
+    private void OnGameOver()
+    {
+        Debug.Log("Game Over!");
+        // Clear map 
+        map.ClearAllEntities();
+        map.ResetMapData();
+        map.UnitManager.Reset();
+        map.TowerManager.Reset();
+
+        PausableUpdateManager.instance.UnregisterAll();
+        OnGameOverEvent?.Invoke();
     }
 }

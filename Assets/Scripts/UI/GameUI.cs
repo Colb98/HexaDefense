@@ -8,6 +8,7 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI labelGold;
     [SerializeField] TextMeshProUGUI labelWave;
+    [SerializeField] TextMeshProUGUI labelHealth;
     [SerializeField] TowerHudUI hud;
     [SerializeField] EntityHUD entityHUD;
 
@@ -16,11 +17,13 @@ public class GameUI : MonoBehaviour
         // set initial text
         UpdateGoldLabel(GameManager.Instance.GetGold());
         UpdateWaveLabel(GameManager.Instance.GetCurrentWave());
+        UpdateWaveLabel(GameManager.Instance.GetCurrentHealth());
 
         Debug.LogWarning("GameUI, subscribing to GameManager events.");
         // subscribe to the GameManager events
         GameManager.Instance.OnGoldChanged += UpdateGoldLabel;
         GameManager.Instance.OnWaveChanged += UpdateWaveLabel;
+        GameManager.Instance.OnHealthChanged += UpdateHealthLabel;
     }
 
     private void OnDestroy()
@@ -31,6 +34,7 @@ public class GameUI : MonoBehaviour
         {
             GameManager.Instance.OnGoldChanged -= UpdateGoldLabel;
             GameManager.Instance.OnWaveChanged -= UpdateWaveLabel;
+            GameManager.Instance.OnHealthChanged -= UpdateHealthLabel;
         }
     }
 
@@ -42,6 +46,11 @@ public class GameUI : MonoBehaviour
     private void UpdateWaveLabel(int newWave)
     {
         labelWave.SetText($"Wave: {newWave}");
+    }
+
+    private void UpdateHealthLabel(int newHealth)
+    {
+        labelHealth.SetText($"Health: {newHealth}");
     }
 
     public void ShowTowerHud(Tower target, Vector3 worldPosition)

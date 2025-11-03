@@ -178,6 +178,7 @@ public class Unit : Entity, IPointerClickHandler
 
     protected override void ReturnToPool()
     {
+        RemoveAllBuffs();
         _map.GetUnitManager().ReturnUnitToPool(this);
     }
 

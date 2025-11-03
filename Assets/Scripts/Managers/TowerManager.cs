@@ -177,8 +177,9 @@ public class TowerManager : MonoBehaviour
         foreach (var coord in coords)
         {
             var curTile = _map.GetTileAt(coord.x, coord.y);
-            curTile.SetType(TileType.GROUND);
-            _map.SetMapDataAt(coord.x, coord.y, TileType.GROUND);
+            var type = (TileType)_map.GetOriginMapData()[coord.x, coord.y];
+            curTile.SetType(type);
+            _map.SetMapDataAt(coord.x, coord.y, type);
         }
     }
 
@@ -333,4 +334,10 @@ public class TowerManager : MonoBehaviour
         return null;
     }
     #endregion
+
+    public void Reset()
+    {
+        _activeTowers.Clear();
+        towerCount = 0;
+    }
 }

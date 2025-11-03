@@ -22,6 +22,16 @@ public class PausableUpdateManager : MonoBehaviour
         toBeRemoved.Add(t);
     }
 
+    public void UnregisterAll()
+    {
+        foreach (var t in tickables)
+        {
+            t.Registered = false;
+        }
+        tickables.Clear();
+        toBeRemoved.Clear();
+    }
+
     private void Update()
     {
         if (isPaused) return;
@@ -29,6 +39,7 @@ public class PausableUpdateManager : MonoBehaviour
         for (int i = tickables.Count - 1; i >= 0; i--)
         {
             tickables[i].Tick();
+            if (isPaused) return; 
         }
 
         // Remove any tickables that have been unregistered

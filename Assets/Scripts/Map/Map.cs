@@ -18,6 +18,7 @@ public class Map : MonoBehaviour
     [SerializeField] private List<GameObject> tilePool = new List<GameObject>();
 
     private int[,] mapData;
+    private int[,] originMapData;
     private Tile[,] tiles;
     [SerializeField] private TowerManager towerManager;
 
@@ -60,6 +61,28 @@ public class Map : MonoBehaviour
         ComputeDistanceToEnd();
     }
 
+    public void ClearAllEntities()
+    {
+        var entities = GetAllEntities();
+        foreach (var entity in entities)
+        {
+            if (entity != null)
+            {
+                entity.OnRemoved();
+            }
+        }
+    }
+
+    public void ResetMapData ()
+    {
+        Array.Copy(originMapData, mapData, originMapData.Length);
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+            {
+                tiles[x, y].SetType((TileType)mapData[x, y]);
+            }
+    }
+
     private void Update()
     {
 
@@ -89,6 +112,7 @@ public class Map : MonoBehaviour
             width = lines[0].Length;
 
             mapData = new int[width, height];
+            originMapData = new int[width, height];
 
             for (int y = 0; y < height; y++)
             {
@@ -96,6 +120,7 @@ public class Map : MonoBehaviour
                 for (int x = 0; x < width; x++)
                 {
                     mapData[x, y] = Mathf.Clamp(line[x] - '0', 0, 4); // Ensure value stays within [0, 4]
+                    originMapData[x, y] = Mathf.Clamp(line[x] - '0', 0, 4); // Ensure value stays within [0, 4]
                     if (mapData[x, y] == (int)TileType.GOAL)
                     {
                         endTiles.Add(new Vector2Int(x, y));
@@ -107,9 +132,13 @@ public class Map : MonoBehaviour
         {
             Debug.LogWarning("No map.txt found in Resources. Generating default blank map.");
             mapData = new int[width, height];
+            originMapData = new int[width, height];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
+                {
                     mapData[x, y] = 0;
+                    originMapData[x, y] = 0;
+                }
         }
     }
 
@@ -183,6 +212,8 @@ public class Map : MonoBehaviour
     }
 
     public int[,] GetMapData() { return mapData; }
+
+    public int[,] GetOriginMapData() { return originMapData; }
 
     public Entity[] GetAllEntities()
     {
