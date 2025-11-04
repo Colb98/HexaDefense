@@ -199,6 +199,13 @@ public class TowerManager : MonoBehaviour
 
     #region Tower Placement
 
+    // Size 1
+    public bool CanTowerBePlaced(Vector2Int center)
+    {
+        var centerType = _map.GetMapDataAt(center.x, center.y);
+        return centerType == TileType.GROUND || centerType == TileType.WALL;
+    }
+
     /// <summary>
     /// Checks if a tower can be placed at the given position.
     /// </summary>

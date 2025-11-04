@@ -12,6 +12,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] TowerHudUI hud;
     [SerializeField] EntityHUD entityHUD;
 
+    [SerializeField] DebugPanel debugPanel;
     void Start()
     {
         // set initial text
@@ -78,5 +79,19 @@ public class GameUI : MonoBehaviour
     public bool IsShowingEntityHUD() 
     {
         return entityHUD.IsLocked();
+    }
+
+    public void ToggleDebugPanel()
+    {
+        Debug.Log($"Toggling debug panel. Value {!debugPanel.gameObject.activeSelf}");
+        debugPanel.gameObject.SetActive(!debugPanel.gameObject.activeSelf);
+    }
+
+    public void SaveDebugMap()
+    {
+        if (debugPanel.gameObject.activeInHierarchy)
+        {
+            debugPanel.Save();
+        }
     }
 }

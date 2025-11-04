@@ -1,0 +1,67 @@
+{
+    "version": 1,
+    "name": "DebugAction",
+    "maps": [
+        {
+            "name": "DebugAction",
+            "id": "ff630ddd-ce8e-454e-b573-b2c741196506",
+            "actions": [
+                {
+                    "name": "ToggleDebugMenu",
+                    "type": "Button",
+                    "id": "3f8adddd-ac74-4cd7-9d40-fff2fae3740f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SaveMap",
+                    "type": "Button",
+                    "id": "69d016e9-1c17-4866-a912-8179692ed116",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ca69fe59-bf14-41dc-9145-c03353393088",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "ToggleDebugMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "128747ad-33b9-456b-854d-5076467398a0",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "SaveMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

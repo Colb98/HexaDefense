@@ -33,6 +33,18 @@ public class Map : MonoBehaviour
     private int[,] distanceToEnd;
     private List<Vector2Int> endTiles = new List<Vector2Int>();
 
+    // Debug & Design 
+    public DrawMode drawMode = DrawMode.NONE;
+
+    public enum DrawMode
+    {
+        NONE,
+        GROUND,
+        WALL,
+        SPAWN,
+        GOAL
+    }
+
     public TowerManager GetTowerManager()
     {
         return towerManager;
@@ -144,44 +156,46 @@ public class Map : MonoBehaviour
 
     private void HandleTileClicked(Tile tile)
     {
+
         //Debug.Log($"Map received tile click: {tile.name} at position {tile.transform.position}");
         bool mapChanged = false;
         bool needUpdatePaths = false;
-
-        if (Input.GetMouseButtonDown(0)) // Left mouse button
-        {
-            if (TowerPlacementManager.Instance.PlaceTower(tile))
-            {
-                needUpdatePaths = true;
-                var center = new Vector2Int(tile.x, tile.y);
-                var coords = towerManager.GetNeighborCoordOfCenter(center, 2);
-                foreach (var coord in coords)
-                {
-                    var curTile = tiles[coord.x, coord.y];
-                    curTile.SetType(TileType.TOWER);
-                    mapData[curTile.x, curTile.y] = (int)TileType.TOWER;
-                }
-            }
-            else if (tile.type == TileType.TOWER)
-            {
-                var ui = FindFirstObjectByType<GameUI>();
-                Tower tower = towerManager.GetTowerAt(tile.x, tile.y);
-                if (tower)
-                {
-                    Debug.Log($"Tower clicked: {tower.name} at position {tower.transform.position}");
-                    ui.ShowTowerHud(tower, tower.transform.position);
-                    ShowEntityHUD(tower);
-
-                    tower.ShowAttackRange();
-                }
-            }
-        }
-        else if (Input.GetMouseButtonDown(1)) // Right mouse button
+        if (drawMode != DrawMode.NONE)
         {
             mapChanged = true;
             needUpdatePaths = true;
-            tile.SetType(TileType.GROUND);
-            mapData[tile.x, tile.y] = (int)TileType.GROUND;
+            SetTileToGround(tile); // Reset to ground before applying new type
+            switch (drawMode)
+            {
+                case DrawMode.GROUND:
+                    SetTileToGround(tile);
+                    break;
+                case DrawMode.WALL:
+                    tile.SetType(TileType.WALL);
+                    mapData[tile.x, tile.y] = (int)TileType.WALL;
+                    break;
+                case DrawMode.SPAWN:
+                    tile.SetType(TileType.SPAWN);
+                    mapData[tile.x, tile.y] = (int)TileType.SPAWN;
+                    break;
+                case DrawMode.GOAL:
+                    tile.SetType(TileType.GOAL);
+                    mapData[tile.x, tile.y] = (int)TileType.GOAL;
+                    break;
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0)) // Left mouse button
+            {
+                needUpdatePaths = OnTouchTile(tile);
+            }
+            else if (Input.GetMouseButtonDown(1)) // Right mouse button
+            {
+                needUpdatePaths = true;
+                mapChanged = true;
+                SetTileToGround(tile);
+            }
         }
 
         if (mapChanged) {
@@ -191,6 +205,44 @@ public class Map : MonoBehaviour
         {
             GetUnitManager().UpdateUnitPaths();
         }
+    }
+
+    private void SetTileToGround(Tile tile)
+    {
+        tile.SetType(TileType.GROUND);
+        mapData[tile.x, tile.y] = (int)TileType.GROUND;
+    }
+
+    private bool OnTouchTile(Tile tile)
+    {
+        bool needUpdatePaths = false;
+        if (TowerPlacementManager.Instance.PlaceTower(tile))
+        {
+            needUpdatePaths = true;
+            var center = new Vector2Int(tile.x, tile.y);
+            var coords = towerManager.GetNeighborCoordOfCenter(center, 2);
+            foreach (var coord in coords)
+            {
+                var curTile = tiles[coord.x, coord.y];
+                curTile.SetType(TileType.TOWER);
+                mapData[curTile.x, curTile.y] = (int)TileType.TOWER;
+            }
+        }
+        else if (tile.type == TileType.TOWER)
+        {
+            var ui = FindFirstObjectByType<GameUI>();
+            Tower tower = towerManager.GetTowerAt(tile.x, tile.y);
+            if (tower)
+            {
+                Debug.Log($"Tower clicked: {tower.name} at position {tower.transform.position}");
+                ui.ShowTowerHud(tower, tower.transform.position);
+                ShowEntityHUD(tower);
+
+                tower.ShowAttackRange();
+            }
+        }
+
+        return needUpdatePaths;
     }
 
     public void ShowEntityHUD(Entity entity)
@@ -379,6 +431,22 @@ public class Map : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SaveToFile(string filename)
+    {
+        string filePath = Application.persistentDataPath + $"/{filename}.txt";
+        string contentToExport = "";
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                contentToExport += mapData[x, y].ToString();
+            }
+            contentToExport += "\n";
+        }
+        File.WriteAllText(filePath, contentToExport);
+        Debug.Log($"Map saved to {filePath}");
     }
 
 #if UNITY_EDITOR

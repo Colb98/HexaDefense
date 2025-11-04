@@ -111,9 +111,12 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 # Day 19
 - Fix bug Buff vẫn gây hiệu ứng lên Entity kể cả khi đã chết (đã remove buff). Do Buff khi chưa được add đã thay đổi Stat của entity
 
+# Day 20
+- Hệ thốngn đọc ghi và vẽ map bằng tay (design mode). 
+- Map size 36x21 -> 15x10
+
 ## Day X (TODO):
-Công cụ soạn map: vẽ và "tô" để tạo ra map theo ý muốn
-- Enemy type
+- Size trụ về 1
 - Chuyển sang flow field (có vẻ hợp lý hơn vì địa hình ít thay đổi?) - Consider vì đang định làm trụ chặn đường, trụ có thể thay đổi khá nhiều?
 - Kiểm tra ô đặt trụ có hợp lệ không (nếu chặn hết đường đi từ Start tới Goal thì không) - Low Priority
 - Cost của ô trụ nên là 10 hay gì đó, nếu đường đi có đi qua ô trụ thì sẽ đánh trụ bất chấp có bị thu hút hay không? - Low Priority
