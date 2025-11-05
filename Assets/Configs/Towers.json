@@ -2,12 +2,12 @@
   "FireballTower": {
     "type": "AOE",
     "damageType": "magical",
-    "range": 10,
+    "range": 5,
     "attackSpeed": 1.2,
-    "damageRadius": 2.5,
+    "damageRadius": 1.5,
     "critChance": 40,
     "critDamage": 0.5,
-    "attackProjectileSpeed": 15,
+    "attackProjectileSpeed": 10,
     "levels": [
       {
         "level": 1,
@@ -36,11 +36,11 @@
   "ArrowTower": {
     "type": "SingleTarget",
     "damageType": "physical",
-    "range": 15,
+    "range": 7,
     "attackSpeed": 0.7,
     "critChance": 60,
     "critDamage": 1.0,
-    "attackProjectileSpeed": 30,
+    "attackProjectileSpeed": 15,
     "levels": [
       {
         "level": 1,
@@ -69,7 +69,7 @@
   "FlashTower": {
     "type": "SingleTarget",
     "damageType": "magical",
-    "range": 10,
+    "range": 5,
     "attackSpeed": 0.8,
     "critChance": 60,
     "critDamage": 1.0,

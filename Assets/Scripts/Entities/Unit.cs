@@ -11,6 +11,8 @@ public class Unit : Entity, IPointerClickHandler
 
     [SerializeField] bool isMoving = false;
     [SerializeField] float moveProgress = 0.0f;
+
+    [SerializeField] float distanceToEnd = 0f;
     int reward = 0;
 
     public virtual void Initialize(string type, EnemyLevelData data, EnemyConfig config)
@@ -40,6 +42,7 @@ public class Unit : Entity, IPointerClickHandler
     {
         base.Tick();
         UpdateMoving();
+        distanceToEnd = _map.GetDistanceToEnd(position);
     }
 
     public void Reset()

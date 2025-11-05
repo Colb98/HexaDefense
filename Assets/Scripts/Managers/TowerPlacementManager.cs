@@ -54,7 +54,7 @@ public class TowerPlacementManager : MonoBehaviour
             return false;
         }
 
-        if (!towerManager.CanTowerBePlaced(center, 2))
+        if (!towerManager.CanTowerBePlaced(center))
         {
             Debug.LogError("Cannot place tower at the selected location.");
             return false;
@@ -66,6 +66,6 @@ public class TowerPlacementManager : MonoBehaviour
             return false;
         }
 
-        return towerManager.PlaceTower(center, 2, selectedTowerType, 1) != null;
+        return towerManager.PlaceTower(center, 1, selectedTowerType, 1) != null;
     }
 }

@@ -236,12 +236,14 @@ public class UnitManager : MonoBehaviour
         var distanceToEnd = map.GetDistanceToEnd(attackableEntity.position);
         if (distanceToEnd < 0)
         {
+            Debug.Log($"Distance to end is negative {distanceToEnd} x: {attackableEntity.position.x} y: {attackableEntity.position.y}, cannot find units to attack");
             return;
         }
         List<Unit> units = activeEnemies.Where(u => {
             var uToEnd = map.GetDistanceToEnd(u.position);
             return u.target == null && attackableEntity.CanBeAttacked(u.aggroLevel) && distanceToEnd - uToEnd < 10;
         }).ToList();
+        Debug.Log("Distance to end" + string.Join(", ", units.Select(u => $"{{id: {u.name}, distance: {map.GetDistanceToEnd(u.position)}}}")));
         units.Sort((u1, u2) =>
         {
             return Tile.GetHexManhattanDistance(u1.position, attackableEntity.position).CompareTo(Tile.GetHexManhattanDistance(u2.position, attackableEntity.position));

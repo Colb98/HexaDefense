@@ -1,6 +1,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Unity.Collections;
 using UnityEngine;
@@ -172,15 +173,11 @@ public class TowerManager : MonoBehaviour
 
     public void RemoveTowerOccupied (Tower tower)
     {
-        // This part only need to handle logic, not the pool
-        var coords = GetNeighborCoordOfCenter(tower.position, tower.GetSize());
-        foreach (var coord in coords)
-        {
-            var curTile = _map.GetTileAt(coord.x, coord.y);
-            var type = (TileType)_map.GetOriginMapData()[coord.x, coord.y];
-            curTile.SetType(type);
-            _map.SetMapDataAt(coord.x, coord.y, type);
-        }
+        var coord = tower.position;
+        var curTile = _map.GetTileAt(coord.x, coord.y);
+        var type = (TileType)_map.GetOriginMapData()[coord.x, coord.y];
+        curTile.SetType(type);
+        _map.SetMapDataAt(coord.x, coord.y, type);
     }
 
     public void SellTower(Tower tower)
@@ -298,6 +295,10 @@ public class TowerManager : MonoBehaviour
     /// <returns>Array of coordinates that the tower occupies.</returns>
     public Vector2Int[] GetNeighborCoordOfCenter(Vector2Int center, int size)
     {
+        if (size == 1)
+        {
+            return new Vector2Int[] { center };
+        }
         if (size != 2 && size != 3)
         {
             Debug.LogError("Cannot get neighbors for tower with size different than 2 or 3!");
@@ -330,10 +331,9 @@ public class TowerManager : MonoBehaviour
         Debug.Log("Getting tower at coordinates: " + x + ", " + y);
         foreach (var tower in _activeTowers)
         {
-            var coords = GetNeighborCoordOfCenter(tower.position, 2);
-            Debug.Log("Checking tower at " + tower.position + " for coords: " + string.Join(", ", coords.Select(c => c.ToString())));
-            if (coords.Contains(new Vector2Int(x, y)))
+            if (tower.position.x == x && tower.position.y == y)
             {
+                Debug.Log("Found tower at exact position: " + tower.position);
                 return tower;
             }
         }

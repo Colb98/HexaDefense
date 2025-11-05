@@ -220,7 +220,7 @@ public class Map : MonoBehaviour
         {
             needUpdatePaths = true;
             var center = new Vector2Int(tile.x, tile.y);
-            var coords = towerManager.GetNeighborCoordOfCenter(center, 2);
+            var coords = towerManager.GetNeighborCoordOfCenter(center, 1);
             foreach (var coord in coords)
             {
                 var curTile = tiles[coord.x, coord.y];
@@ -421,13 +421,14 @@ public class Map : MonoBehaviour
                 if (visited.Contains(neighbor)) continue; // Skip already visited tiles
                 if (neighbor.x < 0 || neighbor.x >= width || neighbor.y < 0 || neighbor.y >= height)
                     continue; // Out of bounds
-                if (mapData[neighbor.x, neighbor.y] == (int)TileType.WALL) 
-                    continue; // Skip walls
 
                 if (distanceToEnd[neighbor.x, neighbor.y] < currentCost + 1)
                 {
                     distanceToEnd[neighbor.x, neighbor.y] = currentCost + 1;
-                    queue.Enqueue(neighbor);
+                    
+                    // Calc distance for wall that is next to path. 
+                    if (mapData[neighbor.x, neighbor.y] != (int)TileType.WALL)
+                        queue.Enqueue(neighbor);
                 }
             }
         }

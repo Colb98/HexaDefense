@@ -15,11 +15,12 @@ public class FireballTower : Tower
     {
         base.Initialize(size, position, type, data, config);
         fireballSpeed = config.attackProjectileSpeed;
+        fireballRange = config.damageRadius;
     }
 
     protected override void PerformAttack()
     {
-        bool isCrit = UnityEngine.Random.Range(0, 100) < Stats.CritChance.Value;
+        bool isCrit = Random.Range(0, 100) < Stats.CritChance.Value;
         if (fireballCount < bigFireballIndex)
         {
             fireballCount++;

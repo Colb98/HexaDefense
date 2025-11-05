@@ -44,7 +44,9 @@ public class AreaProjectile : Projectile
         // Ensure explosion sprite is initially disabled
         if (explosionSprite != null)
         {
-            var scale = radius / 0.5f * initialAreaScale;
+            var map = GameManager.Instance.GetMap();
+            var scale = radius * map.tileSize * initialAreaScale / 0.15f;
+            Debug.Log($"Scale calculation: radius {radius}, map.tileSize {map.tileSize}, initialAreaScale {initialAreaScale}, scale {scale}");
             explosionSprite.SetActive(false);
             explosionSprite.transform.localScale = new Vector3(scale, scale, scale);
             //Debug.Log("Explosion radius: " + explosionRadius + ", Scale: " + scale + ", initialScale" + initialAreaScale + ", world scale " + explosionSprite.transform.lossyScale);

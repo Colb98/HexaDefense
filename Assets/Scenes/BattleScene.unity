@@ -1429,7 +1429,7 @@ MonoBehaviour:
   width: 15
   height: 10
   tilePrefab: {fileID: 7082056169692855549, guid: 94b3991904319aa4f814723b568278ca, type: 3}
-  tileSize: 0.3
+  tileSize: 0.5
   mapTransform: {fileID: 1964893074}
   tilePool: []
   towerManager: {fileID: 654110610}
@@ -1447,7 +1447,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1964893074}
   m_Father: {fileID: 0}

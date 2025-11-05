@@ -78,7 +78,7 @@ public class Tower : Entity
 
         if (childTransform != null)
         {
-            var scale = Stats.AttackRange.Value * new Vector3(1.05f, 1.05f, 1.05f) / transform.localScale.x;
+            var scale = Stats.AttackRange.Value * new Vector3(1.05f, 1.05f, 1.05f) / transform.localScale.x * (_map.tileSize / 0.3f);
             //Debug.Log($"Attack Range {scale}, {attackRange}, {transform.localScale}");
 
             // Set the local scale
