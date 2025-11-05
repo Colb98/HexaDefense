@@ -105,7 +105,7 @@ public class UnitManager : MonoBehaviour
     {
         if (unit.target != null)
         {
-            FindUnitToAttack(unit.target); // Find another unit to attack this
+            FindUnitToAttack(unit.target); // Find another unit to attack this unit's target
         }
         GameManager.Instance.AddGold(unit.GetGoldReward());
     }
@@ -243,12 +243,11 @@ public class UnitManager : MonoBehaviour
             var uToEnd = map.GetDistanceToEnd(u.position);
             return u.target == null && attackableEntity.CanBeAttacked(u.aggroLevel) && distanceToEnd - uToEnd < 10;
         }).ToList();
-        Debug.Log("Distance to end" + string.Join(", ", units.Select(u => $"{{id: {u.name}, distance: {map.GetDistanceToEnd(u.position)}}}")));
         units.Sort((u1, u2) =>
         {
             return Tile.GetHexManhattanDistance(u1.position, attackableEntity.position).CompareTo(Tile.GetHexManhattanDistance(u2.position, attackableEntity.position));
         });
-        // Debug.Log($"Units found to attack {attackableEntity.name}: {string.Join(", ", units.Select(u => u.name))}");
+        // Debug.Log("Distance to end" + string.Join(", ", units.Select(u => $"{{id: {u.name}, distance: {Tile.GetHexManhattanDistance(u.position, attackableEntity.position)}}}")));
 
         while (units.Count > 0 && attackableEntity.CanBeAttacked(units[0].aggroLevel))
         {

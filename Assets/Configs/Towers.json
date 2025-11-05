@@ -97,5 +97,37 @@
         "upgradeCost": 60
       }
     ]
+  },
+  "WarriorTower": {
+    "type": "SingleTarget",
+    "damageType": "physical",
+    "range": 1,
+    "attackSpeed": 0.8,
+    "critChance": 60,
+    "critDamage": 1.0,
+    "levels": [
+      {
+        "level": 1,
+        "physicalDamage": 20,
+        "magicalDamage": 0,
+        "health": 400,
+        "cost": 30,
+        "upgradeCost": 30
+      },
+      {
+        "level": 2,
+        "physicalDamage": 30,
+        "magicalDamage": 0,
+        "health": 445,
+        "upgradeCost": 45
+      },
+      {
+        "level": 3,
+        "physicalDamage": 40,
+        "magicalDamage": 0,
+        "health": 500,
+        "upgradeCost": 60
+      }
+    ]
   }
 }

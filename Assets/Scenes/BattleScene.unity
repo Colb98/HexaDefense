@@ -1881,6 +1881,8 @@ MonoBehaviour:
     towerPrefab: {fileID: 1362813783334251922, guid: 350f7c470674f1d428f0f8c576a42d71, type: 3}
   - towerName: FlashTower
     towerPrefab: {fileID: 5066138983480868812, guid: 2fd7f1d9a89311b4d89f83c806423852, type: 3}
+  - towerName: WarriorTower
+    towerPrefab: {fileID: 7633847442155205988, guid: a9999cdfb76ff444791e1ae3cd44802e, type: 3}
   textManager: {fileID: 1256372128}
   _initialPoolSize: 10
   _expandPoolWhenEmpty: 1

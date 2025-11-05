@@ -115,6 +115,15 @@ Do đó ta cần duyệt r từ -q - range đến -q + range
 - Hệ thốngn đọc ghi và vẽ map bằng tay (design mode). 
 - Map size 36x21 -> 15x10
 
+# Day 21
+- Resize lại kích thước tile để map vừa vặn hơn
+- Fix lại các bug về kích thước trụ, tầm bắn, tầm nổ sau khi đổi size map
+- Cơ chế target của lính vào trụ - tấn công trụ chặn đường, chọn lính gần nhất để target trụ (khi chưa bão hoà)
+- Trụ giờ chỉ chiếm 1 tile (thay vì 7 tile như trước)
+- Tool Design map có vẻ ổn
+
+# Day 22
+- Kích thước lính -> nhỏ hơn, cho "lúc nhúc" hơn bằng cách random + physics push nhau
 ## Day X (TODO):
 - Size trụ về 1
 - Chuyển sang flow field (có vẻ hợp lý hơn vì địa hình ít thay đổi?) - Consider vì đang định làm trụ chặn đường, trụ có thể thay đổi khá nhiều?

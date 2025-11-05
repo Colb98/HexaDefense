@@ -7,7 +7,7 @@ public class TowerCardUI : MonoBehaviour
     public GameObject towerCardPrefab;
     public Transform cardContainer;
 
-    public void CreateTowerCard(string name, string towerType, Sprite towerSprite, int price, int size = 2, int level = 1)
+    public void CreateTowerCard(string name, string towerType, Sprite towerSprite, int price, int size = 1, int level = 1)
     {
         GameObject cardObject = Instantiate(towerCardPrefab, cardContainer);
         TowerCard card = cardObject.GetComponent<TowerCard>();
@@ -32,10 +32,12 @@ public class TowerCardUI : MonoBehaviour
         Sprite fireballTowerSprite = Resources.Load<Sprite>("Sprites/Avatars/fireball_tower");
         Sprite arrowTowerSprite = Resources.Load<Sprite>("Sprites/Avatars/arrow_tower");
         Sprite flashTowerSprite = Resources.Load<Sprite>("Sprites/Avatars/flash_tower");
+        Sprite warriorTowerSprite = Resources.Load<Sprite>("Sprites/Avatars/warrior_tower");
 
         // Create cards for different tower types
         CreateTowerCard("Fireball Tower", "FireballTower", fireballTowerSprite, GameConfigManager.Instance.GetTowerPrice("FireballTower"));
         CreateTowerCard("Arrow Tower", "ArrowTower", arrowTowerSprite, GameConfigManager.Instance.GetTowerPrice("ArrowTower"));
         CreateTowerCard("Flash Tower", "FlashTower", flashTowerSprite, GameConfigManager.Instance.GetTowerPrice("FlashTower"));
+        CreateTowerCard("Warrior Tower", "WarriorTower", warriorTowerSprite, GameConfigManager.Instance.GetTowerPrice("WarriorTower"));
     }
 }
