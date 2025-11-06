@@ -231,6 +231,8 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    // Find units that can attack the given entity and assign them to attack it
+    // If enitity position to end is less than unit position to end by 10, then consider it - to prevent units from going back too much
     public void FindUnitToAttack(Entity attackableEntity)
     {
         var distanceToEnd = map.GetDistanceToEnd(attackableEntity.position);

@@ -23,6 +23,8 @@ public class Tile : MonoBehaviour
     public TileType type;
     public GameObject fill;
     public int x, y;
+    public Vector2Int flow = new Vector2Int(0, 0);
+    [SerializeField] GameObject arrow;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -190,5 +192,22 @@ public class Tile : MonoBehaviour
         var cube1 = OffsetToCube_OddR(tile1.x, tile1.y);
         var cube2 = OffsetToCube_OddR(tile2.x, tile2.y);
         return (Math.Abs(cube1.x - cube2.x) + Math.Abs(cube1.y - cube2.y) + Math.Abs(cube1.z - cube2.z)) / 2;
+    }
+
+    public void SetFlow(int dx, int dy)
+    {
+        flow.x = dx;
+        flow.y = dy;
+
+        if (arrow && arrow.activeInHierarchy)
+        {
+            var map = GameManager.Instance.GetMap();
+            float tileSize = map.tileSize;
+            Vector3 direction = GetTilePosition(tileSize, new Vector2Int(x + dx, y + dy), map.width, map.height) - transform.position;
+            Debug.Log($"Direction: {direction} with flow {dx} {dy}");
+            arrow.SetActive(dx != 0 || dy != 0);
+            arrow.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+        }
+
     }
 }

@@ -39,7 +39,12 @@ public class PausableUpdateManager : MonoBehaviour
         for (int i = tickables.Count - 1; i >= 0; i--)
         {
             tickables[i].Tick();
-            if (isPaused) return; 
+            if (isPaused)
+            {
+                // If paused during ticking, exit early (main reason is game over)
+                isPaused = false;
+                return;
+            }
         }
 
         // Remove any tickables that have been unregistered
@@ -49,6 +54,7 @@ public class PausableUpdateManager : MonoBehaviour
             toBeRemoved[i].Registered = false; // Mark as unregistered
         }
         toBeRemoved.Clear();
+        
     }
 
     public bool IsTickableRegistered(IPausableTick t)

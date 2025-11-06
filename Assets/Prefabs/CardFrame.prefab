@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.0000071526, y: 17.9}
+  m_AnchoredPosition: {x: 0.0000038147, y: 14.4}
   m_SizeDelta: {x: 58.7658, y: 26.5897}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1675301053807334740
@@ -142,8 +142,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Fireball Tower
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6268b50f81b27724a98b3532a5cc2268, type: 2}
-  m_sharedMaterial: {fileID: 3433380067890901332, guid: 6268b50f81b27724a98b3532a5cc2268, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 19d9d51ac42417d49bbb4b85a616d998, type: 2}
+  m_sharedMaterial: {fileID: -6021935010797250966, guid: 19d9d51ac42417d49bbb4b85a616d998, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: -90
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -353,8 +353,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6268b50f81b27724a98b3532a5cc2268, type: 2}
-  m_sharedMaterial: {fileID: 3433380067890901332, guid: 6268b50f81b27724a98b3532a5cc2268, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2ac93f516088394458e939c53cd1c278, type: 2}
+  m_sharedMaterial: {fileID: -4639220241575892510, guid: 2ac93f516088394458e939c53cd1c278, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

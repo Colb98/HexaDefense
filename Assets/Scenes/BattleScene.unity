@@ -1404,9 +1404,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 531260003}
+  - component: {fileID: 531260005}
   - component: {fileID: 531260002}
   - component: {fileID: 531260004}
-  - component: {fileID: 531260005}
   m_Layer: 6
   m_Name: Map
   m_TagString: Untagged
@@ -1476,6 +1476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1100b3347a9a74fb22411e9ae55b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 531260002}
   data:
     gold: 100
     wave: 1

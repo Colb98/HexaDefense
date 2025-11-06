@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     // Singleton instance
     public static GameManager Instance { get; private set; }
-    private Map map;
+    [SerializeField] private Map map;
     [SerializeField] private GameDataModel data;
 
     // these fire whenever gold or wave changes
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        map = GetComponent<Map>();
+        if (!map) map = GetComponent<Map>();
     }
 
     // Update is called once per frame
@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour
         map.TowerManager.Reset();
 
         PausableUpdateManager.instance.UnregisterAll();
+        PausableUpdateManager.instance.Pause();
         OnGameOverEvent?.Invoke();
     }
 }

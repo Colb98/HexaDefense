@@ -199,6 +199,7 @@ public class Map : MonoBehaviour
         }
 
         if (mapChanged) {
+            InitDistanceToEnd();
             ComputeDistanceToEnd();
         }
         if (needUpdatePaths)
@@ -405,6 +406,10 @@ public class Map : MonoBehaviour
             int currentCost = distanceToEnd[tile.x, tile.y];
             visited.Add(tile);
             count++;
+            if (mapData[tile.x, tile.y] == (int)TileType.WALL)
+            {
+                continue; // Skip walls
+            }
 
             // Get neighbors
             var directions = tile.y % 2 == 0 ? Tile.EvenNeighbors : Tile.OddNeighbors;
@@ -425,10 +430,10 @@ public class Map : MonoBehaviour
                 if (distanceToEnd[neighbor.x, neighbor.y] < currentCost + 1)
                 {
                     distanceToEnd[neighbor.x, neighbor.y] = currentCost + 1;
-                    
-                    // Calc distance for wall that is next to path. 
-                    if (mapData[neighbor.x, neighbor.y] != (int)TileType.WALL)
-                        queue.Enqueue(neighbor);
+                    tiles[neighbor.x, neighbor.y].SetFlow(tile.x - neighbor.x, tile.y - neighbor.y);
+
+                    // Calc distance even for wall that is next to path. 
+                    queue.Enqueue(neighbor);
                 }
             }
         }
